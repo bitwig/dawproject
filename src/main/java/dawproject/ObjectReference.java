@@ -9,6 +9,12 @@ public class ObjectReference<T>
    /** Index into the array */
    public final int index;
 
+   public ObjectReference()
+   {
+      location = null;
+      index = 0;
+   }
+
    ObjectReference(final Location location, final int index)
    {
       assert location != null;
