@@ -25,7 +25,7 @@ public class Project
 
    public <T extends Object> ObjectReference<T> createReference(T object)
    {
-      if (object == transport)
+      if (object instanceof Transport)
          return new ObjectReference<>(Location.transport, 0);
       else if (object instanceof Track)
          return new ObjectReference<>(Location.tracks, tracks.indexOf(object));
