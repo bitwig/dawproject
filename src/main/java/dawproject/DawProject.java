@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -122,6 +123,8 @@ public class DawProject
 
       Project project = fromJson(new InputStreamReader(zipFile.getInputStream(projectEntry)), Project.class);
 
+      zipFile.close();
+
       return project;
    }
 
@@ -133,6 +136,19 @@ public class DawProject
 
       Metadata metadata = fromJson(new InputStreamReader(zipFile.getInputStream(entry)), Metadata.class);
 
+      zipFile.close();
+
       return metadata;
+   }
+
+   public static InputStream streamEmbedded(final File file, final String embeddedPath) throws IOException
+   {
+      ZipFile zipFile = new ZipFile(file);
+
+      ZipEntry entry = zipFile.getEntry(embeddedPath);
+
+      InputStream inputStream = zipFile.getInputStream(entry);
+
+      return inputStream;
    }
 }

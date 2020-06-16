@@ -2,9 +2,11 @@ package dawproject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class DawProjectTest
@@ -43,25 +45,43 @@ public class DawProjectTest
       return project;
    }
 
-    @Test
-    public void testSaveDawProject() throws IOException
-    {
-       Project project = createDummyProject(5);
-       Metadata metadata = new Metadata();
+   @Test
+   public void testSaveDawProject() throws IOException
+   {
+      Project project = createDummyProject(5);
+      Metadata metadata = new Metadata();
 
-       DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
-       DawProject.saveJson(project, new File("target/test.dawproject.json"));
-    }
+      DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
+      DawProject.saveJson(project, new File("target/test.dawproject.json"));
+   }
 
-    @Test
-    public void writeMetadataSchema() throws IOException
-    {
-       DawProject.exportSchema(new File("target/metadata.schema.json"), Metadata.class);
-    }
+   @Test
+   public void writeMetadataSchema() throws IOException
+   {
+      DawProject.exportSchema(new File("target/metadata.schema.json"), Metadata.class);
+   }
 
-    @Test
-    public void writeProjectSchema() throws IOException
-    {
-       DawProject.exportSchema(new File("target/project.schema.json"), Project.class);
-    }
+   @Test
+   public void writeProjectSchema() throws IOException
+   {
+      DawProject.exportSchema(new File("target/project.schema.json"), Project.class);
+   }
+
+   @Test
+   public void loadEmbeddedFile() throws IOException
+   {
+      File file = new File("src/test-data/0.1/bitwig/test3x.dawproject");
+      Assert.assertTrue(file.exists());
+      Assert.assertTrue(file.isFile());
+
+      // try reading project first
+      Project project = DawProject.loadProject(file);
+      Assert.assertNotNull(project);
+
+      InputStream inputStream = DawProject.streamEmbedded(file, "samples/RC 08 92bpm Break Sp1200.wav");
+
+      byte[] data = inputStream.readAllBytes();
+
+      Assert.assertEquals(1380652, data.length);
+   }
 }
