@@ -5,37 +5,9 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.bitwig</groupId>
    <artifactId>dawproject</artifactId>
-   <packaging>jar</packaging>
-   <name>dawproject file format</name>
+   <packaging>pom</packaging>
+   <name>dawproject</name>
    <version>1-SNAPSHOT</version>
-
-   <!--<repositories>
-      <repository>
-         <id>bitwig</id>
-         <name>Bitwig Maven Repository</name>
-         <url>https://maven.bitwig.com</url>
-      </repository>
-   </repositories>-->
-
-   <dependencies>
-      <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-databind</artifactId>
-         <version>2.11.0</version>
-      </dependency>
-      <dependency>
-         <groupId>com.fasterxml.jackson.module</groupId>
-         <artifactId>jackson-module-jsonSchema</artifactId>
-         <version>2.11.0</version>
-      </dependency>
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>4.12</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
-
 
    <build>
       <plugins>
@@ -54,6 +26,11 @@
          </plugin>
       </plugins>
    </build>
+
+   <modules>
+      <module>format</module>
+      <module>tool</module>
+   </modules>
 
 </project>
 
