@@ -6,8 +6,14 @@
    <groupId>com.bitwig</groupId>
    <artifactId>dawproject-format</artifactId>
    <packaging>jar</packaging>
-   <name>dawproject file format</name>
+   <name>.dawproject file-format</name>
    <version>1-SNAPSHOT</version>
+
+   <parent>
+      <artifactId>dawproject</artifactId>
+      <groupId>com.bitwig</groupId>
+      <version>1-SNAPSHOT</version>
+   </parent>
 
    <!--<repositories>
       <repository>

@@ -6,8 +6,14 @@
    <groupId>com.bitwig</groupId>
    <artifactId>dawproject-tool</artifactId>
    <packaging>jar</packaging>
-   <name>dawproject-tool</name>
+   <name>.dawproject tool</name>
    <version>1-SNAPSHOT</version>
+
+   <parent>
+      <artifactId>dawproject</artifactId>
+      <groupId>com.bitwig</groupId>
+      <version>1-SNAPSHOT</version>
+   </parent>
 
    <dependencies>
       <dependency>

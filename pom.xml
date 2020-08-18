@@ -6,7 +6,7 @@
    <groupId>com.bitwig</groupId>
    <artifactId>dawproject</artifactId>
    <packaging>pom</packaging>
-   <name>dawproject</name>
+   <name>.dawproject</name>
    <version>1-SNAPSHOT</version>
 
    <build>
