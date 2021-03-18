@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.UUID;
 
+import dawproject.device.Device;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

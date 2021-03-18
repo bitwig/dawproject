@@ -1,4 +1,7 @@
-package dawproject;
+package dawproject.timeline;
+
+import dawproject.ObjectReference;
+import dawproject.Track;
 
 /** Associates a timeline with a track. */
 public class TrackTimeline extends Timeline

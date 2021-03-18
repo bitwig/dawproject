@@ -3,6 +3,16 @@ package dawproject;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import dawproject.device.Device;
+import dawproject.timeline.AudioTimeline;
+import dawproject.timeline.AutomationTimeline;
+import dawproject.timeline.ClipTimeline;
+import dawproject.timeline.NoteTimeline;
+import dawproject.timeline.RootTimeline;
+import dawproject.timeline.TrackTimeline;
+
 public class Project
 {
    public Transport transport;

@@ -1,4 +1,7 @@
-package dawproject;
+package dawproject.timeline;
+
+import dawproject.Loop;
+import dawproject.ObjectReference;
 
 public class Clip extends EnduringEvent
 {

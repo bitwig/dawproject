@@ -1,4 +1,4 @@
-package dawproject;
+package dawproject.timeline;
 
 import java.util.List;
 

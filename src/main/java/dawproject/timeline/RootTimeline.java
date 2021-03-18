@@ -1,7 +1,9 @@
-package dawproject;
+package dawproject.timeline;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dawproject.ObjectReference;
 
 /** Timeline which combines */
 public class RootTimeline extends Timeline

@@ -1,4 +1,6 @@
-package dawproject;
+package dawproject.device;
+
+import dawproject.DawObject;
 
 public class Device extends DawObject
 {

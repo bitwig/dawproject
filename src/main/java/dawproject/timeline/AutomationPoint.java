@@ -1,4 +1,4 @@
-package dawproject;
+package dawproject.timeline;
 
 public class AutomationPoint extends Event
 {

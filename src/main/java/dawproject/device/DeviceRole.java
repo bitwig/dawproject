@@ -1,6 +1,6 @@
-package dawproject;
+package dawproject.device;
 
-public enum DeviceType
+public enum DeviceRole
 {
    instrument,
    noteEffect,

@@ -1,4 +1,6 @@
-package dawproject;
+package dawproject.timeline;
+
+import dawproject.DawObject;
 
 public abstract class Timeline extends DawObject
 {

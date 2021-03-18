@@ -1,4 +1,4 @@
-package dawproject;
+package dawproject.device;
 
 public enum DeviceFormat
 {

@@ -3,6 +3,8 @@ package dawproject;
 import java.util.ArrayList;
 import java.util.List;
 
+import dawproject.device.Device;
+
 /** Represents a mixer channel. May represent the same entity as the Track, depending on the DAW */
 public class Channel extends DawObject
 {
