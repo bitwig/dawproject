@@ -1,5 +1,7 @@
 package dawproject;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,19 @@ public class Project
 {
    public Transport transport;
 
+   @XmlElementWrapper(name="Tracks")
+   @XmlElement(name="Track", type = Track.class)
    public List<Track> tracks = new ArrayList<>();
-   public List<Channel> channels = new ArrayList<>();
-   public List<Device> devices = new ArrayList<>();
 
+   @XmlElementWrapper(name="Channels")
+   @XmlElement(name="Channel", type = Channel.class)
+   public List<Channel> channels = new ArrayList<>();
+
+   @XmlElement(name="Arrangement", type = RootTimeline.class)
    public RootTimeline arrangement;
 
+   @XmlElementWrapper(name="Scenes")
+   @XmlElement(name="Scene", type = RootTimeline.class)
    public List<RootTimeline> scenes = new ArrayList<>();
 
    public List<TrackTimeline> trackTimelines = new ArrayList<>();
@@ -39,8 +48,6 @@ public class Project
          return new ObjectReference<>(Location.transport, 0);
       else if (object instanceof Track)
          return new ObjectReference<>(Location.tracks, tracks.indexOf(object));
-      else if (object instanceof Device)
-         return new ObjectReference<>(Location.devices, devices.indexOf(object));
       else if (object instanceof Channel)
          return new ObjectReference<>(Location.channels, channels.indexOf(object));
       else if (object instanceof TrackTimeline)
@@ -67,8 +74,6 @@ public class Project
             return (T)tracks.get(ref.index);
          case channels:
             return (T)channels.get(ref.index);
-         case devices:
-            return (T)devices.get(ref.index);
          case trackTimelines:
             return (T)trackTimelines.get(ref.index);
          case clipTimelines:
@@ -100,7 +105,6 @@ public class Project
    public Device createDevice()
    {
       var device = new Device();
-      devices.add(device);
       return device;
    }
 

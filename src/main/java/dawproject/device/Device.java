@@ -2,14 +2,12 @@ package dawproject.device;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import java.util.List;
 
 import dawproject.DawObject;
 import dawproject.Parameter;
 
-@XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class})
 public class Device extends DawObject
 {
    /** this device is enabled (as in not bypassed) */
@@ -35,6 +33,7 @@ public class Device extends DawObject
    @XmlAttribute
    public String stateFile;
 
+   /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
    @XmlElement()
    public List<Parameter> parameters;
 }

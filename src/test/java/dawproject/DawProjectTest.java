@@ -30,7 +30,7 @@ public class DawProjectTest
       device.name = "Limiter";
       device.id = UUID.randomUUID().toString();
       device.stateFile = "plugin-states/12323545.fxb";
-      masterChannel.devices.add(project.createReference(device));
+      masterChannel.devices.add(device);
 
       for (int i = 0; i < numTracks; i++)
       {

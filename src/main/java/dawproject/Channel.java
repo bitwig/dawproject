@@ -1,6 +1,8 @@
 package dawproject;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -17,7 +19,7 @@ public class Channel extends DawObject
    public boolean isTrackChannel;
 
    @XmlAttribute
-   public Integer audioChannels;
+   public int audioChannels = 2;
 
    public RealParameter Volume;
 
@@ -26,12 +28,16 @@ public class Channel extends DawObject
 
    public BoolParameter Mute;
 
-   public List<Send> Sends;
-
-   public List<ObjectReference<Device>> devices = new ArrayList<>();
-
    /** Output channel routing */
    @XmlIDREF
    @XmlAttribute()
-   public Channel output;
+   public Channel destination;
+
+   @XmlElementWrapper(name="Sends")
+   @XmlElement(name="Send", type = Send.class)
+   public List<Send> Sends;
+
+   @XmlElementWrapper(name="Devices")
+   @XmlElement(name="Device", type = Device.class)
+   public List<Device> devices = new ArrayList<>();
 }
