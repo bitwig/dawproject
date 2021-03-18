@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class DawProjectTest
@@ -52,21 +53,22 @@ public class DawProjectTest
       Metadata metadata = new Metadata();
 
       DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
-      DawProject.saveJson(project, new File("target/test.dawproject.json"));
+      DawProject.saveXML(project, new File("target/test.dawproject.xml"));
    }
 
    @Test
    public void writeMetadataSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/metadata.schema.json"), Metadata.class);
+      DawProject.exportSchema(new File("target/metadata.schema.xml"), Metadata.class);
    }
 
    @Test
    public void writeProjectSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/project.schema.json"), Project.class);
+      DawProject.exportSchema(new File("target/project.schema.xml"), Project.class);
    }
 
+   @Ignore
    @Test
    public void loadEmbeddedFile() throws IOException
    {

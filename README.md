@@ -42,14 +42,12 @@ The format is being actively developed and will probably undergo structural chan
 
 * File Extension: .dawproject
 * Container: ZIP
-* Format: JSON (project.json, metadata.json)
+* Format: XML (project.xml, metadata.xml)
 * Text encoding: UTF-8
 * Timebase
   * beats (quarter-note) or seconds
-    
-Each data type is a flat list within the project structure which can be referenced using a location & index pair. This avoids any polymorphism requirements on the JSON parser.
-
-Apart from the location of the JSON files, the exporting DAW is free to choose the directory structure it wants.
+  
+Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
 
 ## Tracks and Channels
 
