@@ -1,20 +1,23 @@
 package dawproject;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class DawProject
 {
@@ -26,33 +29,65 @@ public class DawProject
 
    public static void exportSchema(File file, Class cls) throws IOException
    {
-      /*ObjectMapper mapper = createObjectMapper();
+      try
+      {
+         var context = JAXBContext.newInstance(cls);
 
-      JsonSchemaGenerator schemaGen = new XmlSche(mapper);
-      JsonSchema schema = schemaGen.generateSchema(cls);
+         var resolver = new SchemaOutputResolver()
+         {
+            @Override public Result createOutput (String namespaceUri, String suggestedFileName) throws IOException
+            {
+               FileOutputStream fileOutputStream = new FileOutputStream(file);
+               StreamResult result = new StreamResult(fileOutputStream);
+               result.setSystemId(file.getName());
+               return result;
+            }
+         };
 
-      FileOutputStream fileOutputStream = new FileOutputStream(file);
-      fileOutputStream.write(toXML(schema).getBytes(StandardCharsets.UTF_8));
-      fileOutputStream.close();*/
+         context.generateSchema(resolver);
+      }
+      catch (JAXBException e)
+      {
+         throw new IOException(e);
+      }
    }
 
-   private static ObjectMapper createObjectMapper()
+   private static String toXML(Object object) throws IOException
    {
-      ObjectMapper objectMapper = new XmlMapper();
-      return objectMapper;
-   }
+      try
+      {
+         var context = JAXBContext.newInstance(object.getClass());
 
-   private static String toXML(Object object) throws JsonProcessingException
-   {
-      ObjectMapper objectMapper = createObjectMapper();
-      //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-      return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+         var marshaller = context.createMarshaller();
+         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+         var sw = new StringWriter();
+         marshaller.marshal(object, sw);
+
+         return sw.toString();
+      }
+      catch (Exception e)
+      {
+         throw new IOException(e);
+      }
    }
 
    private static <T extends Object> T fromXML(InputStreamReader reader, Class<T> cls) throws IOException
    {
-      ObjectMapper objectMapper = createObjectMapper();
-      return objectMapper.readValue(reader, cls);
+      try
+      {
+         var jaxbContext = JAXBContext.newInstance(cls);
+
+         final var unmarshaller = jaxbContext.createUnmarshaller();
+
+         final var object = (T)unmarshaller.unmarshal(reader);
+
+         return object;
+      }
+      catch (JAXBException e)
+      {
+         throw new IOException(e);
+      }
    }
 
    public static void saveXML(Project project, File file) throws IOException

@@ -18,15 +18,16 @@ public class DawProjectTest
       Project project = new Project();
 
       Track masterTrack = project.createTrack();
-      masterTrack.meta = new Meta();
-      masterTrack.meta.title = "Master";
+      masterTrack.title = "Master";
 
       var masterChannel = project.createChannel();
       masterChannel.isTrackChannel = true;
-      masterTrack.output = project.createReference(masterChannel);
+      masterChannel.Volume = new RealParameter(1.0, Unit.linear);
+      masterChannel.Pan = new RealParameter(0.0, Unit.linear);
+      masterTrack.channel = masterChannel;
 
       Device device = project.createDevice();
-      device.deviceName = "Limiter";
+      device.name = "Limiter";
       device.id = UUID.randomUUID().toString();
       device.stateFile = "plugin-states/12323545.fxb";
       masterChannel.devices.add(project.createReference(device));
@@ -34,14 +35,15 @@ public class DawProjectTest
       for (int i = 0; i < numTracks; i++)
       {
          var track = project.createTrack();
-         track.meta = new Meta();
-         track.meta.title = "Track " + (i+1);
-         track.meta.color = "#" + i + i + i + i + i +i;
+         track.title = "Track " + (i+1);
+         track.color = "#" + i + i + i + i + i +i;
 
          var channel = project.createChannel();
          channel.isTrackChannel = true;
-         track.output = project.createReference(channel);
-         channel.output = project.createReference(masterChannel);
+         channel.Volume = new RealParameter(1.0, Unit.linear);
+         channel.Pan = new RealParameter(0.0, Unit.linear);
+         track.channel = channel;
+         //channel.output = project.createReference(masterChannel);
       }
 
       return project;

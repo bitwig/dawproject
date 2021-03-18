@@ -1,10 +1,9 @@
 package dawproject;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import dawproject.device.Device;
 import dawproject.timeline.AudioTimeline;
 import dawproject.timeline.AutomationTimeline;
@@ -13,6 +12,7 @@ import dawproject.timeline.NoteTimeline;
 import dawproject.timeline.RootTimeline;
 import dawproject.timeline.TrackTimeline;
 
+@XmlRootElement(name = "Project")
 public class Project
 {
    public Transport transport;

@@ -1,5 +1,8 @@
 package dawproject;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Metadata")
 public class Metadata
 {
    public String title;
