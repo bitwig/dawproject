@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class RootTimeline extends CompositeTimeline
+public class RootTimeline extends Lanes
 {
    @XmlElementWrapper(name="cue-markers")
    @XmlElementRef

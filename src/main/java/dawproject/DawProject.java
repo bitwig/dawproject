@@ -5,13 +5,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import dawproject.device.Device;
 import dawproject.timeline.Clip;
-import dawproject.timeline.ClipTimeline;
-import dawproject.timeline.CompositeTimeline;
 import dawproject.timeline.MarkerEvent;
-import dawproject.timeline.NoteTimeline;
-import dawproject.timeline.RootTimeline;
 import dawproject.timeline.Timeline;
-import dawproject.timeline.TrackTimeline;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;

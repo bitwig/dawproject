@@ -1,6 +1,9 @@
 package dawproject.timeline;
 
 import dawproject.Loop;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -8,16 +11,24 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Clip extends EnduringEvent
 {
    /** Time inside the target timeline where the clip starts playing. */
-   public double playStart;
+   @XmlAttribute
+   public Double playStart;
 
    /** Duration of fade-in */
-   public double fadeInTime;
+   @XmlAttribute
+   public Double fadeInTime;
 
    /** Duration of fade-out */
-   public double fadeOutTime;
+   @XmlAttribute
+   public Double fadeOutTime;
 
+   @XmlElement
    public Loop loop = null;
 
-   @XmlIDREF
+   @XmlElementRef
    public Timeline content;
+
+   @XmlAttribute
+   @XmlIDREF
+   public Timeline reference;
 }

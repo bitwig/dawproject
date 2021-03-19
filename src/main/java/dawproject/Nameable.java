@@ -2,7 +2,7 @@ package dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 
-public class Nameable extends Referencable
+public class Nameable
 {
    @XmlAttribute
    public String name;

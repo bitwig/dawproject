@@ -11,7 +11,7 @@ import java.util.List;
 import dawproject.device.Device;
 
 /** Represents a mixer channel. May represent the same entity as the Track, depending on the DAW */
-public class Channel extends Nameable
+public class Channel extends Referencable
 {
    /* When true, this Channel represents the same user object as a Track. */
    @XmlAttribute

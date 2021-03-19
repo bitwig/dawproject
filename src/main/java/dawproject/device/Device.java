@@ -1,11 +1,11 @@
 package dawproject.device;
 
+import dawproject.Referencable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.List;
 
-import dawproject.Nameable;
 import dawproject.Parameter;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -13,7 +13,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, BuiltinDevice.class, AuPlugin.class})
-public class Device extends Nameable
+public class Device extends Referencable
 {
    /** this device is enabled (as in not bypassed) */
    @XmlAttribute

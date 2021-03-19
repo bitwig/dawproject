@@ -7,7 +7,11 @@ import java.util.HashMap;
 
 import dawproject.device.Device;
 import dawproject.device.Vst3Plugin;
+import dawproject.timeline.Clip;
+import dawproject.timeline.Clips;
 import dawproject.timeline.MarkerEvent;
+import dawproject.timeline.Note;
+import dawproject.timeline.Notes;
 import dawproject.timeline.RootTimeline;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -49,6 +53,40 @@ public class DawProjectTest
          track.setID(ID++);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
+
+         final var clips = new Clips();
+         clips.setID(ID++);
+         clips.track = track;
+
+         final var clip = new Clip();
+         clip.name = "Clip " + i;
+         clip.time = 8 * i;
+         clip.duration = 4;
+         clips.clips.add(clip);
+
+         final var notes = new Notes();
+         notes.setID(ID++);
+         clip.content = notes;
+
+         for(int j=0; j<8; j++)
+         {
+            final var note = new Note();
+            note.key = 36 + 12 * (j % (1+i));
+            note.velocity = 0.8;
+            note.releaseVelocity = 0.5;
+            note.time = 0.5 * j;
+            note.duration = 0.5;
+            notes.notes.add(note);
+         }
+
+         final var clip2 = new Clip();
+         clip2.name = "Alias Clip " + i;
+         clip2.time = 32 + 8 * i;
+         clip2.duration = 4;
+         clips.clips.add(clip2);
+         clip2.reference = notes;
+
+         project.arrangement.lanes.add(clips);
 
          var channel = project.createChannel();
          channel.setID(ID++);

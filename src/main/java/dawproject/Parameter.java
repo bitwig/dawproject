@@ -1,5 +1,5 @@
 package dawproject;
 
-public class Parameter extends Nameable
+public class Parameter extends Referencable
 {
 }

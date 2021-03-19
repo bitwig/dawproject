@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class CompositeTimeline extends Timeline
+public class Lanes extends Timeline
 {
    /** Lanes representing nested content */
 
