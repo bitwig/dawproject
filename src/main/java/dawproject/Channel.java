@@ -31,11 +31,11 @@ public class Channel extends DawObject
    @XmlAttribute()
    public Channel destination;
 
-   @XmlElementWrapper(name="Sends")
-   @XmlElement(name="Send", type = Send.class)
-   public List<Send> Sends;
+   @XmlElementWrapper(name="sends")
+   @XmlElement(name="send", type = Send.class)
+   public List<Send> sends;
 
-   @XmlElementWrapper(name="Devices")
-   @XmlElement(name="Device", type = Device.class)
+   @XmlElementWrapper(name="devices")
+   @XmlElement(name="device", type = Device.class)
    public List<Device> devices = new ArrayList<>();
 }

@@ -14,24 +14,24 @@ import dawproject.timeline.NoteTimeline;
 import dawproject.timeline.RootTimeline;
 import dawproject.timeline.TrackTimeline;
 
-@XmlRootElement(name = "Project")
+@XmlRootElement(name = "project")
 public class Project
 {
    public Transport transport;
 
-   @XmlElementWrapper(name="Tracks")
-   @XmlElement(name="Track", type = Track.class)
+   @XmlElementWrapper(name="tracks")
+   @XmlElement(name="track", type = Track.class)
    public List<Track> tracks = new ArrayList<>();
 
-   @XmlElementWrapper(name="Channels")
-   @XmlElement(name="Channel", type = Channel.class)
+   @XmlElementWrapper(name="channels")
+   @XmlElement(name="channel", type = Channel.class)
    public List<Channel> channels = new ArrayList<>();
 
-   @XmlElement(name="Arrangement", type = RootTimeline.class)
+   @XmlElement(name="arrangement", type = RootTimeline.class)
    public RootTimeline arrangement;
 
-   @XmlElementWrapper(name="Scenes")
-   @XmlElement(name="Scene", type = RootTimeline.class)
+   @XmlElementWrapper(name="scenes")
+   @XmlElement(name="scene", type = RootTimeline.class)
    public List<RootTimeline> scenes = new ArrayList<>();
 
    public List<TrackTimeline> trackTimelines = new ArrayList<>();
