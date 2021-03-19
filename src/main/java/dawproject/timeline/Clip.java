@@ -1,11 +1,11 @@
 package dawproject.timeline;
 
 import dawproject.Loop;
-import dawproject.ObjectReference;
+import jakarta.xml.bind.annotation.XmlIDREF;
 
 public class Clip extends EnduringEvent
 {
-   /** Time inside the target timeline where teh clip starts playing. */
+   /** Time inside the target timeline where the clip starts playing. */
    public double playStart;
 
    /** Duration of fade-in */
@@ -16,5 +16,6 @@ public class Clip extends EnduringEvent
 
    public Loop loop = null;
 
-   public ObjectReference<Timeline> content;
+   @XmlIDREF
+   public Timeline content;
 }

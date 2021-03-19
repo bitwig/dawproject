@@ -4,16 +4,13 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 
 public class BoolParameter extends Parameter
 {
+   public static BoolParameter create(final boolean v)
+   {
+      final var p = new BoolParameter();
+      p.value = v;
+      return p;
+   }
+
    @XmlAttribute
    public boolean value;
-
-   public BoolParameter(final boolean v)
-   {
-      value = value;
-   }
-
-   public BoolParameter()
-   {
-      value = false;
-   }
 }

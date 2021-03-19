@@ -3,6 +3,9 @@ package dawproject;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
+import dawproject.device.Device;
+import dawproject.device.Vst3Plugin;
+import dawproject.timeline.MarkerEvent;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -32,7 +35,7 @@ public class DawProject
    {
       try
       {
-         var context = JAXBContext.newInstance(cls);
+         var context = createContext();
 
          var resolver = new SchemaOutputResolver()
          {
@@ -57,7 +60,7 @@ public class DawProject
    {
       try
       {
-         var context = JAXBContext.newInstance(object.getClass());
+         var context = createContext();
 
          var marshaller = context.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -71,6 +74,11 @@ public class DawProject
       {
          throw new IOException(e);
       }
+   }
+
+   private static JAXBContext createContext() throws JAXBException
+   {
+      return JAXBContext.newInstance(Project.class, Metadata.class, Device.class, Vst3Plugin.class, MarkerEvent.class);
    }
 
    private static <T extends Object> T fromXML(InputStreamReader reader, Class<T> cls) throws IOException

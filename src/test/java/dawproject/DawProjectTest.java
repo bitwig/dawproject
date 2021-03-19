@@ -23,14 +23,14 @@ public class DawProjectTest
 
       var masterChannel = project.createChannel();
       masterChannel.isTrackChannel = true;
-      masterChannel.volume = new RealParameter(1.0, Unit.linear);
-      masterChannel.pan = new RealParameter(0.0, Unit.linear);
+      masterChannel.volume = RealParameter.create(1.0, Unit.linear);
+      masterChannel.pan = RealParameter.create(0.0, Unit.linear);
       masterTrack.channel = masterChannel;
 
       Device device = new Vst3Plugin();
       device.name = "Limiter";
       device.id = UUID.randomUUID().toString();
-      device.stateFile = "plugin-states/12323545.fxb";
+      device.stateFile = "plugin-states/12323545.vstpreset";
       masterChannel.devices.add(device);
 
       for (int i = 0; i < numTracks; i++)
@@ -41,10 +41,10 @@ public class DawProjectTest
 
          var channel = project.createChannel();
          channel.isTrackChannel = true;
-         channel.volume = new RealParameter(1.0, Unit.linear);
-         channel.pan = new RealParameter(0.0, Unit.linear);
+         channel.volume = RealParameter.create(1.0, Unit.linear);
+         channel.pan = RealParameter.create(0.0, Unit.linear);
          track.channel = channel;
-         //channel.output = project.createReference(masterChannel);
+         channel.destination = masterChannel;
       }
 
       return project;
@@ -53,7 +53,7 @@ public class DawProjectTest
    @Test
    public void testSaveDawProject() throws IOException
    {
-      Project project = createDummyProject(5);
+      Project project = createDummyProject(3);
       Metadata metadata = new Metadata();
 
       DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
@@ -61,15 +61,25 @@ public class DawProjectTest
    }
 
    @Test
-   public void writeMetadataSchema() throws IOException
+   public void testSaveAndLoadDawProject() throws IOException
    {
-      DawProject.exportSchema(new File("target/metadata.schema.xml"), Metadata.class);
+      Project project = createDummyProject(5);
+      Metadata metadata = new Metadata();
+
+      final var file = File.createTempFile("testfile", ".dawproject");
+      DawProject.save(project, metadata, new HashMap(), file);
+
+      final var loadedProject = DawProject.loadProject(file);
+
+      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
+      Assert.assertEquals(project.channels.size(), loadedProject.channels.size());
+      Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
 
    @Test
-   public void writeProjectSchema() throws IOException
+   public void writeSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/project.schema.xml"), Project.class);
+      DawProject.exportSchema(new File("target/schema.xs"), Metadata.class);
    }
 
    @Ignore

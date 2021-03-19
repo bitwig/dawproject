@@ -7,7 +7,9 @@ import java.util.List;
 
 import dawproject.DawObject;
 import dawproject.Parameter;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Device extends DawObject
 {
    /** this device is enabled (as in not bypassed) */

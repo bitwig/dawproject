@@ -2,16 +2,17 @@ package dawproject.timeline;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import dawproject.ParameterReference;
-import dawproject.Unit;
+import dawproject.Parameter;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlIDREF;
 
 public class AutomationTimeline extends Timeline
 {
+   @XmlElementWrapper(name="points")
+   @XmlElement(name="point", type = AutomationPoint.class)
    public List<AutomationPoint> points = new ArrayList<>();
 
-   public ParameterReference parameter;
-
-   /** Numeric unit which the automation point values represent. */
-   public Unit unit = Unit.normalized;
+   @XmlIDREF
+   public Parameter parameter;
 }

@@ -4,10 +4,12 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 
 public class RealParameter extends Parameter
 {
-   public RealParameter(final double v, Unit u)
+   public static RealParameter create(final double v, Unit u)
    {
-      value = v;
-      unit = u;
+      final var p = new RealParameter();
+      p.value = v;
+      p.unit = u;
+      return p;
    }
 
    @XmlAttribute

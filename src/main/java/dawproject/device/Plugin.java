@@ -1,5 +1,5 @@
 package dawproject.device;
 
-public class Plugin extends Device
+public abstract class Plugin extends Device
 {
 }

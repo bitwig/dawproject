@@ -3,14 +3,20 @@ package dawproject.timeline;
 import java.util.ArrayList;
 import java.util.List;
 
-import dawproject.ObjectReference;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-/** Timeline which combines */
+@XmlRootElement
 public class RootTimeline extends Timeline
 {
-   /** Cue markers */
-   public List<Event> markers;
+   @XmlElementWrapper(name="cue-markers")
+   @XmlElementRef
+   public List<MarkerEvent> markers;
 
    /** Lanes representing nested content */
-   public List<ObjectReference<Timeline>> lanes = new ArrayList<>();
+
+   @XmlElementWrapper(name="lanes")
+   @XmlElementRef
+   public List<Timeline> lanes = new ArrayList<>();
 }
