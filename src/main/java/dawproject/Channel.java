@@ -1,11 +1,10 @@
 package dawproject;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlIDREF;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +14,17 @@ import dawproject.device.Device;
 public class Channel extends DawObject
 {
    /* When true, this Channel represents the same user object as a Track. */
-   @XmlAttribute
+   @XmlTransient
    public boolean isTrackChannel;
 
    @XmlAttribute
    public int audioChannels = 2;
 
-   public RealParameter Volume;
+   public RealParameter volume;
 
-   /** Track pan [-1 ... 1] */
-   public RealParameter Pan;
+   public RealParameter pan;
 
-   public BoolParameter Mute;
+   public BoolParameter mute;
 
    /** Output channel routing */
    @XmlIDREF

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import dawproject.device.Device;
+import dawproject.device.Vst3Plugin;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,11 +23,11 @@ public class DawProjectTest
 
       var masterChannel = project.createChannel();
       masterChannel.isTrackChannel = true;
-      masterChannel.Volume = new RealParameter(1.0, Unit.linear);
-      masterChannel.Pan = new RealParameter(0.0, Unit.linear);
+      masterChannel.volume = new RealParameter(1.0, Unit.linear);
+      masterChannel.pan = new RealParameter(0.0, Unit.linear);
       masterTrack.channel = masterChannel;
 
-      Device device = project.createDevice();
+      Device device = new Vst3Plugin();
       device.name = "Limiter";
       device.id = UUID.randomUUID().toString();
       device.stateFile = "plugin-states/12323545.fxb";
@@ -40,8 +41,8 @@ public class DawProjectTest
 
          var channel = project.createChannel();
          channel.isTrackChannel = true;
-         channel.Volume = new RealParameter(1.0, Unit.linear);
-         channel.Pan = new RealParameter(0.0, Unit.linear);
+         channel.volume = new RealParameter(1.0, Unit.linear);
+         channel.pan = new RealParameter(0.0, Unit.linear);
          track.channel = channel;
          //channel.output = project.createReference(masterChannel);
       }
