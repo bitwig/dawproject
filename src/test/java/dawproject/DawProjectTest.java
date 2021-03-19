@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.UUID;
 
 import dawproject.device.Device;
 import dawproject.device.Vst3Plugin;
+import dawproject.timeline.MarkerEvent;
+import dawproject.timeline.RootTimeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,34 +19,48 @@ public class DawProjectTest
    {
       Project project = new Project();
 
+      int ID = 0;
+
       Track masterTrack = project.createTrack();
-      masterTrack.title = "Master";
+      masterTrack.name = "Master";
+      masterTrack.setID(ID++);
 
       var masterChannel = project.createChannel();
       masterChannel.isTrackChannel = true;
       masterChannel.volume = RealParameter.create(1.0, Unit.linear);
       masterChannel.pan = RealParameter.create(0.0, Unit.linear);
+      masterChannel.setID(ID++);
       masterTrack.channel = masterChannel;
 
       Device device = new Vst3Plugin();
       device.name = "Limiter";
-      device.id = UUID.randomUUID().toString();
-      device.stateFile = "plugin-states/12323545.vstpreset";
+      device.setID(ID++);
+      //device.id = UUID.randomUUID().toString();
+      device.state = "plugin-states/12323545.vstpreset";
       masterChannel.devices.add(device);
+
+      project.arrangement = new RootTimeline();
+      project.arrangement.markers.add(MarkerEvent.create(0, "Verse"));
+      project.arrangement.markers.add(MarkerEvent.create(24, "Chorus"));
 
       for (int i = 0; i < numTracks; i++)
       {
          var track = project.createTrack();
-         track.title = "Track " + (i+1);
+         track.setID(ID++);
+         track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
 
          var channel = project.createChannel();
+         channel.setID(ID++);
          channel.isTrackChannel = true;
          channel.volume = RealParameter.create(1.0, Unit.linear);
          channel.pan = RealParameter.create(0.0, Unit.linear);
          track.channel = channel;
          channel.destination = masterChannel;
       }
+
+      // Route channel 0 to 1
+      project.channels.get(0).destination = project.channels.get(1);
 
       return project;
    }

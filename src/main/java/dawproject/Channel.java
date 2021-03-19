@@ -5,17 +5,16 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlIDREF;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
 import dawproject.device.Device;
 
 /** Represents a mixer channel. May represent the same entity as the Track, depending on the DAW */
-public class Channel extends DawObject
+public class Channel extends Nameable
 {
    /* When true, this Channel represents the same user object as a Track. */
-   @XmlTransient
+   @XmlAttribute
    public boolean isTrackChannel;
 
    @XmlAttribute

@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Represents the sequencer track of the DAW, */
 
 @XmlRootElement(name = "Track")
-public class Track extends DawObject
+public class Track extends Nameable
 {
    /** A parent track (when present) can be used for visual organization of the tracks. */
    @XmlIDREF

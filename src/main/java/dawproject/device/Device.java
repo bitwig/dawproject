@@ -5,12 +5,15 @@ import jakarta.xml.bind.annotation.XmlElement;
 
 import java.util.List;
 
-import dawproject.DawObject;
+import dawproject.Nameable;
 import dawproject.Parameter;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
-public class Device extends DawObject
+@XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, BuiltinDevice.class, AuPlugin.class})
+public class Device extends Nameable
 {
    /** this device is enabled (as in not bypassed) */
    @XmlAttribute
@@ -21,21 +24,18 @@ public class Device extends DawObject
 
    /** Name of the device/plugin */
    @XmlAttribute
-   public String name;
+   public String deviceName;
 
    /** Vendor name of the device/plugin */
    @XmlAttribute
    public String deviceVendor;
 
-   /** Plug-in format used by this plug-in (or builtin) */
-   @XmlAttribute
-   public DeviceFormat deviceFormat;
-
    /** Relative path to a file representing the device / plug-in state in its native format */
    @XmlAttribute
-   public String stateFile;
+   public String state;
 
    /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
-   @XmlElement()
-   public List<Parameter> parameters;
+   @XmlElementWrapper(name="parameters")
+   @XmlElement
+   public List<Parameter> automatedParameters;
 }

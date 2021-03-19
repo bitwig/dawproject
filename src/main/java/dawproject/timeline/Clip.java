@@ -2,7 +2,9 @@ package dawproject.timeline;
 
 import dawproject.Loop;
 import jakarta.xml.bind.annotation.XmlIDREF;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "clip")
 public class Clip extends EnduringEvent
 {
    /** Time inside the target timeline where the clip starts playing. */

@@ -1,5 +1,5 @@
 package dawproject;
 
-public class Parameter extends DawObject
+public class Parameter extends Nameable
 {
 }

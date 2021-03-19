@@ -12,11 +12,11 @@ public class RealParameter extends Parameter
       return p;
    }
 
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public double value;
 
-   @XmlAttribute
-   public Unit unit;
+   @XmlAttribute(required = true)
+   public Unit unit = Unit.linear;
 
    @XmlAttribute
    public Double min;
