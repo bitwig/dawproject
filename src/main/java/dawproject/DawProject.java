@@ -2,15 +2,6 @@ package dawproject;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
-
-import dawproject.device.Device;
-import dawproject.timeline.Clip;
-import dawproject.timeline.MarkerEvent;
-import dawproject.timeline.Timeline;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.SchemaOutputResolver;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,6 +15,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.SchemaOutputResolver;
+
 public class DawProject
 {
    public static final String FORMAT_NAME = "DAW-project exchange format";
@@ -36,7 +32,7 @@ public class DawProject
    {
       try
       {
-         var context = createContext();
+         var context = createContext(cls);
 
          var resolver = new SchemaOutputResolver()
          {
@@ -61,7 +57,7 @@ public class DawProject
    {
       try
       {
-         var context = createContext();
+         var context = createContext(object.getClass());
 
          var marshaller = context.createMarshaller();
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -77,10 +73,9 @@ public class DawProject
       }
    }
 
-   private static JAXBContext createContext() throws JAXBException
+   private static JAXBContext createContext(final Class cls) throws JAXBException
    {
-      return JAXBContext.newInstance(Project.class, Metadata.class, Device.class, MarkerEvent.class,
-         Timeline.class, Clip.class);
+      return JAXBContext.newInstance(cls);
    }
 
    private static <T extends Object> T fromXML(InputStreamReader reader, Class<T> cls) throws IOException

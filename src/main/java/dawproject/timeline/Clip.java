@@ -8,8 +8,20 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "clip")
-public class Clip extends EnduringEvent
+public class Clip
 {
+   @XmlAttribute
+   public double time;
+
+   @XmlAttribute
+   public double duration;
+
+   @XmlAttribute
+   public String name;
+
+   @XmlAttribute
+   public String color;
+
    /** Time inside the target timeline where the clip starts playing. */
    @XmlAttribute
    public Double playStart;

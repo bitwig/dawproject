@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlIDREF;
 
-public class AutomationTimeline extends Timeline
+public class Points extends Timeline
 {
    @XmlElementWrapper(name="points")
    @XmlElement(name="point", type = AutomationPoint.class)

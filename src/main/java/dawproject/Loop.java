@@ -1,8 +1,12 @@
 package dawproject;
 
-import dawproject.timeline.EnduringEvent;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
-public class Loop extends EnduringEvent
+public class Loop
 {
+   @XmlAttribute
+   public double time;
+
+   @XmlAttribute
+   public double duration;
 }

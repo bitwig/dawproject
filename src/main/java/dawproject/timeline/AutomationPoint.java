@@ -1,6 +1,8 @@
 package dawproject.timeline;
 
-public class AutomationPoint extends Event
+public class AutomationPoint
 {
+   public double time;
+
    public double value;
 }

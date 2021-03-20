@@ -9,10 +9,11 @@ import dawproject.device.Device;
 import dawproject.device.Vst3Plugin;
 import dawproject.timeline.Clip;
 import dawproject.timeline.Clips;
-import dawproject.timeline.MarkerEvent;
+import dawproject.timeline.Marker;
+import dawproject.timeline.Markers;
+import dawproject.timeline.Lanes;
 import dawproject.timeline.Note;
 import dawproject.timeline.Notes;
-import dawproject.timeline.RootTimeline;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,10 +31,11 @@ public class DawProjectTest
       masterTrack.setID(ID++);
 
       var masterChannel = project.createChannel();
-      masterChannel.isTrackChannel = true;
+      masterChannel.belongsToTrack = true;
       masterChannel.volume = RealParameter.create(1.0, Unit.linear);
       masterChannel.pan = RealParameter.create(0.0, Unit.linear);
       masterChannel.setID(ID++);
+      masterChannel.role = MixerChannelRole.master;
       masterTrack.channel = masterChannel;
 
       Device device = new Vst3Plugin();
@@ -43,9 +45,12 @@ public class DawProjectTest
       device.state = "plugin-states/12323545.vstpreset";
       masterChannel.devices.add(device);
 
-      project.arrangement = new RootTimeline();
-      project.arrangement.markers.add(MarkerEvent.create(0, "Verse"));
-      project.arrangement.markers.add(MarkerEvent.create(24, "Chorus"));
+      final var arrangement = new Lanes();
+      project.arrangement = arrangement;
+      final var cueMarkers = new Markers();
+      arrangement.lanes.add(cueMarkers);
+      cueMarkers.markers.add(Marker.create(0, "Verse"));
+      cueMarkers.markers.add(Marker.create(24, "Chorus"));
 
       for (int i = 0; i < numTracks; i++)
       {
@@ -53,6 +58,7 @@ public class DawProjectTest
          track.setID(ID++);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
+         track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
 
          final var clips = new Clips();
          clips.setID(ID++);
@@ -86,15 +92,16 @@ public class DawProjectTest
          clips.clips.add(clip2);
          clip2.reference = notes;
 
-         project.arrangement.lanes.add(clips);
+         arrangement.lanes.add(clips);
 
          var channel = project.createChannel();
          channel.setID(ID++);
-         channel.isTrackChannel = true;
+         channel.belongsToTrack = true;
          channel.volume = RealParameter.create(1.0, Unit.linear);
          channel.pan = RealParameter.create(0.0, Unit.linear);
          track.channel = channel;
          channel.destination = masterChannel;
+         channel.role = MixerChannelRole.regular;
       }
 
       // Route channel 0 to 1
@@ -130,9 +137,15 @@ public class DawProjectTest
    }
 
    @Test
-   public void writeSchema() throws IOException
+   public void writeMetadataSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/schema.xs"), Metadata.class);
+      DawProject.exportSchema(new File("target/metadata.xs"), Metadata.class);
+   }
+
+   @Test
+   public void writeProjectSchema() throws IOException
+   {
+      DawProject.exportSchema(new File("target/project.xs"), Project.class);
    }
 
    @Ignore

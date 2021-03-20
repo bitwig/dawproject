@@ -8,10 +8,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
-@XmlSeeAlso({Notes.class, RootTimeline.class, Lanes.class, Clips.class})
-
+@XmlSeeAlso({Note.class, Notes.class, Lanes.class, Clip.class, Clips.class, Marker.class, Markers.class, Audio.class, Video.class})
 public abstract class Timeline extends Referencable
 {
+   /** When present, the timeline is local to this track. */
    @XmlAttribute
    @XmlIDREF
    public Track track;

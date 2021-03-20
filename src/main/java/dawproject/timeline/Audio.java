@@ -2,20 +2,27 @@ package dawproject.timeline;
 
 import java.util.List;
 
-public class AudioTimeline extends Timeline
+import jakarta.xml.bind.annotation.XmlAttribute;
+
+public class Audio extends Timeline
 {
    /** relative path to audio-file within the container */
-   public String audioFile;
+   @XmlAttribute
+   public String path;
 
    /** duration in seconds of audio-file */
+   @XmlAttribute
    public double duration;
 
    /** sample-rate of audio-file */
-   public int sampleRate;
+   @XmlAttribute
+   public int samplerate;
 
    /** number of channels of audio-file (1=mono...) */
-   public int channelCount;
+   @XmlAttribute
+   public int channels;
 
    /** Markers describing the translation between beats and seconds for the audio-file. */
+
    public List<WarpMarker> warpMarkers;
 }

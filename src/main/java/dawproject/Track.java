@@ -1,12 +1,18 @@
 package dawproject;
 
+import java.util.EnumSet;
+import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
+import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 /** Represents the sequencer track of the DAW, */
 
 @XmlRootElement(name = "Track")
+@XmlSeeAlso(ContentType.class)
 public class Track extends Referencable
 {
    /** A parent track (when present) can be used for visual organization of the tracks. */
@@ -17,5 +23,9 @@ public class Track extends Referencable
    /** Target channel this track will play back into. */
    @XmlIDREF
    @XmlAttribute()
-   public Channel channel;
+   public MixerChannel channel;
+
+   @XmlAttribute
+   @XmlList
+   public ContentType[] contentType;
 }

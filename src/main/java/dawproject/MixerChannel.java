@@ -11,11 +11,15 @@ import java.util.List;
 import dawproject.device.Device;
 
 /** Represents a mixer channel. May represent the same entity as the Track, depending on the DAW */
-public class Channel extends Referencable
+public class MixerChannel extends Referencable
 {
-   /* When true, this Channel represents the same user object as a Track. */
+   /* When true, this MixerChannel represents the same user object as a Track. */
    @XmlAttribute
-   public boolean isTrackChannel;
+   public boolean belongsToTrack;
+
+   /** Role of this channel (regular/return/master) */
+   @XmlAttribute
+   public MixerChannelRole role;
 
    @XmlAttribute
    public int audioChannels = 2;
@@ -29,7 +33,7 @@ public class Channel extends Referencable
    /** Output channel routing */
    @XmlIDREF
    @XmlAttribute()
-   public Channel destination;
+   public MixerChannel destination;
 
    @XmlElementWrapper(name="sends")
    @XmlElement(name="send", type = Send.class)
