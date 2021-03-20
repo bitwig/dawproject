@@ -43,4 +43,8 @@ public class Clip
    @XmlAttribute
    @XmlIDREF
    public Timeline reference;
+
+   /** Markers describing a time-mapping of the content/reference. */
+   @XmlElement
+   public Warps warps;
 }
