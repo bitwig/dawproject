@@ -1,24 +1,31 @@
 package dawproject.timeline;
 
+import dawproject.DoubleAdapter;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
 public class Note
 {
-   @XmlAttribute
-   public double time;
+   @XmlAttribute(required = true)
+   @XmlJavaTypeAdapter(DoubleAdapter.class)
+   public Double time;
 
-   @XmlAttribute
-   public double duration;
+   @XmlAttribute(required = true)
+   @XmlJavaTypeAdapter(DoubleAdapter.class)
+   public Double duration;
 
    @XmlAttribute
    public int channel;
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public int key;
 
    @XmlAttribute(name = "vel")
-   public double velocity;
+   @XmlJavaTypeAdapter(DoubleAdapter.class)
+   public Double velocity;
+
    @XmlAttribute(name = "rel")
-   public double releaseVelocity;
+   @XmlJavaTypeAdapter(DoubleAdapter.class)
+   public Double releaseVelocity;
 }

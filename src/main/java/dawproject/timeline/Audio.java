@@ -1,9 +1,10 @@
 package dawproject.timeline;
 
-import java.util.List;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Audio extends Timeline
 {
    /** relative path to audio-file within the container */
@@ -24,5 +25,6 @@ public class Audio extends Timeline
 
    /** Markers describing the translation between beats and seconds for the audio-file. */
 
-   public List<WarpMarker> warpMarkers;
+   @XmlElement
+   public Warps warps;
 }

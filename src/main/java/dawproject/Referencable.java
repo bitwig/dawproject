@@ -11,9 +11,4 @@ public class Referencable extends Nameable
    @XmlAttribute
    @XmlID()
    public String id = "";
-
-   public void setID(int id)
-   {
-      this.id = Integer.toString(id);
-   }
 }

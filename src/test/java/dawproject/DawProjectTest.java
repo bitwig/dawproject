@@ -26,21 +26,28 @@ public class DawProjectTest
 
       int ID = 0;
 
-      Track masterTrack = project.createTrack();
+      Track masterTrack = new Track();
+      project.tracks.add(masterTrack);
       masterTrack.name = "Master";
-      masterTrack.setID(ID++);
+      assignID(masterTrack);
 
-      var masterChannel = project.createChannel();
+      var masterChannel = new Channel();
       masterChannel.belongsToTrack = true;
-      masterChannel.volume = RealParameter.create(1.0, Unit.linear);
-      masterChannel.pan = RealParameter.create(0.0, Unit.linear);
-      masterChannel.setID(ID++);
-      masterChannel.role = MixerChannelRole.master;
+      final var p3 = new RealParameter();
+      p3.value = 1.0;
+      p3.unit = Unit.linear;
+      masterChannel.volume = p3;
+      final var p2 = new RealParameter();
+      p2.value = 0.0;
+      p2.unit = Unit.linear;
+      masterChannel.pan = p2;
+      assignID(masterChannel);
+      masterChannel.role = ChannelRole.master;
       masterTrack.channel = masterChannel;
 
       Device device = new Vst3Plugin();
       device.name = "Limiter";
-      device.setID(ID++);
+      assignID(device);
       //device.id = UUID.randomUUID().toString();
       device.state = "plugin-states/12323545.vstpreset";
       masterChannel.devices.add(device);
@@ -54,14 +61,15 @@ public class DawProjectTest
 
       for (int i = 0; i < numTracks; i++)
       {
-         var track = project.createTrack();
-         track.setID(ID++);
+         var track = new Track();
+         project.tracks.add(track);
+         assignID(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
          track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
 
          final var clips = new Clips();
-         clips.setID(ID++);
+         assignID(clips);
          clips.track = track;
 
          final var clip = new Clip();
@@ -71,7 +79,7 @@ public class DawProjectTest
          clips.clips.add(clip);
 
          final var notes = new Notes();
-         notes.setID(ID++);
+         assignID(notes);
          clip.content = notes;
 
          for(int j=0; j<8; j++)
@@ -94,14 +102,21 @@ public class DawProjectTest
 
          arrangement.lanes.add(clips);
 
-         var channel = project.createChannel();
-         channel.setID(ID++);
+         var channel = new Channel();
+         project.channels.add(channel);
+         assignID(channel);
          channel.belongsToTrack = true;
-         channel.volume = RealParameter.create(1.0, Unit.linear);
-         channel.pan = RealParameter.create(0.0, Unit.linear);
+         final var p1 = new RealParameter();
+         p1.value = 1.0;
+         p1.unit = Unit.linear;
+         channel.volume = p1;
+         final var p = new RealParameter();
+         p.value = 0.0;
+         p.unit = Unit.linear;
+         channel.pan = p;
          track.channel = channel;
          channel.destination = masterChannel;
-         channel.role = MixerChannelRole.regular;
+         channel.role = ChannelRole.regular;
       }
 
       // Route channel 0 to 1
@@ -166,4 +181,11 @@ public class DawProjectTest
 
       Assert.assertEquals(1380652, data.length);
    }
+
+   private void assignID(final Referencable r)
+   {
+      r.id = Integer.toString(ID++);
+   }
+
+   int ID = 1;
 }
