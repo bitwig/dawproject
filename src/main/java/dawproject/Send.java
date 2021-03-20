@@ -1,11 +1,22 @@
 package dawproject;
 
-public class Send extends DawObject
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlIDREF;
+
+public class Send extends RealParameter
 {
-   public double level;
+   public static Send create(final double v, final Unit u)
+   {
+      final var p = new Send();
+      p.value = v;
+      p.unit = u;
+      return p;
+   }
 
-   /** Target channel this track will play back into. */
-   public ObjectReference<Channel> output;
-
+   @XmlAttribute
    public SendType type = SendType.post;
+
+   @XmlAttribute
+   @XmlIDREF
+   public Channel destination;
 }

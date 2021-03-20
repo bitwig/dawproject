@@ -1,11 +1,28 @@
 package dawproject;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlIDREF;
+import jakarta.xml.bind.annotation.XmlList;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
+
 /** Represents the sequencer track of the DAW, */
-public class Track extends DawObject
+
+@XmlRootElement(name = "Track")
+@XmlSeeAlso(ContentType.class)
+public class Track extends Referencable
 {
    /** A parent track (when present) can be used for visual organization of the tracks. */
-   public ObjectReference<Track> parent;
+   @XmlIDREF
+   @XmlAttribute()
+   public Track parent;
 
    /** Target channel this track will play back into. */
-   public ObjectReference<Channel> output;
+   @XmlIDREF
+   @XmlAttribute()
+   public Channel channel;
+
+   @XmlAttribute
+   @XmlList
+   public ContentType[] contentType;
 }

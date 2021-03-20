@@ -1,79 +1,118 @@
 package dawproject;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.SchemaOutputResolver;
 
 public class DawProject
 {
    public static final String FORMAT_NAME = "DAW-project exchange format";
    public static final String FILE_EXTENSION = "dawproject";
 
-   private static final String PROJECT_FILE = "project.json";
-   private static final String METADATA_FILE = "metadata.json";
+   private static final String PROJECT_FILE = "project.xml";
+   private static final String METADATA_FILE = "metadata.xml";
 
    public static void exportSchema(File file, Class cls) throws IOException
    {
-      ObjectMapper mapper = createObjectMapper();
+      try
+      {
+         var context = createContext(cls);
 
-      JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
-      JsonSchema schema = schemaGen.generateSchema(cls);
+         var resolver = new SchemaOutputResolver()
+         {
+            @Override public Result createOutput (String namespaceUri, String suggestedFileName) throws IOException
+            {
+               FileOutputStream fileOutputStream = new FileOutputStream(file);
+               StreamResult result = new StreamResult(fileOutputStream);
+               result.setSystemId(file.getName());
+               return result;
+            }
+         };
 
+         context.generateSchema(resolver);
+      }
+      catch (JAXBException e)
+      {
+         throw new IOException(e);
+      }
+   }
+
+   private static String toXML(Object object) throws IOException
+   {
+      try
+      {
+         var context = createContext(object.getClass());
+
+         var marshaller = context.createMarshaller();
+         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+         var sw = new StringWriter();
+         marshaller.marshal(object, sw);
+
+         return sw.toString();
+      }
+      catch (Exception e)
+      {
+         throw new IOException(e);
+      }
+   }
+
+   private static JAXBContext createContext(final Class cls) throws JAXBException
+   {
+      return JAXBContext.newInstance(cls);
+   }
+
+   private static <T extends Object> T fromXML(InputStreamReader reader, Class<T> cls) throws IOException
+   {
+      try
+      {
+         var jaxbContext = JAXBContext.newInstance(cls);
+
+         final var unmarshaller = jaxbContext.createUnmarshaller();
+
+         final var object = (T)unmarshaller.unmarshal(reader);
+
+         return object;
+      }
+      catch (JAXBException e)
+      {
+         throw new IOException(e);
+      }
+   }
+
+   public static void saveXML(Project project, File file) throws IOException
+   {
+      String projectXML = toXML(project);
       FileOutputStream fileOutputStream = new FileOutputStream(file);
-      fileOutputStream.write(toJson(schema).getBytes(StandardCharsets.UTF_8));
-      fileOutputStream.close();
-   }
-
-   private static ObjectMapper createObjectMapper()
-   {
-      ObjectMapper objectMapper = new ObjectMapper();
-      return objectMapper;
-   }
-
-   private static String toJson(Object object) throws JsonProcessingException
-   {
-      ObjectMapper objectMapper = createObjectMapper();
-      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-      return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-   }
-
-   private static <T extends Object> T fromJson(InputStreamReader reader, Class<T> cls) throws IOException
-   {
-      ObjectMapper objectMapper = createObjectMapper();
-      return objectMapper.readValue(reader, cls);
-   }
-
-   public static void saveJson(Project project, File file) throws IOException
-   {
-      String projectJson = toJson(project);
-      FileOutputStream fileOutputStream = new FileOutputStream(file);
-      fileOutputStream.write(projectJson.getBytes(StandardCharsets.UTF_8));
+      fileOutputStream.write(projectXML.getBytes(StandardCharsets.UTF_8));
       fileOutputStream.close();
    }
 
    public static void save(Project project, Metadata metadata, Map<File, String> embeddedFiles, File file) throws IOException
    {
-      String metadataJson = toJson(metadata);
-      String projectJson = toJson(project);
+      String metadataXML = toXML(metadata);
+      String projectXML = toXML(project);
 
       final ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file));
 
-      addToZip(zos, METADATA_FILE, metadataJson.getBytes(StandardCharsets.UTF_8));
-      addToZip(zos, PROJECT_FILE, projectJson.getBytes(StandardCharsets.UTF_8));
+      addToZip(zos, METADATA_FILE, metadataXML.getBytes(StandardCharsets.UTF_8));
+      addToZip(zos, PROJECT_FILE, projectXML.getBytes(StandardCharsets.UTF_8));
 
       for (Map.Entry<File, String> entry : embeddedFiles.entrySet())
       {
@@ -121,7 +160,7 @@ public class DawProject
 
       ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
 
-      Project project = fromJson(new InputStreamReader(zipFile.getInputStream(projectEntry)), Project.class);
+      Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry)), Project.class);
 
       zipFile.close();
 
@@ -134,7 +173,7 @@ public class DawProject
 
       ZipEntry entry = zipFile.getEntry(METADATA_FILE);
 
-      Metadata metadata = fromJson(new InputStreamReader(zipFile.getInputStream(entry)), Metadata.class);
+      Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry)), Metadata.class);
 
       zipFile.close();
 
