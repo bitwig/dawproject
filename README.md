@@ -103,10 +103,10 @@ Contains a list of automation points along with a reference to the parameter bei
 The exporting application is free to structure timelines in a way that fits its internal model. 
 The choice is left to the importing application to either use the level of structure provided (if applicable) or to flatten it. 
 
-Some examples:
+Some examples (pseudo-xml):
 
-`
-Note Data
+```
+<!-- Note Data -->
 <lanes>
   <lanes track = "...">
     <clips>
@@ -117,14 +117,21 @@ Note Data
       </clip>
     </clips>
   </lanes>
-</lanes>`
+</lanes>
 
-**Audio data**
+<!-- Audio Data -->
+<lanes timebase="beats">
+  <lanes track = "...">
+    <clips>
+      <clip time="0" duration="8" timebase="seconds">
+        <audio path="samples/dummy.way" duration="4.657">
+        <warps>
+          <warp time="0" warped="0">
+          <warp time="8" warped="4.657">
+        <warps>        
+      </clip>
+    </clips>
+  </lanes>
+</lanes>
 
-* rootTimeline / trackTimeline / clipTimeline  / audioTimeline`
-`* rootTimeline / trackTimeline / clipTimeline  / clipTimeline  / audioTimeline  (if clip contains multiple events)`
-
-**Automation data**
-* rootTimeline / trackTimeline / automationTimeline
-* rootTimeline / trackTimeline / clipTimeline / automationTimeline (with automation clips)
-* rootTimeline / automationTimeline (global parameters)
+```
