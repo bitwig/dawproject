@@ -8,7 +8,4 @@ public class Transport
    public RealParameter tempo;
 
    public TimeSignature signature = new TimeSignature();
-
-   @XmlElement
-   public Loop loop;
 }

@@ -11,6 +11,6 @@ public class BoolParameter extends Parameter
       return p;
    }
 
-   @XmlAttribute
-   public boolean value;
+   @XmlAttribute(required = false)
+   public Boolean value;
 }

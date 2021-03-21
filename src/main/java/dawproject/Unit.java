@@ -1,5 +1,8 @@
 package dawproject;
 
+import jakarta.xml.bind.annotation.XmlEnum;
+
+@XmlEnum
 public enum Unit
 {
    linear,
@@ -7,5 +10,8 @@ public enum Unit
    percent,
    decibel,
    hertz,
-   semitones
+   semitones,
+   seconds,
+   beats,
+   bpm,
 }

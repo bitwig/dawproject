@@ -3,10 +3,12 @@ package dawproject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import dawproject.device.Device;
 import dawproject.device.Vst3Plugin;
+import dawproject.timeline.AutomationPoint;
 import dawproject.timeline.Clip;
 import dawproject.timeline.Clips;
 import dawproject.timeline.Marker;
@@ -14,13 +16,28 @@ import dawproject.timeline.Markers;
 import dawproject.timeline.Lanes;
 import dawproject.timeline.Note;
 import dawproject.timeline.Notes;
+import dawproject.timeline.Points;
+import dawproject.timeline.Timebase;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class DawProjectTest
 {
-   private Project createDummyProject(int numTracks)
+   enum Features
+   {
+      CUE_MARKERS,
+      CLIPS,
+      AUDIO,
+      NOTES,
+      AUTOMATION,
+      ALIAS_CLIPS,
+      PLUGINS
+   }
+
+   EnumSet<Features> simpleFeatures = EnumSet.of(Features.CLIPS, Features.NOTES, Features.AUDIO);
+
+   private Project createDummyProject(int numTracks, EnumSet<Features> features)
    {
       Project project = new Project();
 
@@ -45,19 +62,27 @@ public class DawProjectTest
       masterChannel.role = ChannelRole.master;
       masterTrack.channel = masterChannel;
 
-      Device device = new Vst3Plugin();
-      device.name = "Limiter";
-      assignID(device);
-      //device.id = UUID.randomUUID().toString();
-      device.state = "plugin-states/12323545.vstpreset";
-      masterChannel.devices.add(device);
+      if (features.contains(Features.PLUGINS))
+      {
+         Device device = new Vst3Plugin();
+         device.name = "Limiter";
+         assignID(device);
+         //device.id = UUID.randomUUID().toString();
+         device.state = "plugin-states/12323545.vstpreset";
+         masterChannel.devices.add(device);
+      }
 
       final var arrangement = new Lanes();
+      arrangement.timebase = Timebase.beats;
       project.arrangement = arrangement;
-      final var cueMarkers = new Markers();
-      arrangement.lanes.add(cueMarkers);
-      cueMarkers.markers.add(createMarker(0, "Verse"));
-      cueMarkers.markers.add(createMarker(24, "Chorus"));
+
+      if (features.contains(Features.CUE_MARKERS))
+      {
+         final var cueMarkers = new Markers();
+         arrangement.lanes.add(cueMarkers);
+         cueMarkers.markers.add(createMarker(0, "Verse"));
+         cueMarkers.markers.add(createMarker(24, "Chorus"));
+      }
 
       for (int i = 0; i < numTracks; i++)
       {
@@ -67,40 +92,6 @@ public class DawProjectTest
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
          track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
-
-         final var clips = new Clips();
-         assignID(clips);
-         clips.track = track;
-
-         final var clip = new Clip();
-         clip.name = "Clip " + i;
-         clip.time = 8 * i;
-         clip.duration = 4;
-         clips.clips.add(clip);
-
-         final var notes = new Notes();
-         assignID(notes);
-         clip.content = notes;
-
-         for(int j=0; j<8; j++)
-         {
-            final var note = new Note();
-            note.key = 36 + 12 * (j % (1+i));
-            note.velocity = 0.8;
-            note.releaseVelocity = 0.5;
-            note.time = 0.5 * j;
-            note.duration = 0.5;
-            notes.notes.add(note);
-         }
-
-         final var clip2 = new Clip();
-         clip2.name = "Alias Clip " + i;
-         clip2.time = 32 + 8 * i;
-         clip2.duration = 4;
-         clips.clips.add(clip2);
-         clip2.reference = notes;
-
-         arrangement.lanes.add(clips);
 
          var channel = new Channel();
          project.channels.add(channel);
@@ -117,12 +108,76 @@ public class DawProjectTest
          track.channel = channel;
          channel.destination = masterChannel;
          channel.role = ChannelRole.regular;
+
+         final var trackLanes = new Lanes();
+         assignID(trackLanes);
+         trackLanes.track = track;
+         arrangement.lanes.add(trackLanes);
+
+         if (features.contains(Features.CLIPS))
+         {
+            final var clips = new Clips();
+            assignID(clips);
+
+            trackLanes.lanes.add(clips);
+
+            final var clip = new Clip();
+            clip.name = "Clip " + i;
+            clip.time = 8 * i;
+            clip.duration = 4;
+            clips.clips.add(clip);
+
+            final var notes = new Notes();
+            assignID(notes);
+            clip.content = notes;
+
+            for (int j = 0; j < 8; j++)
+            {
+               final var note = new Note();
+               note.key = 36 + 12 * (j % (1 + i));
+               note.velocity = 0.8;
+               note.releaseVelocity = 0.5;
+               note.time = 0.5 * j;
+               note.duration = 0.5;
+               notes.notes.add(note);
+            }
+
+            if (features.contains(Features.ALIAS_CLIPS))
+            {
+               final var clip2 = new Clip();
+               clip2.name = "Alias Clip " + i;
+               clip2.time = 32 + 8 * i;
+               clip2.duration = 4;
+               clips.clips.add(clip2);
+               clip2.reference = notes;
+            }
+
+            if (i == 0 && features.contains(Features.AUTOMATION))
+            {
+               final var points = new Points();
+               assignID(points);
+               points.parameter = channel.volume;
+               trackLanes.lanes.add(points);
+
+               // fade-in over 8 quarter notes
+               points.points.add(createPoint(0.0, 0.0));
+               points.points.add(createPoint(8.0, 1.0));
+            }
+         }
       }
 
       // Route channel 0 to 1
       project.channels.get(0).destination = project.channels.get(1);
 
       return project;
+   }
+
+   private AutomationPoint createPoint(final double time, final double value)
+   {
+      final var point = new AutomationPoint();
+      point.time = time;
+      point.value = value;
+      return point;
    }
 
    public Marker createMarker(double time, String name)
@@ -134,9 +189,9 @@ public class DawProjectTest
    }
 
    @Test
-   public void testSaveDawProject() throws IOException
+   public void saveDawProject() throws IOException
    {
-      Project project = createDummyProject(3);
+      Project project = createDummyProject(3, simpleFeatures);
       Metadata metadata = new Metadata();
 
       DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
@@ -144,12 +199,38 @@ public class DawProjectTest
    }
 
    @Test
-   public void testSaveAndLoadDawProject() throws IOException
+   public void saveAndLoadDawProject() throws IOException
    {
-      Project project = createDummyProject(5);
+      Project project = createDummyProject(5, simpleFeatures);
       Metadata metadata = new Metadata();
 
       final var file = File.createTempFile("testfile", ".dawproject");
+      DawProject.save(project, metadata, new HashMap(), file);
+
+      final var loadedProject = DawProject.loadProject(file);
+
+      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
+      Assert.assertEquals(project.channels.size(), loadedProject.channels.size());
+      Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
+   }
+
+   @Test
+   public void saveComplexDawProject() throws IOException
+   {
+      Project project = createDummyProject(3, EnumSet.allOf(Features.class));
+      Metadata metadata = new Metadata();
+
+      DawProject.save(project, metadata, new HashMap(), new File("target/test-complex.dawproject"));
+      DawProject.saveXML(project, new File("target/test-complex.dawproject.xml"));
+   }
+
+   @Test
+   public void saveAndLoadComplexDawProject() throws IOException
+   {
+      Project project = createDummyProject(5, EnumSet.allOf(Features.class));
+      Metadata metadata = new Metadata();
+
+      final var file = File.createTempFile("testfile2", ".dawproject");
       DawProject.save(project, metadata, new HashMap(), file);
 
       final var loadedProject = DawProject.loadProject(file);
