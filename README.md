@@ -53,7 +53,7 @@ Some DAWs treat these as separate entities and some do not, so in order to expre
 Track represents the sequencer part, what holds timeline data.
 Channel represents the mixing part, and holds settings for mixing, instruments & effects, routing and so on.
 
-A Track will have a routing to a single Channel. A single property *isTrackChannel* defines if there’s a 1-to-1 mapping between a channel and the track sending to it.
+A Track will have a routing to a single Channel. A property *belongsToTrack* defines if there’s a 1-to-1 mapping between a channel and the track sending to it.
 
 ## Devices / Plug-ins
 Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset) inside the container and referenced using paths.
@@ -71,18 +71,18 @@ The timeline base-class has two attributes:
 
 ### Lanes
 Contains a list of lanes, which can be of any timeline type.
+
 ### Markers
 Contains a list of cue markers.
-### Clips
-Contains a list of clips. 
 
-Each clip contains:
-* A timeline, or a reference to a timeline (to represent aliases).
-* A list of warps (optional)  
+### Clips
+Contains a list of clips.
+Each clip contains a timeline, or alternatively a reference to a timeline which can be used to represent aliases. 
 
 ### Warps
-Contains a list of warp-markers where. 
-This is normally used to represent time-warping of audio, where the "inside" of a clip has a different time-representation than the "outside". 
+Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different timebase than the parent context.  
+
+This is typically used to represent time-warping of audio. 
 
 ### Notes
 Contains a list of notes.
@@ -91,11 +91,9 @@ Contains a list of notes.
 Contains a reference to an audio file (embedded or referenced) and settings for how it is to be played back.
 
 ### Video
-
 Same as audio.
 
 ### Points
-
 Contains a list of automation points along with a reference to the parameter being automated.
 
 ## Typical timeline structures
@@ -118,7 +116,7 @@ Some examples (pseudo-xml):
       </clip>
 
       <!-- alias clip -->
-      <clip time="24" uration="8" reference="5"/>
+      <clip time="24" duration="8" reference="5"/>
     </clips>
   </lanes>
 </lanes>

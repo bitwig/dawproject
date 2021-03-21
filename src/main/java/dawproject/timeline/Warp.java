@@ -6,9 +6,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Warp
 {
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public double time;
 
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public double warped;
 }

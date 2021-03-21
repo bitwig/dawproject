@@ -56,8 +56,8 @@ public class DawProjectTest
       project.arrangement = arrangement;
       final var cueMarkers = new Markers();
       arrangement.lanes.add(cueMarkers);
-      cueMarkers.markers.add(Marker.create(0, "Verse"));
-      cueMarkers.markers.add(Marker.create(24, "Chorus"));
+      cueMarkers.markers.add(createMarker(0, "Verse"));
+      cueMarkers.markers.add(createMarker(24, "Chorus"));
 
       for (int i = 0; i < numTracks; i++)
       {
@@ -123,6 +123,14 @@ public class DawProjectTest
       project.channels.get(0).destination = project.channels.get(1);
 
       return project;
+   }
+
+   public Marker createMarker(double time, String name)
+   {
+      final var markerEvent = new Marker();
+      markerEvent.time = time;
+      markerEvent.name = name;
+      return markerEvent;
    }
 
    @Test

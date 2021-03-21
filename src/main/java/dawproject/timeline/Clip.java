@@ -37,14 +37,10 @@ public class Clip
    @XmlElement
    public Loop loop = null;
 
-   @XmlElementRef
+   @XmlElementRef(required = false)
    public Timeline content;
 
-   @XmlAttribute
+   @XmlAttribute(required = false)
    @XmlIDREF
    public Timeline reference;
-
-   /** Markers describing a time-mapping of the content/reference. */
-   @XmlElement
-   public Warps warps;
 }

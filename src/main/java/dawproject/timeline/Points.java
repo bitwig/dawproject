@@ -10,11 +10,11 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 
 public class Points extends Timeline
 {
-   @XmlElementWrapper(name="points")
+   @XmlElementWrapper(name="points", required = true)
    @XmlElement(name="point", type = AutomationPoint.class)
    public List<AutomationPoint> points = new ArrayList<>();
 
    @XmlIDREF
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public Parameter parameter;
 }

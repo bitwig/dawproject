@@ -7,18 +7,18 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Audio extends Timeline
 {
    /** relative path to audio-file within the container */
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public String path;
 
-   /** duration in seconds of audio-file */
-   @XmlAttribute
+   /** duration in seconds/beats (timebase) of audio-file */
+   @XmlAttribute(required = true)
    public double duration;
 
    /** sample-rate of audio-file */
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public int samplerate;
 
    /** number of channels of audio-file (1=mono...) */
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public int channels;
 }

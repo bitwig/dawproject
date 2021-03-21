@@ -6,20 +6,12 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Marker
 {
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public double time;
 
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public String name;
 
-   @XmlAttribute
+   @XmlAttribute(required = false)
    public String color;
-
-   public static Marker create(double time, String name)
-   {
-      final var markerEvent = new Marker();
-      markerEvent.time = time;
-      markerEvent.name = name;
-      return markerEvent;
-   }
 }

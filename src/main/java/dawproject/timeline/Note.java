@@ -16,8 +16,9 @@ public class Note
    @XmlJavaTypeAdapter(DoubleAdapter.class)
    public Double duration;
 
-   @XmlAttribute
+   @XmlAttribute(required = false)
    public int channel;
+
    @XmlAttribute(required = true)
    public int key;
 

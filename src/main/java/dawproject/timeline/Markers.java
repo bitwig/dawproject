@@ -9,6 +9,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Markers extends Timeline
 {
-   @XmlElementRef
+   @XmlElementRef(required = true)
    public List<Marker> markers = new ArrayList<>();
 }

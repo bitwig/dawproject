@@ -9,6 +9,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Warps extends Timeline
 {
-   @XmlElementRef
+   @XmlElementRef(required = true)
    public List<Warp> events = new ArrayList<>();
+
+   @XmlElementRef(required = true)
+   public Timeline content;
 }
