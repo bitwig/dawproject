@@ -30,6 +30,9 @@ public class Channel extends Referencable
 
    public BoolParameter mute;
 
+   @XmlAttribute
+   public Boolean loaded;
+
    /** Output channel routing */
    @XmlIDREF
    @XmlAttribute()

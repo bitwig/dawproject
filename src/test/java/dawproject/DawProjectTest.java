@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import dawproject.device.Device;
 import dawproject.device.Vst3Plugin;
-import dawproject.timeline.AutomationPoint;
+import dawproject.timeline.RealPoint;
 import dawproject.timeline.Clip;
 import dawproject.timeline.Clips;
 import dawproject.timeline.Marker;
@@ -172,9 +172,9 @@ public class DawProjectTest
       return project;
    }
 
-   private AutomationPoint createPoint(final double time, final double value)
+   private RealPoint createPoint(final double time, final double value)
    {
-      final var point = new AutomationPoint();
+      final var point = new RealPoint();
       point.time = time;
       point.value = value;
       return point;

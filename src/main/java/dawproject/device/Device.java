@@ -4,6 +4,7 @@ import dawproject.Referencable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dawproject.Parameter;
@@ -44,5 +45,5 @@ public class Device extends Referencable
    /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
    @XmlElementWrapper(name="parameters")
    @XmlElement
-   public List<Parameter> automatedParameters;
+   public List<Parameter> automatedParameters = new ArrayList<>();
 }

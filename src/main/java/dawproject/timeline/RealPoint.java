@@ -4,7 +4,7 @@ import dawproject.DoubleAdapter;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-public class AutomationPoint
+public class RealPoint
 {
    @XmlJavaTypeAdapter(DoubleAdapter.class)
    @XmlAttribute(required = true)

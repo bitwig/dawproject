@@ -25,4 +25,7 @@ public class Track extends Referencable
    @XmlAttribute
    @XmlList
    public ContentType[] contentType;
+
+   @XmlAttribute
+   public Boolean loaded;
 }

@@ -16,8 +16,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Points extends Timeline
 {
    @XmlElementWrapper(name="points", required = true)
-   @XmlElement(name="point", type = AutomationPoint.class)
-   public List<AutomationPoint> points = new ArrayList<>();
+   @XmlElement(name="point", type = RealPoint.class)
+   public List<RealPoint> points = new ArrayList<>();
 
    @XmlIDREF
    @XmlAttribute(required = false)
