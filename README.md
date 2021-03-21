@@ -44,8 +44,6 @@ The format is being actively developed and will probably undergo structural chan
 * Container: ZIP
 * Format: XML (project.xml, metadata.xml)
 * Text encoding: UTF-8
-* Timebase
-  * beats (quarter-note) or seconds
   
 Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
 
@@ -64,26 +62,41 @@ For a future version a set of templates could be considered to cover the paramet
 
 ## Timeline data types
 
-### Root timeline
-Contains a list of lanes, which can be of any other timeline type. Also contains a list of markers. The project typically contains one root timeline which is the arrangement.
-### Track timeline
-Contains a reference to a single timeline of any type and a reference to a track.
-### Clip timeline
-Contains a list of clips, each one referencing a timeline.
-### Note timeline
+### General
+
+The timeline base-class has two attributes:
+
+* timebase: assign the content of this timeline to a specific timebase [beats or seconds] (optional) 
+* track: assign the content of this timeline to a specific track (optional)
+
+### Lanes
+Contains a list of lanes, which can be of any timeline type.
+### Markers
+Contains a list of cue markers.
+### Clips
+Contains a list of clips. 
+
+Each clip contains:
+* A timeline, or a reference to a timeline (to represent aliases).
+* A list of warps (optional)  
+
+### Warps
+Contains a list of warp-markers where. 
+This is normally used to represent time-warping of audio, where the "inside" of a clip has a different time-representation than the "outside". 
+
+### Notes
 Contains a list of notes.
-### Audio timeline
+
+### Audio
 Contains a reference to an audio file (embedded or referenced) and settings for how it is to be played back.
 
-Can contain, warp markers, expressions curves (pitch/formant/gain/pan), time-stretching settings and so on.
+### Video
 
-### Automation timeline
+Same as audio.
 
-Contains
-* a reference to a parameter to automate
-* the unit in which the data is defined
-* interpolation setting
-* a list of automation points
+### Points
+
+Contains a list of automation points along with a reference to the parameter being automated.
 
 ## Typical timeline structures
 
@@ -92,13 +105,24 @@ The choice is left to the importing application to either use the level of struc
 
 Some examples:
 
-**Note data**
-
-* rootTimeline / trackTimeline / clipTimeline / noteTimeline
+`
+Note Data
+<lanes>
+  <lanes track = "...">
+    <clips>
+      <clip time="8" duration="8" ...>
+        <notes>
+          <note time="3" key="55" ...>
+        </notes>
+      </clip>
+    </clips>
+  </lanes>
+</lanes>`
 
 **Audio data**
-* rootTimeline / trackTimeline / clipTimeline  / audioTimeline
-* rootTimeline / trackTimeline / clipTimeline  / clipTimeline  / audioTimeline  (if clip contains multiple events)
+
+* rootTimeline / trackTimeline / clipTimeline  / audioTimeline`
+`* rootTimeline / trackTimeline / clipTimeline  / clipTimeline  / audioTimeline  (if clip contains multiple events)`
 
 **Automation data**
 * rootTimeline / trackTimeline / automationTimeline
