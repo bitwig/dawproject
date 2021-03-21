@@ -105,33 +105,63 @@ The choice is left to the importing application to either use the level of struc
 
 Some examples (pseudo-xml):
 
-```
-<!-- Note Data -->
+```xml
+<!-- note data -->
 <lanes>
   <lanes track = "...">
     <clips>
-      <clip time="8" duration="8" ...>
-        <notes>
-          <note time="3" key="55" ...>
+      <!-- note clip -->
+      <clip time="8" duration="8" />
+        <notes id="5">
+          <note time="3" duration="0.5" key="55" vel="0.8" />
         </notes>
       </clip>
+
+      <!-- alias clip -->
+      <clip time="24" uration="8" reference="5"/>
     </clips>
   </lanes>
 </lanes>
 
-<!-- Audio Data -->
+<!-- audio data -->
 <lanes timebase="beats">
   <lanes track = "...">
     <clips>
-      <clip time="0" duration="8" timebase="seconds">
-        <audio path="samples/dummy.way" duration="4.657">
-        <warps>
-          <warp time="0" warped="0">
-          <warp time="8" warped="4.657">
-        <warps>        
+      
+      <!-- audio clip with un-warped audio  -->
+      <clip time="0" duration="4.657">
+        <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
+      </clip>
+      
+      <!-- audio clip with beats-to-seconds warping  -->
+      <clip time="0" duration="8">
+        <warps id = "5" timebase="seconds">
+          <audio path="samples/dummy.way" duration="4.657"/>
+          <warp time="0" warped="0"/>
+          <warp time="8" warped="4.657"/>
+        </warps>        
+      </clip>
+      
+      <!-- clip with nested audio clips -->
+      <clip time="24" duration="8">
+        <clips>
+          <clip time="0" duration="2">
+            <!-- clip content -->
+          </clip>
+        </clips>
+      </clip>
+
+      <!-- clip with local automation/expression -->
+      <clip time="24" duration="8">
+        <lanes>
+          <points parameter="...">
+            <point time="0" value="0.2"/>
+            <point time="20" value="0.7"/>
+          </points>
+          <audio/> <!-- clip content -->
+        </lanes>         
       </clip>
     </clips>
   </lanes>
 </lanes>
-
 ```
