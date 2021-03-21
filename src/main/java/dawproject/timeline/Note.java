@@ -2,6 +2,7 @@ package dawproject.timeline;
 
 import dawproject.DoubleAdapter;
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -29,4 +30,8 @@ public class Note
    @XmlAttribute(name = "rel")
    @XmlJavaTypeAdapter(DoubleAdapter.class)
    public Double releaseVelocity;
+
+   /** Per-note expressions can be stored within the note object as timelines. */
+   @XmlElementRef(required = false)
+   public Timeline content;
 }

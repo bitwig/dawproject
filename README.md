@@ -6,7 +6,7 @@ Open exchange format for user data between different Digital Audio Workstations 
 
 The .dawproject format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
-Currently, the choices available for this task is extremely limited. 
+Currently, the choices available for this task is extremely limited.
 Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than the DAW uses internally which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
 The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single .dawproject file.
@@ -44,7 +44,7 @@ The format is being actively developed and will probably undergo structural chan
 * Container: ZIP
 * Format: XML (project.xml, metadata.xml)
 * Text encoding: UTF-8
-  
+
 Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
 
 ## Tracks and Channels
@@ -66,7 +66,7 @@ For a future version a set of templates could be considered to cover the paramet
 
 The timeline base-class has two attributes:
 
-* timebase: assign the content of this timeline to a specific timebase [beats or seconds] (optional) 
+* timebase: assign the content of this timeline to a specific timebase [beats or seconds] (optional)
 * track: assign the content of this timeline to a specific track (optional)
 
 ### Lanes
@@ -77,12 +77,12 @@ Contains a list of cue markers.
 
 ### Clips
 Contains a list of clips.
-Each clip contains a timeline, or alternatively a reference to a timeline which can be used to represent aliases. 
+Each clip contains a timeline, or alternatively a reference to a timeline which can be used to represent aliases.
 
 ### Warps
-Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different timebase than the parent context.  
+Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different timebase than the parent context.
 
-This is typically used to represent time-warping of audio. 
+This is typically used to represent time-warping of audio.
 
 ### Notes
 Contains a list of notes.
@@ -98,18 +98,23 @@ Contains a list of automation points along with a reference to the parameter bei
 
 ## Typical timeline structures
 
-The exporting application is free to structure timelines in a way that fits its internal model. 
-The choice is left to the importing application to either use the level of structure provided (if applicable) or to flatten it. 
+The exporting application is free to structure timelines in a way that fits its internal model.
+The choice is left to the importing application to either use the level of structure provided (if applicable) or to flatten it.
 
 Some examples (pseudo-xml):
 
 ```xml
-<!-- note data -->
-<lanes>
-  <lanes track = "...">
-    <clips>
-      <!-- note clip -->
-      <clip time="8" duration="8" />
+<project>
+
+  <!-- .... -->
+
+  <lanes timebase="beats"> <!-- the arrangement -->
+
+    <!-- note track -->
+    <lanes track = "id of note track...">
+      <clips>
+        <!-- note clip -->
+        <clip time="8" duration="8" />
         <notes id="5">
           <note time="3" duration="0.5" key="55" vel="0.8" />
         </notes>
@@ -118,33 +123,39 @@ Some examples (pseudo-xml):
       <!-- alias clip -->
       <clip time="24" duration="8" reference="5"/>
     </clips>
+    <!-- track-level automation -->
+    <points parameter="id of parameter...">
+      <point time="0" value="0"/>
+      <point time="8" value="1.0"/>
+    </points>
   </lanes>
-</lanes>
 
-<!-- audio data -->
-<lanes timebase="beats">
-  <lanes track = "...">
+  <!-- audio track -->
+  <lanes track = "id of audio track...">
     <clips>
-      
+
       <!-- audio clip with un-warped audio  -->
       <clip time="0" duration="4.657">
         <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
       </clip>
-      
+
       <!-- audio clip with beats-to-seconds warping  -->
       <clip time="0" duration="8">
-        <warps id = "5" timebase="seconds">
+        <warps timebase="seconds">
           <audio path="samples/dummy.way" duration="4.657"/>
           <warp time="0" warped="0"/>
           <warp time="8" warped="4.657"/>
-        </warps>        
+        </warps>
       </clip>
-      
+
       <!-- clip with nested audio clips -->
       <clip time="24" duration="8">
         <clips>
-          <clip time="0" duration="2">
-            <!-- clip content -->
+          <clip time="0" duration="4.657">
+            <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
+          </clip>
+          <clip time="20" duration="4.657">
+            <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
           </clip>
         </clips>
       </clip>
@@ -152,14 +163,14 @@ Some examples (pseudo-xml):
       <!-- clip with local automation/expression -->
       <clip time="24" duration="8">
         <lanes>
-          <points parameter="...">
+          <points parameter="id of parameter...">
             <point time="0" value="0.2"/>
             <point time="20" value="0.7"/>
           </points>
           <audio/> <!-- clip content -->
-        </lanes>         
+        </lanes>
       </clip>
     </clips>
   </lanes>
-</lanes>
+</project>
 ```
