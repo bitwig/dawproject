@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 
 public class EqBand
 {
-   @XmlElement
+   @XmlElement(required = true)
    public RealParameter freq;
 
    @XmlElement

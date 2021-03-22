@@ -1,5 +1,6 @@
 package dawproject.device;
 
+import dawproject.BoolParameter;
 import dawproject.Referencable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -8,17 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dawproject.Parameter;
+import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
-@XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, BuiltinDevice.class, AuPlugin.class})
+@XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
 public class Device extends Referencable
 {
    /** this device is enabled (as in not bypassed) */
-   @XmlAttribute
-   public Boolean enabled = true;
+   @XmlElement
+   public BoolParameter enabled;
 
    @XmlAttribute
    public Boolean loaded = true;
@@ -43,7 +45,7 @@ public class Device extends Referencable
    public String state;
 
    /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
-   @XmlElementWrapper(name="parameters")
-   @XmlElement
+   @XmlElementWrapper(name="parameters", required = false)
+   @XmlElementRef
    public List<Parameter> automatedParameters = new ArrayList<>();
 }

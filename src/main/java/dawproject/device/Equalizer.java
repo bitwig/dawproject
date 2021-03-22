@@ -2,14 +2,21 @@ package dawproject.device;
 
 import java.util.List;
 
+import dawproject.RealParameter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class EqDevice extends BuiltinDevice
+public class Equalizer extends BuiltinDevice
 {
    @XmlElementWrapper(name="bands")
    @XmlElement(name="band")
    public List<EqBand> bands;
+
+   @XmlElement
+   public RealParameter inputGain;
+
+   @XmlElement
+   public RealParameter outputGain;
 }

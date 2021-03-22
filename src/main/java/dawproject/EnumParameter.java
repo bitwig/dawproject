@@ -1,7 +1,9 @@
 package dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class EnumParameter extends Parameter
 {
    @XmlAttribute

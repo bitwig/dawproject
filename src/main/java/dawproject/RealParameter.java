@@ -1,8 +1,10 @@
 package dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+@XmlRootElement
 public class RealParameter extends Parameter
 {
    @XmlAttribute

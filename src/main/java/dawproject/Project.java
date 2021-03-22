@@ -37,6 +37,6 @@ public class Project
    public Timeline arrangement;
 
    @XmlElementWrapper(name="scenes")
-   @XmlElement(name="scene", type = Timeline.class)
+   @XmlElementRef
    public List<Timeline> scenes = new ArrayList<>();
 }
