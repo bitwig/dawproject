@@ -39,19 +39,18 @@ public class DawProjectTest
 
    private Project createDummyProject(int numTracks, EnumSet<Features> features)
    {
+      Referencable.resetID();
       Project project = new Project();
 
       project.application.name = "Test";
       project.application.version = "1.0";
 
-      int ID = 0;
-
       Track masterTrack = new Track();
       project.tracks.add(masterTrack);
       masterTrack.name = "Master";
-      assignID(masterTrack);
 
       var masterChannel = new Channel();
+      project.channels.add(masterChannel);
       masterChannel.belongsToTrack = true;
       final var p3 = new RealParameter();
       p3.value = 1.0;
@@ -61,7 +60,6 @@ public class DawProjectTest
       p2.value = 0.0;
       p2.unit = Unit.linear;
       masterChannel.pan = p2;
-      assignID(masterChannel);
       masterChannel.role = ChannelRole.master;
       masterTrack.channel = masterChannel;
 
@@ -69,14 +67,12 @@ public class DawProjectTest
       {
          Device device = new Vst3Plugin();
          device.name = "Limiter";
-         assignID(device);
          //device.id = UUID.randomUUID().toString();
          device.state = "plugin-states/12323545.vstpreset";
          masterChannel.devices.add(device);
       }
 
       project.arrangement = new Arrangement();
-      assignID(project.arrangement);
       final var arrangementLanes = new Lanes();
       arrangementLanes.timebase = Timebase.beats;
       project.arrangement.content = arrangementLanes;
@@ -93,14 +89,12 @@ public class DawProjectTest
       {
          var track = new Track();
          project.tracks.add(track);
-         assignID(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
          track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
 
          var channel = new Channel();
          project.channels.add(channel);
-         assignID(channel);
          channel.belongsToTrack = true;
          final var p1 = new RealParameter();
          p1.value = 1.0;
@@ -115,14 +109,12 @@ public class DawProjectTest
          channel.role = ChannelRole.regular;
 
          final var trackLanes = new Lanes();
-         assignID(trackLanes);
          trackLanes.track = track;
          arrangementLanes.lanes.add(trackLanes);
 
          if (features.contains(Features.CLIPS))
          {
             final var clips = new Clips();
-            assignID(clips);
 
             trackLanes.lanes.add(clips);
 
@@ -133,7 +125,6 @@ public class DawProjectTest
             clips.clips.add(clip);
 
             final var notes = new Notes();
-            assignID(notes);
             clip.content = notes;
 
             for (int j = 0; j < 8; j++)
@@ -160,7 +151,6 @@ public class DawProjectTest
             if (i == 0 && features.contains(Features.AUTOMATION))
             {
                final var points = new Points();
-               assignID(points);
                points.parameter = channel.volume;
                trackLanes.lanes.add(points);
 
@@ -203,7 +193,6 @@ public class DawProjectTest
       DawProject.saveXML(project, new File("target/test.dawproject.xml"));
    }
 
-   @Ignore
    @Test
    public void validateDawProject() throws IOException
    {
@@ -284,10 +273,4 @@ public class DawProjectTest
       Assert.assertEquals(1380652, data.length);
    }
 
-   private void assignID(final Referencable r)
-   {
-      r.id = "id" + (ID++);
-   }
-
-   int ID = 1;
 }

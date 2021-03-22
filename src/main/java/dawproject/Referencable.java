@@ -10,5 +10,18 @@ public class Referencable extends Nameable
 {
    @XmlAttribute
    @XmlID()
-   public String id = "";
+   public final String id;
+
+   public Referencable()
+   {
+      this.id = "id" + (ID++);
+   }
+
+   public static int ID = 0;
+
+   /** call before export */
+   public static void resetID()
+   {
+      ID = 0;
+   }
 }
