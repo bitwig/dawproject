@@ -7,5 +7,6 @@ public class Transport
    @XmlElement
    public RealParameter tempo;
 
-   public TimeSignature signature = new TimeSignature();
+   @XmlElement
+   public TimeSignatureParameter timeSignature;
 }

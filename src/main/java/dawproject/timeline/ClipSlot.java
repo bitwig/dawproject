@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class ClipSlot extends Timeline
 {
    @XmlAttribute
-   public Boolean hasStopButton;
+   public Boolean hasStop;
 
    @XmlElementRef
    public Clip clip;
