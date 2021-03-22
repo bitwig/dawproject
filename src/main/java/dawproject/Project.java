@@ -16,14 +16,16 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({Device.class, Timeline.class})
 public class Project
 {
+   public static String CURRENT_VERSION = "0.1";
+
+   @XmlAttribute(required = true)
+   public String version = CURRENT_VERSION;
+
+   @XmlElement(required = true)
+   public Application application = new Application();
+
    @XmlElement
    public Transport transport;
-
-   @XmlAttribute
-   public String application;
-
-   @XmlAttribute
-   public String version;
 
    @XmlElementWrapper(name="tracks")
    @XmlElement(name="track", type = Track.class)
