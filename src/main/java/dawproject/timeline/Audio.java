@@ -21,4 +21,8 @@ public class Audio extends Timeline
    /** number of channels of audio-file (1=mono...) */
    @XmlAttribute(required = true)
    public int channels;
+
+   /** Playback algorithm used to warp audio (vendor-specific) */
+   @XmlAttribute(required = false)
+   public String algorithm;
 }
