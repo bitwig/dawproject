@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dawproject.ExpressionType;
+import dawproject.Interpolation;
 import dawproject.Parameter;
 import dawproject.Unit;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -28,4 +29,7 @@ public class Points extends Timeline
 
    @XmlAttribute(required = false)
    public Unit unit;
+
+   @XmlAttribute(required = false)
+   public Interpolation interpolation;
 }
