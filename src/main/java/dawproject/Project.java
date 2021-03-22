@@ -33,10 +33,10 @@ public class Project
    @XmlElement(name="channel", type = Channel.class)
    public List<Channel> channels = new ArrayList<>();
 
-   @XmlElementRef(name="arrangement", type = Timeline.class)
-   public Timeline arrangement;
+   @XmlElementRef(name="arrangement", type = Arrangement.class, required = false)
+   public Arrangement arrangement;
 
    @XmlElementWrapper(name="scenes")
    @XmlElementRef
-   public List<Timeline> scenes = new ArrayList<>();
+   public List<Scene> scenes = new ArrayList<>();
 }

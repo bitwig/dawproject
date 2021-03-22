@@ -72,14 +72,16 @@ public class DawProjectTest
          masterChannel.devices.add(device);
       }
 
-      final var arrangement = new Lanes();
-      arrangement.timebase = Timebase.beats;
-      project.arrangement = arrangement;
+      project.arrangement = new Arrangement();
+      assignID(project.arrangement);
+      final var arrangementLanes = new Lanes();
+      arrangementLanes.timebase = Timebase.beats;
+      project.arrangement.content = arrangementLanes;
 
       if (features.contains(Features.CUE_MARKERS))
       {
          final var cueMarkers = new Markers();
-         arrangement.lanes.add(cueMarkers);
+         arrangementLanes.lanes.add(cueMarkers);
          cueMarkers.markers.add(createMarker(0, "Verse"));
          cueMarkers.markers.add(createMarker(24, "Chorus"));
       }
@@ -112,7 +114,7 @@ public class DawProjectTest
          final var trackLanes = new Lanes();
          assignID(trackLanes);
          trackLanes.track = track;
-         arrangement.lanes.add(trackLanes);
+         arrangementLanes.lanes.add(trackLanes);
 
          if (features.contains(Features.CLIPS))
          {
