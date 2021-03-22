@@ -1,13 +1,17 @@
 package dawproject;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -19,6 +23,7 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.SchemaOutputResolver;
+import org.xml.sax.SAXException;
 
 public class DawProject
 {
@@ -102,6 +107,35 @@ public class DawProject
       FileOutputStream fileOutputStream = new FileOutputStream(file);
       fileOutputStream.write(projectXML.getBytes(StandardCharsets.UTF_8));
       fileOutputStream.close();
+   }
+
+   public static void validate(Project project) throws IOException
+   {
+      String projectXML = toXML(project);
+
+      try
+      {
+         var context = createContext(Project.class);
+
+         final var schemaFile = File.createTempFile("schema", ".xml");
+         exportSchema(schemaFile, Project.class);
+
+         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+         Schema schema = sf.newSchema(schemaFile);
+
+         final var unmarshaller = context.createUnmarshaller();
+         unmarshaller.setSchema(schema);
+
+         unmarshaller.unmarshal(new StringReader(projectXML));
+      }
+      catch (JAXBException e)
+      {
+         throw new IOException(e);
+      }
+      catch (SAXException e)
+      {
+         throw new IOException(e);
+      }
    }
 
    public static void save(Project project, Metadata metadata, Map<File, String> embeddedFiles, File file) throws IOException

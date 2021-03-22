@@ -41,6 +41,9 @@ public class DawProjectTest
    {
       Project project = new Project();
 
+      project.application.name = "Test";
+      project.application.version = "1.0";
+
       int ID = 0;
 
       Track masterTrack = new Track();
@@ -169,7 +172,7 @@ public class DawProjectTest
       }
 
       // Route channel 0 to 1
-      project.channels.get(0).destination = project.channels.get(1);
+      //project.channels.get(0).destination = project.channels.get(1);
 
       return project;
    }
@@ -198,6 +201,14 @@ public class DawProjectTest
 
       DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
       DawProject.saveXML(project, new File("target/test.dawproject.xml"));
+   }
+
+   @Ignore
+   @Test
+   public void validateDawProject() throws IOException
+   {
+      Project project = createDummyProject(3, simpleFeatures);
+      DawProject.validate(project);
    }
 
    @Test
@@ -275,7 +286,7 @@ public class DawProjectTest
 
    private void assignID(final Referencable r)
    {
-      r.id = Integer.toString(ID++);
+      r.id = "id" + (ID++);
    }
 
    int ID = 1;
