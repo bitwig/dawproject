@@ -2,7 +2,7 @@ package dawproject;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "Metadata")
+@XmlRootElement
 public class Metadata
 {
    public String title;
