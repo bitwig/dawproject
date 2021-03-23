@@ -4,7 +4,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
-@XmlSeeAlso({Track.class, FolderTrack.class, GroupTrack.class})
-public abstract class AbstractTrack extends Referencable
+@XmlSeeAlso({Track.class, FolderTrack.class})
+public abstract class TrackOrFolder extends Referencable
 {
 }

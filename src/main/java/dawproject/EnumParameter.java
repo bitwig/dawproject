@@ -1,6 +1,7 @@
 package dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement

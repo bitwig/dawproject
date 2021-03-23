@@ -14,7 +14,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Represents a sequencer track and/or mixer channel.  */
 @XmlRootElement
-public class Track extends AbstractTrack
+public class Track extends TrackOrFolder
 {
    /** Role of this track in timelines & arranger.
     * An empty list implies this track is hidden in the arranger.

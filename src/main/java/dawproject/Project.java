@@ -29,7 +29,7 @@ public class Project
 
    @XmlElementWrapper(name="tracks")
    @XmlElementRef
-   public List<AbstractTrack> tracks = new ArrayList<>();
+   public List<TrackOrFolder> tracks = new ArrayList<>();
 
    @XmlElementRef(name="arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;
