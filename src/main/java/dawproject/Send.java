@@ -18,5 +18,5 @@ public class Send extends RealParameter
 
    @XmlAttribute
    @XmlIDREF
-   public Channel destination;
+   public Track destination;
 }

@@ -28,12 +28,8 @@ public class Project
    public Transport transport;
 
    @XmlElementWrapper(name="tracks")
-   @XmlElement(name="track", type = Track.class)
-   public List<Track> tracks = new ArrayList<>();
-
-   @XmlElementWrapper(name="channels")
-   @XmlElement(name="channel", type = Channel.class)
-   public List<Channel> channels = new ArrayList<>();
+   @XmlElementRef
+   public List<AbstractTrack> tracks = new ArrayList<>();
 
    @XmlElementRef(name="arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;

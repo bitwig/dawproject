@@ -3,9 +3,11 @@ package dawproject;
 import jakarta.xml.bind.annotation.XmlEnum;
 
 @XmlEnum
-public enum ContentType
+public enum TimelineRole
 {
    audio,
+   automation,
    notes,
-   video
+   video,
+   markers,
 }

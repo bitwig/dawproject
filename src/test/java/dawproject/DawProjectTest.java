@@ -3,6 +3,7 @@ package dawproject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 
@@ -49,19 +50,15 @@ public class DawProjectTest
       project.tracks.add(masterTrack);
       masterTrack.name = "Master";
 
-      var masterChannel = new Channel();
-      project.channels.add(masterChannel);
-      masterChannel.belongsToTrack = true;
       final var p3 = new RealParameter();
       p3.value = 1.0;
       p3.unit = Unit.linear;
-      masterChannel.volume = p3;
+      masterTrack.volume = p3;
       final var p2 = new RealParameter();
       p2.value = 0.0;
       p2.unit = Unit.linear;
-      masterChannel.pan = p2;
-      masterChannel.role = ChannelRole.master;
-      masterTrack.channel = masterChannel;
+      masterTrack.pan = p2;
+      masterTrack.mixerRole = MixerRole.master;
 
       if (features.contains(Features.PLUGINS))
       {
@@ -69,7 +66,11 @@ public class DawProjectTest
          device.name = "Limiter";
          //device.id = UUID.randomUUID().toString();
          device.state = "plugin-states/12323545.vstpreset";
-         masterChannel.devices.add(device);
+
+         if (masterTrack.devices == null)
+            masterTrack.devices = new ArrayList<>();
+
+         masterTrack.devices.add(device);
       }
 
       project.arrangement = new Arrangement();
@@ -91,11 +92,9 @@ public class DawProjectTest
          project.tracks.add(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
-         track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
+         track.timelineRole = new TimelineRole[]{TimelineRole.notes, TimelineRole.audio};
 
-         var channel = new Channel();
-         project.channels.add(channel);
-         channel.belongsToTrack = true;
+         var channel = track;
          final var p1 = new RealParameter();
          p1.value = 1.0;
          p1.unit = Unit.linear;
@@ -104,9 +103,8 @@ public class DawProjectTest
          p.value = 0.0;
          p.unit = Unit.linear;
          channel.pan = p;
-         track.channel = channel;
-         channel.destination = masterChannel;
-         channel.role = ChannelRole.regular;
+         channel.destination = masterTrack;
+         channel.mixerRole = MixerRole.regular;
 
          final var trackLanes = new Lanes();
          trackLanes.track = track;
@@ -212,7 +210,7 @@ public class DawProjectTest
       final var loadedProject = DawProject.loadProject(file);
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
-      Assert.assertEquals(project.channels.size(), loadedProject.channels.size());
+      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
 
@@ -238,7 +236,7 @@ public class DawProjectTest
       final var loadedProject = DawProject.loadProject(file);
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
-      Assert.assertEquals(project.channels.size(), loadedProject.channels.size());
+      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
 

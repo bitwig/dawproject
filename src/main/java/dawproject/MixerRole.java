@@ -4,9 +4,11 @@ import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 @XmlEnum
-public enum ChannelRole
+public enum MixerRole
 {
    @XmlEnumValue("regular") regular,
-   @XmlEnumValue("return") returnTrack,
    @XmlEnumValue("master") master,
+   @XmlEnumValue("return") returnTrack,
+   @XmlEnumValue("aux") aux,
+   @XmlEnumValue("vca") vca,
 }
