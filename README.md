@@ -25,7 +25,7 @@ The format is being actively developed and will probably undergo structural chan
   * Audio data (embedded or referenced)
   * Plug-in states (always embedded)
 * The format should be able to preserve as much user created data as feasible.
-* The format should be able to express the timeline structure of the exporting DAW as is, leaving it up to the importer to use this data and flatten it as needed.
+* The format should be able to express the track and timeline structures of the exporting DAW as is, leaving it up to the importer to use this data and flatten it as needed.
 * Simple to implement
 * Built upon established open standards
 * Language agnostic, no special dependencies
@@ -46,14 +46,6 @@ The format is being actively developed and will probably undergo structural chan
 * Text encoding: UTF-8
 
 Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
-
-## Tracks and Channels
-
-Some DAWs treat these as separate entities and some do not, so in order to express the structure of all products, they have been exposed as separate entities.
-Track represents the sequencer part, what holds timeline data.
-Channel represents the mixing part, and holds settings for mixing, instruments & effects, routing and so on.
-
-A Track will have a routing to a single Channel. A property *belongsToTrack* defines if there’s a 1-to-1 mapping between a channel and the track sending to it.
 
 ## Devices / Plug-ins
 Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset) inside the container and referenced using paths.
