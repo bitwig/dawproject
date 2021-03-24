@@ -9,7 +9,7 @@ public class Marker
    @XmlAttribute(required = true)
    public double time;
 
-   @XmlAttribute(required = true)
+   @XmlAttribute(required = false)
    public String name;
 
    @XmlAttribute(required = false)
