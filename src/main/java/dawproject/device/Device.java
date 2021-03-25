@@ -1,6 +1,7 @@
 package dawproject.device;
 
 import dawproject.BoolParameter;
+import dawproject.FileReference;
 import dawproject.Referencable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -40,9 +41,9 @@ public class Device extends Referencable
    @XmlAttribute
    public String deviceVendor;
 
-   /** Relative path to a file representing the device / plug-in state in its native format */
-   @XmlAttribute
-   public String state;
+   /** Path to a file representing the device / plug-in state in its native format */
+   @XmlElement(required = false)
+   public FileReference state;
 
    /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
    @XmlElementWrapper(name="parameters", required = false)

@@ -1,14 +1,15 @@
 package dawproject.timeline;
 
+import dawproject.FileReference;
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Audio extends Timeline
 {
-   /** relative path to audio-file within the container */
-   @XmlAttribute(required = true)
-   public String path;
+   @XmlElement(required = true)
+   public FileReference file = new FileReference();
 
    /** duration in seconds/beats (timebase) of audio-file */
    @XmlAttribute(required = true)

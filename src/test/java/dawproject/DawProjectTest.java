@@ -65,7 +65,8 @@ public class DawProjectTest
          Device device = new Vst3Plugin();
          device.name = "Limiter";
          //device.id = UUID.randomUUID().toString();
-         device.state = "plugin-states/12323545.vstpreset";
+         device.state = new FileReference();
+         device.state.path = "plugin-states/12323545.vstpreset";
 
          if (masterTrack.devices == null)
             masterTrack.devices = new ArrayList<>();
