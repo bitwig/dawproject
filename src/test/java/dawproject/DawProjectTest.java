@@ -149,7 +149,7 @@ public class DawProjectTest
             if (i == 0 && features.contains(Features.AUTOMATION))
             {
                final var points = new Points();
-               points.parameter = channel.volume;
+               points.target.parameter = channel.volume;
                trackLanes.lanes.add(points);
 
                // fade-in over 8 quarter notes

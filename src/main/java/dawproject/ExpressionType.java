@@ -4,8 +4,15 @@ public enum ExpressionType
 {
    gain,
    pan,
-   tranpose,
+   transpose,
    timbre,
    formant,
-   pressure
+   pressure,
+
+   // MIDI
+   channelController,
+   channelPressure,
+   polyPressure,
+   pitchBend,
+   programChange,
 }
