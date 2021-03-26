@@ -1,6 +1,8 @@
 package com.bitwig.dawproject.device;
 
+import com.bitwig.dawproject.BoolParameter;
 import com.bitwig.dawproject.RealParameter;
+import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
 public class EqBand
@@ -15,5 +17,11 @@ public class EqBand
    public RealParameter Q;
 
    @XmlElement
-   public EqBandType type = EqBandType.peak;
+   public BoolParameter enabled;
+
+   @XmlAttribute
+   public EqBandType type = EqBandType.bell;
+
+   @XmlAttribute
+   public Integer order;
 }

@@ -5,9 +5,11 @@ import jakarta.xml.bind.annotation.XmlEnum;
 @XmlEnum
 public enum EqBandType
 {
-   peak,
-   lowCut,
-   highCut,
+   highPass,
+   lowPass,
+   bandPass,
+   highShelf,
    lowShelf,
-   highShelf
+   bell,
+   notch,
 }

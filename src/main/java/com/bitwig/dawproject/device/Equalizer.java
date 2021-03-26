@@ -1,5 +1,6 @@
 package com.bitwig.dawproject.device;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bitwig.dawproject.RealParameter;
@@ -12,7 +13,7 @@ public class Equalizer extends BuiltinDevice
 {
    @XmlElementWrapper(name="bands")
    @XmlElement(name="band")
-   public List<EqBand> bands;
+   public List<EqBand> bands = new ArrayList<>();
 
    @XmlElement
    public RealParameter inputGain;
