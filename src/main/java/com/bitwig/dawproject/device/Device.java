@@ -27,7 +27,7 @@ public class Device extends Referencable
    public Boolean loaded = true;
 
    /** Name of the device/plugin */
-   @XmlAttribute
+   @XmlAttribute(required = true)
    public String deviceName;
 
    /** Unique identifier of device/plug-in
