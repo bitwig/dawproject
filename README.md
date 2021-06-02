@@ -1,19 +1,19 @@
 # .dawproject
 
-Open exchange format for user data between different Digital Audio Workstations (DAWs)
+Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 ## Motivation
 
 The .dawproject format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
-Currently, the choices available for this task is extremely limited.
+Currently, the choices available for this task is rather limited.
 Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than the DAW uses internally which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
 The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single .dawproject file.
 
 ## Status
 
-The format is being actively developed and will probably undergo structural changes
+The format is being actively developed and will still undergo structural changes. 
 
 ## Goals
 
@@ -37,6 +37,22 @@ The format is being actively developed and will probably undergo structural chan
 * Optimal performance (like a binary format could provide)
 * Adopting limitations from MIDI
 * Storing non-session data (view settings, preferences)
+
+## Enable experimental support in Bitwig Studio (4.0 Beta 1 or later)
+
+Create a file named config.json with the following content inside you user settings directory.
+
+```json
+dawproject : true
+```
+
+The user settings directory is different on each platform
+
+* Windows: %LOCALAPPDATA%/Bitwig Studio
+* Mac: Library/Application Support/Bitwig/Bitwig Studio
+* Linux: ~/.BitwigStudio
+
+This will add an "Export Project..." entry in the FILE menu and allow .dawproject files to be opened.   
 
 ## Structure
 
