@@ -144,13 +144,13 @@ Some examples (pseudo-xml):
 
       <!-- audio clip with un-warped audio  -->
       <clip time="0" duration="4.657">
-        <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
+        <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
       </clip>
 
       <!-- audio clip with beats-to-seconds warping  -->
       <clip time="0" duration="8">
         <warps timebase="seconds">
-          <audio path="samples/dummy.way" duration="4.657"/>
+          <audio path="samples/dummy.wav" duration="4.657"/>
           <warp time="0" warped="0"/>
           <warp time="8" warped="4.657"/>
         </warps>
@@ -160,10 +160,10 @@ Some examples (pseudo-xml):
       <clip time="24" duration="8">
         <clips>
           <clip time="0" duration="4.657">
-            <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
+            <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
           </clip>
           <clip time="20" duration="4.657">
-            <audio path="samples/dummy.way" duration="4.657" timebase="seconds"/>
+            <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
           </clip>
         </clips>
       </clip>
