@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.bitwig.dawproject.device.Device;
 import com.bitwig.dawproject.device.Vst3Plugin;
@@ -38,15 +39,15 @@ public class DawProjectTest
 
    EnumSet<Features> simpleFeatures = EnumSet.of(Features.CLIPS, Features.NOTES, Features.AUDIO);
 
-   private Project createDummyProject(int numTracks, EnumSet<Features> features)
+   private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
    {
       Referencable.resetID();
-      Project project = new Project();
+      final Project project = new Project();
 
       project.application.name = "Test";
       project.application.version = "1.0";
 
-      Track masterTrack = new Track();
+      final Track masterTrack = new Track();
       project.tracks.add(masterTrack);
       masterTrack.name = "Master";
 
@@ -62,7 +63,7 @@ public class DawProjectTest
 
       if (features.contains(Features.PLUGINS))
       {
-         Device device = new Vst3Plugin();
+         final Device device = new Vst3Plugin();
          device.name = "Limiter";
          //device.id = UUID.randomUUID().toString();
          device.state = new FileReference();
@@ -89,13 +90,13 @@ public class DawProjectTest
 
       for (int i = 0; i < numTracks; i++)
       {
-         var track = new Track();
+         final var track = new Track();
          project.tracks.add(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
          track.timelineRole = new TimelineRole[]{TimelineRole.notes, TimelineRole.audio};
 
-         var channel = track;
+         final var channel = track;
          final var p1 = new RealParameter();
          p1.value = 1.0;
          p1.unit = Unit.linear;
@@ -174,7 +175,7 @@ public class DawProjectTest
       return point;
    }
 
-   public Marker createMarker(double time, String name)
+   public Marker createMarker(final double time, final String name)
    {
       final var markerEvent = new Marker();
       markerEvent.time = time;
@@ -185,28 +186,30 @@ public class DawProjectTest
    @Test
    public void saveDawProject() throws IOException
    {
-      Project project = createDummyProject(3, simpleFeatures);
-      Metadata metadata = new Metadata();
+      final Project project = createDummyProject(3, simpleFeatures);
+      final Metadata metadata = new Metadata();
 
-      DawProject.save(project, metadata, new HashMap(), new File("target/test.dawproject"));
+      final Map<File, String> embeddedFiles = new HashMap<>();
+      DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
       DawProject.saveXML(project, new File("target/test.dawproject.xml"));
    }
 
    @Test
    public void validateDawProject() throws IOException
    {
-      Project project = createDummyProject(3, simpleFeatures);
+      final Project project = createDummyProject(3, simpleFeatures);
       DawProject.validate(project);
    }
 
    @Test
    public void saveAndLoadDawProject() throws IOException
    {
-      Project project = createDummyProject(5, simpleFeatures);
-      Metadata metadata = new Metadata();
+      final Project project = createDummyProject(5, simpleFeatures);
+      final Metadata metadata = new Metadata();
 
       final var file = File.createTempFile("testfile", ".dawproject");
-      DawProject.save(project, metadata, new HashMap(), file);
+      final Map<File, String> embeddedFiles = new HashMap<>();
+      DawProject.save(project, metadata, embeddedFiles, file);
 
       final var loadedProject = DawProject.loadProject(file);
 
@@ -218,21 +221,23 @@ public class DawProjectTest
    @Test
    public void saveComplexDawProject() throws IOException
    {
-      Project project = createDummyProject(3, EnumSet.allOf(Features.class));
-      Metadata metadata = new Metadata();
+      final Project project = createDummyProject(3, EnumSet.allOf(Features.class));
+      final Metadata metadata = new Metadata();
 
-      DawProject.save(project, metadata, new HashMap(), new File("target/test-complex.dawproject"));
+      final Map<File, String> embeddedFiles = new HashMap<>();
+      DawProject.save(project, metadata, embeddedFiles, new File("target/test-complex.dawproject"));
       DawProject.saveXML(project, new File("target/test-complex.dawproject.xml"));
    }
 
    @Test
    public void saveAndLoadComplexDawProject() throws IOException
    {
-      Project project = createDummyProject(5, EnumSet.allOf(Features.class));
-      Metadata metadata = new Metadata();
+      final Project project = createDummyProject(5, EnumSet.allOf(Features.class));
+      final Metadata metadata = new Metadata();
 
+      final Map<File, String> embeddedFiles = new HashMap<>();
       final var file = File.createTempFile("testfile2", ".dawproject");
-      DawProject.save(project, metadata, new HashMap(), file);
+      DawProject.save(project, metadata, embeddedFiles, file);
 
       final var loadedProject = DawProject.loadProject(file);
 
@@ -257,17 +262,17 @@ public class DawProjectTest
    @Test
    public void loadEmbeddedFile() throws IOException
    {
-      File file = new File("src/test-data/0.1/bitwig/test3x.dawproject");
+      final File file = new File("src/test-data/0.1/bitwig/test3x.dawproject");
       Assert.assertTrue(file.exists());
       Assert.assertTrue(file.isFile());
 
       // try reading project first
-      Project project = DawProject.loadProject(file);
+      final Project project = DawProject.loadProject(file);
       Assert.assertNotNull(project);
 
-      InputStream inputStream = DawProject.streamEmbedded(file, "samples/RC 08 92bpm Break Sp1200.wav");
+      final InputStream inputStream = DawProject.streamEmbedded(file, "samples/RC 08 92bpm Break Sp1200.wav");
 
-      byte[] data = inputStream.readAllBytes();
+      final byte[] data = inputStream.readAllBytes();
 
       Assert.assertEquals(1380652, data.length);
    }

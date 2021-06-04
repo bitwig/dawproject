@@ -19,7 +19,7 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class LoadDawProjectTest
 {
-   public LoadDawProjectTest(final File file, final Object name)
+   public LoadDawProjectTest(final File file, @SuppressWarnings("unused") final Object name)
    {
       mFile = file;
    }
@@ -29,40 +29,40 @@ public class LoadDawProjectTest
    {
       final List<Object[]> result = new ArrayList<>();
 
-      File testDataDir = new File("src/test-data");
+      final File testDataDir = new File("src/test-data");
 
       if (testDataDir != null && testDataDir.isDirectory())
       {
-         Path rootPath = testDataDir.toPath();
-         Files.walkFileTree(rootPath, new FileVisitor<Path>()
+         final Path rootPath = testDataDir.toPath();
+         Files.walkFileTree(rootPath, new FileVisitor<>()
          {
             @Override
-            public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException
+            public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs)
             {
                return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult visitFile(final Path path, final BasicFileAttributes attrs) throws IOException
+            public FileVisitResult visitFile(final Path path, final BasicFileAttributes attrs)
             {
-               File file = path.toFile();
+               final File file = path.toFile();
 
                if (file.getAbsolutePath().toLowerCase().endsWith("." + DawProject.FILE_EXTENSION))
                {
-                  Object[] args = {file, rootPath.relativize(path).toString()};
+                  final Object[] args = {file, rootPath.relativize(path).toString()};
                   result.add(args);
                }
                return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult visitFileFailed(final Path file, final IOException exc) throws IOException
+            public FileVisitResult visitFileFailed(final Path file, final IOException exc)
             {
                return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc)
             {
                return FileVisitResult.CONTINUE;
             }
@@ -75,14 +75,14 @@ public class LoadDawProjectTest
    @Test
    public void loadProject() throws IOException
    {
-      Project project = DawProject.loadProject(mFile);
+      final Project project = DawProject.loadProject(mFile);
       Assert.assertNotNull(project);
    }
 
    @Test
    public void loadMetadata() throws IOException
    {
-      Metadata metadata = DawProject.loadMetadata(mFile);
+      final Metadata metadata = DawProject.loadMetadata(mFile);
       Assert.assertNotNull(metadata);
    }
 
