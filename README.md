@@ -6,8 +6,8 @@ Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 The .dawproject format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
-Currently, the choices available for this task is rather limited.
-Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than the DAW uses internally which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
+Currently, the choices available for this task are rather limited.
+Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
 The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single .dawproject file.
 
