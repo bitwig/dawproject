@@ -214,7 +214,6 @@ public class DawProjectTest
       final var loadedProject = DawProject.loadProject(file);
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
-      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
 
@@ -241,7 +240,6 @@ public class DawProjectTest
 
       final var loadedProject = DawProject.loadProject(file);
 
-      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
