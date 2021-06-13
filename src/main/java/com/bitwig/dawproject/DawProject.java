@@ -91,7 +91,7 @@ public class DawProject
 
          final var unmarshaller = jaxbContext.createUnmarshaller();
 
-         final var object = (T)unmarshaller.unmarshal(reader);
+         final var object = cls.cast (unmarshaller.unmarshal(reader));
 
          return object;
       }
@@ -175,15 +175,15 @@ public class DawProject
       final ZipEntry entry = new ZipEntry(path);
       zos.putNextEntry(entry);
 
-      FileInputStream fileInputStream = new FileInputStream(file);
-
-      byte[] data = new byte[65536];
-      int size = 0;
-      while((size = fileInputStream.read(data)) != -1)
-         zos.write(data, 0, size);
-
-      zos.flush();
-      fileInputStream.close();
+      try (FileInputStream fileInputStream = new FileInputStream(file))
+      {
+          byte[] data = new byte[65536];
+          int size = 0;
+          while((size = fileInputStream.read(data)) != -1)
+             zos.write(data, 0, size);
+    
+          zos.flush();
+      }
 
       zos.closeEntry();
    }
@@ -194,7 +194,7 @@ public class DawProject
 
       ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
 
-      Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry)), Project.class);
+      Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry), StandardCharsets.UTF_8), Project.class);
 
       zipFile.close();
 
@@ -207,7 +207,7 @@ public class DawProject
 
       ZipEntry entry = zipFile.getEntry(METADATA_FILE);
 
-      Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry)), Metadata.class);
+      Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry), StandardCharsets.UTF_8), Metadata.class);
 
       zipFile.close();
 
