@@ -43,7 +43,9 @@ The format is being actively developed and will still undergo structural changes
 Create a file named config.json with the following content inside you user settings directory.
 
 ```json
-dawproject : true
+{
+  "dawproject": true
+}
 ```
 
 The user settings directory is different on each platform
