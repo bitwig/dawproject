@@ -2,9 +2,11 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
+@XmlSeeAlso()
 public class RealParameter extends Parameter
 {
    @XmlAttribute
