@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
-@XmlSeeAlso()
+@XmlSeeAlso({Unit.class})
 public class RealParameter extends Parameter
 {
    @XmlAttribute
