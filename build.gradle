@@ -18,7 +18,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-group = 'com.bitwig'
+group = 'com.bitwig.open'
 version = '1-SNAPSHOT'
 description = 'dawproject file format'
 java.sourceCompatibility = JavaVersion.VERSION_12
