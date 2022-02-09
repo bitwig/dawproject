@@ -14,7 +14,7 @@ public class RealParameter extends Parameter
    public Double value;
 
    @XmlAttribute(required = true)
-   public Unit unit = Unit.linear;
+   public Unit unit;
 
    @XmlAttribute
    @XmlJavaTypeAdapter(DoubleAdapter.class)
