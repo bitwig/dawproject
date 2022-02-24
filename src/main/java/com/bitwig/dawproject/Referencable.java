@@ -14,7 +14,7 @@ public class Referencable extends Nameable
 
    public Referencable()
    {
-      this.id = "id" + (ID++);
+      this.id = "" + (ID++);
    }
 
    public static int ID = 0;
