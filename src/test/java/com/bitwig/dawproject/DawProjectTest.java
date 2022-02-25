@@ -249,6 +249,8 @@ public class DawProjectTest
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
+      Assert.assertEquals(project.arrangement.content.getClass(), loadedProject.arrangement.content.getClass());
+      Assert.assertEquals(project.arrangement.markers.getClass(), loadedProject.arrangement.markers.getClass());
    }
 
    @Test
