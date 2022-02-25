@@ -41,7 +41,7 @@ public class DawProjectTest
 
    private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
    {
-      Referencable.resetID();
+      Referenceable.resetID();
       final Project project = new Project();
 
       project.application.name = "Test";
