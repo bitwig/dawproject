@@ -64,7 +64,7 @@ public class DawProjectTest
       if (features.contains(Features.PLUGINS))
       {
          final Device device = new Vst3Plugin();
-         device.name = "Limiter";
+         device.deviceName = "Limiter";
          //device.id = UUID.randomUUID().toString();
          device.state = new FileReference();
          device.state.path = "plugin-states/12323545.vstpreset";
@@ -83,7 +83,7 @@ public class DawProjectTest
       if (features.contains(Features.CUE_MARKERS))
       {
          final var cueMarkers = new Markers();
-         arrangementLanes.lanes.add(cueMarkers);
+         project.arrangement.markers = cueMarkers;
          cueMarkers.markers.add(createMarker(0, "Verse"));
          cueMarkers.markers.add(createMarker(24, "Chorus"));
       }
@@ -198,6 +198,13 @@ public class DawProjectTest
    public void validateDawProject() throws IOException
    {
       final Project project = createDummyProject(3, simpleFeatures);
+      DawProject.validate(project);
+   }
+
+   @Test
+   public void validateComplexDawProject() throws IOException
+   {
+      final Project project = createDummyProject(3, EnumSet.allOf(Features.class));
       DawProject.validate(project);
    }
 
