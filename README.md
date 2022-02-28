@@ -116,69 +116,73 @@ Some examples (pseudo-xml):
 
   <!-- .... -->
 
-  <lanes timebase="beats"> <!-- the arrangement -->
-
-    <!-- note track -->
-    <lanes track = "id of note track...">
-      <clips>
-        <!-- note clip -->
-        <clip time="8" duration="8" />
-        <notes id="5">
-          <note time="3" duration="0.5" key="55" vel="0.8" />
-        </notes>
-      </clip>
-
-      <!-- alias clip -->
-      <clip time="24" duration="8" reference="5"/>
-    </clips>
-    <!-- track-level automation -->
-    <points parameter="id of parameter...">
-      <point time="0" value="0"/>
-      <point time="8" value="1.0"/>
-    </points>
-  </lanes>
-
-  <!-- audio track -->
-  <lanes track = "id of audio track...">
-    <clips>
-
-      <!-- audio clip with un-warped audio  -->
-      <clip time="0" duration="4.657">
-        <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
-      </clip>
-
-      <!-- audio clip with beats-to-seconds warping  -->
-      <clip time="0" duration="8">
-        <warps timebase="seconds">
-          <audio path="samples/dummy.wav" duration="4.657"/>
-          <warp time="0" warped="0"/>
-          <warp time="8" warped="4.657"/>
-        </warps>
-      </clip>
-
-      <!-- clip with nested audio clips -->
-      <clip time="24" duration="8">
+  <arrangement timebase="beats"> <!-- the arrangement -->
+    <lanes>
+      <!-- note track -->
+      <lanes track = "id of note track...">
         <clips>
+          <!-- note clip -->
+          <clip time="8" duration="8">
+            <notes id="5">
+              <note time="3" duration="0.5" key="55" vel="0.8" />
+            </notes>
+          </clip>
+
+          <!-- alias clip -->
+          <clip time="24" duration="8" reference="5"/>
+        </clips>
+
+        <!-- track-level automation -->
+        <points parameter="id of parameter...">
+          <point time="0" value="0"/>
+          <point time="8" value="1.0"/>
+        </points>
+      </lanes>
+
+      !-- audio track -->
+      <lanes track = "id of audio track...">
+        <clips>
+
+          <!-- audio clip with un-warped audio  -->
           <clip time="0" duration="4.657">
             <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
           </clip>
-          <clip time="20" duration="4.657">
-            <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+
+          <!-- audio clip with beats-to-seconds warping  -->
+          <clip time="0" duration="8">
+            <warps timebase="seconds">
+              <audio path="samples/dummy.wav" duration="4.657"/>
+              <warp time="0" warped="0"/>
+              <warp time="8" warped="4.657"/>
+            </warps>
+          </clip>
+
+          <!-- clip with nested audio clips -->
+          <clip time="24" duration="8">
+            <clips>
+              <clip time="0" duration="4.657">
+                <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+              </clip>
+              <clip time="20" duration="4.657">
+                <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+              </clip>
+            </clips>
+          </clip>
+
+          <!-- clip with local automation/expression -->
+          <clip time="24" duration="8">
+            <lanes>
+              <points parameter="id of parameter...">
+                <point time="0" value="0.2"/>
+                <point time="20" value="0.7"/>
+              </points>
+              <audio/> <!-- clip content -->
+            </lanes>
           </clip>
         </clips>
-      </clip>
-
-      <!-- clip with local automation/expression -->
-      <clip time="24" duration="8">
-        <lanes>
-          <points parameter="id of parameter...">
-            <point time="0" value="0.2"/>
-            <point time="20" value="0.7"/>
-          </points>
-          <audio/> <!-- clip content -->
-        </lanes>
-      </clip>
-    </clips>
-  </lanes>
+      </lanes>
+   </lanes>
+  </arrangement>
 </project>
+
 ```

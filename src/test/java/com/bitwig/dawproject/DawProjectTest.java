@@ -78,7 +78,7 @@ public class DawProjectTest
       project.arrangement = new Arrangement();
       final var arrangementLanes = new Lanes();
       arrangementLanes.timebase = Timebase.beats;
-      project.arrangement.content = arrangementLanes;
+      project.arrangement.lanes = arrangementLanes;
 
       if (features.contains(Features.CUE_MARKERS))
       {
@@ -249,7 +249,7 @@ public class DawProjectTest
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
-      Assert.assertEquals(project.arrangement.content.getClass(), loadedProject.arrangement.content.getClass());
+      Assert.assertEquals(project.arrangement.lanes.getClass(), loadedProject.arrangement.lanes.getClass());
       Assert.assertEquals(project.arrangement.markers.getClass(), loadedProject.arrangement.markers.getClass());
    }
 
