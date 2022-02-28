@@ -12,6 +12,7 @@ public class FileReference
    @XmlAttribute(required = true)
    public String path;
 
+   /** When true, the path is relative to the .dawproject file. Default value is false. */
    @XmlAttribute(required = false)
    public Boolean isExternal;
 }

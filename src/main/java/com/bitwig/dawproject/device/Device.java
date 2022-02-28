@@ -2,7 +2,7 @@ package com.bitwig.dawproject.device;
 
 import com.bitwig.dawproject.BoolParameter;
 import com.bitwig.dawproject.FileReference;
-import com.bitwig.dawproject.Referencable;
+import com.bitwig.dawproject.Referenceable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
@@ -17,7 +17,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
-public class Device extends Referencable
+public class Device extends Referenceable
 {
    /** this device is enabled (as in not bypassed) */
    @XmlElement

@@ -41,7 +41,7 @@ public class DawProjectTest
 
    private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
    {
-      Referencable.resetID();
+      Referenceable.resetID();
       final Project project = new Project();
 
       project.application.name = "Test";
@@ -64,7 +64,7 @@ public class DawProjectTest
       if (features.contains(Features.PLUGINS))
       {
          final Device device = new Vst3Plugin();
-         device.name = "Limiter";
+         device.deviceName = "Limiter";
          //device.id = UUID.randomUUID().toString();
          device.state = new FileReference();
          device.state.path = "plugin-states/12323545.vstpreset";
@@ -78,12 +78,12 @@ public class DawProjectTest
       project.arrangement = new Arrangement();
       final var arrangementLanes = new Lanes();
       arrangementLanes.timebase = Timebase.beats;
-      project.arrangement.content = arrangementLanes;
+      project.arrangement.lanes = arrangementLanes;
 
       if (features.contains(Features.CUE_MARKERS))
       {
          final var cueMarkers = new Markers();
-         arrangementLanes.lanes.add(cueMarkers);
+         project.arrangement.markers = cueMarkers;
          cueMarkers.markers.add(createMarker(0, "Verse"));
          cueMarkers.markers.add(createMarker(24, "Chorus"));
       }
@@ -202,6 +202,13 @@ public class DawProjectTest
    }
 
    @Test
+   public void validateComplexDawProject() throws IOException
+   {
+      final Project project = createDummyProject(3, EnumSet.allOf(Features.class));
+      DawProject.validate(project);
+   }
+
+   @Test
    public void saveAndLoadDawProject() throws IOException
    {
       final Project project = createDummyProject(5, simpleFeatures);
@@ -242,6 +249,8 @@ public class DawProjectTest
 
       Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
+      Assert.assertEquals(project.arrangement.lanes.getClass(), loadedProject.arrangement.lanes.getClass());
+      Assert.assertEquals(project.arrangement.markers.getClass(), loadedProject.arrangement.markers.getClass());
    }
 
    @Test
