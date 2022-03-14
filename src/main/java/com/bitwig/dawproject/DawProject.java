@@ -181,7 +181,7 @@ public class DawProject
           int size = 0;
           while((size = fileInputStream.read(data)) != -1)
              zos.write(data, 0, size);
-    
+
           zos.flush();
       }
 
@@ -190,38 +190,31 @@ public class DawProject
 
    public static Project loadProject(final File file) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
-
-      Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry), StandardCharsets.UTF_8), Project.class);
-
-      zipFile.close();
-
-      return project;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
+         Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry), StandardCharsets.UTF_8), Project.class);
+         return project;
+      }
    }
 
    public static Metadata loadMetadata(final File file) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry entry = zipFile.getEntry(METADATA_FILE);
-
-      Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry), StandardCharsets.UTF_8), Metadata.class);
-
-      zipFile.close();
-
-      return metadata;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry entry = zipFile.getEntry(METADATA_FILE);
+         Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry), StandardCharsets.UTF_8), Metadata.class);
+         return metadata;
+      }
    }
 
    public static InputStream streamEmbedded(final File file, final String embeddedPath) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry entry = zipFile.getEntry(embeddedPath);
-
-      InputStream inputStream = zipFile.getInputStream(entry);
-
-      return inputStream;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry entry = zipFile.getEntry(embeddedPath);
+         InputStream inputStream = zipFile.getInputStream(entry);
+         return inputStream;
+      }
    }
 }
