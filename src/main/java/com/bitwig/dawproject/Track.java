@@ -17,15 +17,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Track extends TrackOrFolder
 {
    /** Role of this track in timelines & arranger.
-    * An empty list implies this track is hidden in the arranger.
+    * An empty (or missing) list implies this track is hidden in the arranger.
     * */
    @XmlAttribute(required = false)
    @XmlList()
    public TimelineRole[] timelineRole;
 
-   /** Role of this track in the mixer
-    * An empty list implies this track is hidden in the mixer.
-    * */
+   /** Role of this track in the mixer. (hidden in mixer when not set) */
    @XmlAttribute(required = false)
    public MixerRole mixerRole;
 
