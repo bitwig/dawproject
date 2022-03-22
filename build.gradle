@@ -15,6 +15,7 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
     implementation 'com.sun.xml.bind:jaxb-impl:3.0.1'
     implementation 'jakarta.activation:jakarta.activation-api:1.2.2'
+    implementation 'commons-io:commons-io:2.11.0'
     testImplementation 'junit:junit:4.12'
 }
 

@@ -13,11 +13,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -181,47 +185,54 @@ public class DawProject
           int size = 0;
           while((size = fileInputStream.read(data)) != -1)
              zos.write(data, 0, size);
-    
+
           zos.flush();
       }
 
       zos.closeEntry();
    }
 
+   public static InputStreamReader stripBom(InputStream inputStream) throws IOException
+   {
+      BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
+         ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
+      Charset charset;
+      if(!bomInputStream.hasBOM()) charset = StandardCharsets.UTF_8;
+      else if(bomInputStream.hasBOM(ByteOrderMark.UTF_8)) charset = StandardCharsets.UTF_8;
+      else if(bomInputStream.hasBOM(ByteOrderMark.UTF_16LE)) charset = StandardCharsets.UTF_16LE;
+      else if(bomInputStream.hasBOM(ByteOrderMark.UTF_16BE)) charset = StandardCharsets.UTF_16BE;
+      else { throw new IOException("The charset is not supported.");}
+
+      return new InputStreamReader(bomInputStream, charset);
+   }
+
    public static Project loadProject(final File file) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
-
-      Project project = fromXML(new InputStreamReader(zipFile.getInputStream(projectEntry), StandardCharsets.UTF_8), Project.class);
-
-      zipFile.close();
-
-      return project;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry projectEntry = zipFile.getEntry(PROJECT_FILE);
+         Project project = fromXML(stripBom(zipFile.getInputStream(projectEntry)), Project.class);
+         return project;
+      }
    }
 
    public static Metadata loadMetadata(final File file) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry entry = zipFile.getEntry(METADATA_FILE);
-
-      Metadata metadata = fromXML(new InputStreamReader(zipFile.getInputStream(entry), StandardCharsets.UTF_8), Metadata.class);
-
-      zipFile.close();
-
-      return metadata;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry entry = zipFile.getEntry(METADATA_FILE);
+         Metadata metadata = fromXML(stripBom(zipFile.getInputStream(entry)), Metadata.class);
+         return metadata;
+      }
    }
 
    public static InputStream streamEmbedded(final File file, final String embeddedPath) throws IOException
    {
-      ZipFile zipFile = new ZipFile(file);
-
-      ZipEntry entry = zipFile.getEntry(embeddedPath);
-
-      InputStream inputStream = zipFile.getInputStream(entry);
-
-      return inputStream;
+      try(ZipFile zipFile = new ZipFile(file))
+      {
+         ZipEntry entry = zipFile.getEntry(embeddedPath);
+         InputStream inputStream = zipFile.getInputStream(entry);
+         return inputStream;
+      }
    }
 }

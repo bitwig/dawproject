@@ -8,7 +8,7 @@ public enum MixerRole
 {
    @XmlEnumValue("regular") regular,
    @XmlEnumValue("master") master,
-   @XmlEnumValue("return") returnTrack,
-   @XmlEnumValue("aux") aux,
-   @XmlEnumValue("vca") vca,
+   @XmlEnumValue("effect") effectTrack,
+   @XmlEnumValue("bus") bus,
+   @XmlEnumValue("vca") vca
 }
