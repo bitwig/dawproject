@@ -9,6 +9,6 @@ public enum MixerRole
    @XmlEnumValue("regular") regular,
    @XmlEnumValue("master") master,
    @XmlEnumValue("effect") effectTrack,
-   @XmlEnumValue("bus") bus,
+   @XmlEnumValue("submix") subMix,
    @XmlEnumValue("vca") vca
 }
