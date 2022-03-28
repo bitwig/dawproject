@@ -48,18 +48,19 @@ public class DawProjectTest
       project.application.version = "1.0";
 
       final Track masterTrack = new Track();
+      masterTrack.channel = new Channel();
       project.tracks.add(masterTrack);
       masterTrack.name = "Master";
 
       final var p3 = new RealParameter();
       p3.value = 1.0;
       p3.unit = Unit.linear;
-      masterTrack.volume = p3;
+      masterTrack.channel.volume = p3;
       final var p2 = new RealParameter();
       p2.value = 0.0;
       p2.unit = Unit.linear;
-      masterTrack.pan = p2;
-      masterTrack.mixerRole = MixerRole.master;
+      masterTrack.channel.pan = p2;
+      masterTrack.channel.role = MixerRole.master;
 
       if (features.contains(Features.PLUGINS))
       {
@@ -69,10 +70,10 @@ public class DawProjectTest
          device.state = new FileReference();
          device.state.path = "plugin-states/12323545.vstpreset";
 
-         if (masterTrack.devices == null)
-            masterTrack.devices = new ArrayList<>();
+         if (masterTrack.channel.devices == null)
+            masterTrack.channel.devices = new ArrayList<>();
 
-         masterTrack.devices.add(device);
+         masterTrack.channel.devices.add(device);
       }
 
       project.arrangement = new Arrangement();
@@ -94,9 +95,10 @@ public class DawProjectTest
          project.tracks.add(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
-         track.timelineRole = new TimelineRole[]{TimelineRole.notes, TimelineRole.audio};
+         track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
+         track.channel = new Channel();
 
-         final var channel = track;
+         final var channel = track.channel;
          final var p1 = new RealParameter();
          p1.value = 1.0;
          p1.unit = Unit.linear;
@@ -105,8 +107,8 @@ public class DawProjectTest
          p.value = 0.0;
          p.unit = Unit.linear;
          channel.pan = p;
-         channel.destination = masterTrack;
-         channel.mixerRole = MixerRole.regular;
+         channel.destination = masterTrack.channel;
+         channel.role = MixerRole.regular;
 
          final var trackLanes = new Lanes();
          trackLanes.track = track;
