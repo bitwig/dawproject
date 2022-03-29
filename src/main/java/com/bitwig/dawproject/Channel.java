@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Represents a mixer channel.  */
 @XmlRootElement
-public class Channel extends TrackOrFolder
+public class Channel extends Lane
 {
    /** Role of this channel in the mixer. */
    @XmlAttribute(required = false)

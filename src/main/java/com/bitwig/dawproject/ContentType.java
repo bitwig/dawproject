@@ -10,4 +10,5 @@ public enum ContentType
    notes,
    video,
    markers,
+   tracks,
 }

@@ -49,7 +49,7 @@ public class DawProjectTest
 
       final Track masterTrack = new Track();
       masterTrack.channel = new Channel();
-      project.tracks.add(masterTrack);
+      project.structure.add(masterTrack);
       masterTrack.name = "Master";
 
       final var p3 = new RealParameter();
@@ -92,7 +92,7 @@ public class DawProjectTest
       for (int i = 0; i < numTracks; i++)
       {
          final var track = new Track();
-         project.tracks.add(track);
+         project.structure.add(track);
          track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
          track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
@@ -222,7 +222,7 @@ public class DawProjectTest
 
       final var loadedProject = DawProject.loadProject(file);
 
-      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
+      Assert.assertEquals(project.structure.size(), loadedProject.structure.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
    }
 
@@ -249,7 +249,7 @@ public class DawProjectTest
 
       final var loadedProject = DawProject.loadProject(file);
 
-      Assert.assertEquals(project.tracks.size(), loadedProject.tracks.size());
+      Assert.assertEquals(project.structure.size(), loadedProject.structure.size());
       Assert.assertEquals(project.scenes.size(), loadedProject.scenes.size());
       Assert.assertEquals(project.arrangement.lanes.getClass(), loadedProject.arrangement.lanes.getClass());
       Assert.assertEquals(project.arrangement.markers.getClass(), loadedProject.arrangement.markers.getClass());

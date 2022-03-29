@@ -1,14 +1,18 @@
 package com.bitwig.dawproject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Represents a sequencer track.  */
 @XmlRootElement
-public class Track extends TrackOrFolder
+public class Track extends Lane
 {
    /** Role of this track in timelines & arranger. */
    @XmlAttribute(required = false)
@@ -18,6 +22,9 @@ public class Track extends TrackOrFolder
    @XmlAttribute
    public Boolean loaded;
 
-   @XmlElement(name = "channel", required = true)
+   @XmlElement(required = false)
    public Channel channel;
+
+   @XmlElementRef(name = "tracks")
+   public List<Track> tracks = new ArrayList<>();
 }
