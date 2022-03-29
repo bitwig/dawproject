@@ -17,5 +17,5 @@ public class Send extends Referenceable
 
    @XmlAttribute
    @XmlIDREF
-   public Track destination;
+   public Channel destination;
 }

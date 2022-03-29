@@ -27,9 +27,9 @@ public class Project
    @XmlElement
    public Transport transport;
 
-   @XmlElementWrapper(name="tracks")
+   @XmlElementWrapper(name="structure")
    @XmlElementRef
-   public List<TrackOrFolder> tracks = new ArrayList<>();
+   public List<Lane> structure = new ArrayList<>();
 
    @XmlElementRef(name="arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;
