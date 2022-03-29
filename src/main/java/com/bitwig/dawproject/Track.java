@@ -1,60 +1,30 @@
 package com.bitwig.dawproject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlIDREF;
-
-import java.util.List;
-
-import com.bitwig.dawproject.device.Device;
 import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-/** Represents a sequencer track and/or mixer channel.  */
+/** Represents a sequencer track.  */
 @XmlRootElement
-public class Track extends TrackOrFolder
+public class Track extends Lane
 {
-   /** Role of this track in timelines & arranger.
-    * An empty (or missing) list implies this track is hidden in the arranger.
-    * */
+   /** Role of this track in timelines & arranger. */
    @XmlAttribute(required = false)
    @XmlList()
-   public TimelineRole[] timelineRole;
-
-   /** Role of this track in the mixer. (hidden in mixer when not set) */
-   @XmlAttribute(required = false)
-   public MixerRole mixerRole;
-
-   @XmlAttribute(required = false)
-   public Integer audioChannels = 2;
-
-   @XmlElement(required = false)
-   public RealParameter volume;
-
-   @XmlElement(required = false)
-   public RealParameter pan;
-
-   @XmlElement(required = false)
-   public BoolParameter mute;
+   public ContentType[] contentType;
 
    @XmlAttribute
    public Boolean loaded;
 
-   @XmlAttribute(required = false)
-   public Boolean solo;
+   @XmlElement(required = false)
+   public Channel channel;
 
-   /** Output channel routing */
-   @XmlIDREF
-   @XmlAttribute()
-   public Track destination;
-
-   @XmlElementWrapper(name="sends")
-   @XmlElement(name="send", type = Send.class)
-   public List<Send> sends;
-
-   @XmlElementWrapper(name="devices")
-   @XmlElementRef
-   public List<Device> devices;
+   @XmlElementRef(name = "tracks")
+   public List<Track> tracks = new ArrayList<>();
 }
