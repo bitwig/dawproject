@@ -6,7 +6,7 @@
    <artifactId>dawproject</artifactId>
    <packaging>jar</packaging>
    <name>dawproject file format</name>
-   <version>0.1</version>
+   <version>1-SNAPSHOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,6 +40,11 @@
          <groupId>jakarta.activation</groupId>
          <artifactId>jakarta.activation-api</artifactId>
          <version>1.2.2</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-io</groupId>
+         <artifactId>commons-io</artifactId>
+         <version>2.11.0</version>
       </dependency>
    </dependencies>
 
