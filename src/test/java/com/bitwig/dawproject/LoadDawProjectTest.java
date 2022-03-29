@@ -31,7 +31,7 @@ public class LoadDawProjectTest
 
       final File testDataDir = new File("src/test-data");
 
-      if (testDataDir != null && testDataDir.isDirectory())
+      if (testDataDir.exists () && testDataDir.isDirectory())
       {
          final Path rootPath = testDataDir.toPath();
          Files.walkFileTree(rootPath, new FileVisitor<>()
