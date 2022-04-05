@@ -24,6 +24,7 @@ public class Points extends Timeline
    @XmlAttribute(required = false)
    public Unit unit;
 
+   /** Interpolation mode used for this timeline. Default to 'hold' when unspecified. */
    @XmlAttribute(required = false)
    public Interpolation interpolation;
 }
