@@ -7,20 +7,20 @@ import jakarta.xml.bind.annotation.XmlElement;
 
 public class EqBand
 {
-   @XmlElement(required = true)
+   @XmlElement(name = "Freq", required = true)
    public RealParameter freq;
 
-   @XmlElement
+   @XmlElement(name = "Gain")
    public RealParameter gain;
 
-   @XmlElement
+   @XmlElement(name = "Q")
    public RealParameter Q;
 
-   @XmlElement
+   @XmlElement(name = "Enabled")
    public BoolParameter enabled;
 
-   @XmlAttribute
-   public EqBandType type = EqBandType.bell;
+   @XmlAttribute(required = true)
+   public EqBandType type;
 
    @XmlAttribute
    public Integer order;

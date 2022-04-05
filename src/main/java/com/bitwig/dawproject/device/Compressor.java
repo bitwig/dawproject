@@ -5,24 +5,24 @@ import com.bitwig.dawproject.RealParameter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Compressor")
 public class Compressor extends BuiltinDevice
 {
-   @XmlElement
+   @XmlElement(name = "Threshold")
    public Parameter threshold;
 
-   @XmlElement
+   @XmlElement(name = "Ratio")
    public Parameter ratio;
 
-   @XmlElement
+   @XmlElement(name = "Attack")
    public Parameter attack;
 
-   @XmlElement
+   @XmlElement(name = "Release")
    public Parameter release;
 
-   @XmlElement
+   @XmlElement(name = "InputGain")
    public RealParameter inputGain;
 
-   @XmlElement
+   @XmlElement(name = "OutputGain")
    public RealParameter outputGain;
 }

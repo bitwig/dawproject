@@ -2,7 +2,7 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Metadata")
 public class Metadata
 {
    public String title;

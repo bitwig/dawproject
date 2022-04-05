@@ -2,7 +2,7 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 
-public class Nameable
+public abstract class Nameable
 {
    @XmlAttribute
    public String name;

@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "project")
+@XmlRootElement(name = "Project")
 @XmlSeeAlso({Device.class, Timeline.class})
 public class Project
 {
@@ -21,20 +21,20 @@ public class Project
    @XmlAttribute(required = true)
    public String version = CURRENT_VERSION;
 
-   @XmlElement(required = true)
+   @XmlElement(name = "Application", required = true)
    public Application application = new Application();
 
-   @XmlElement
+   @XmlElement(name = "Transport")
    public Transport transport;
 
-   @XmlElementWrapper(name="structure")
+   @XmlElementWrapper(name="Structure")
    @XmlElementRef
    public List<Lane> structure = new ArrayList<>();
 
-   @XmlElementRef(name="arrangement", type = Arrangement.class, required = false)
+   @XmlElementRef(name="Arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;
 
-   @XmlElementWrapper(name="scenes")
+   @XmlElementWrapper(name="Scenes")
    @XmlElementRef
    public List<Scene> scenes = new ArrayList<>();
 }
