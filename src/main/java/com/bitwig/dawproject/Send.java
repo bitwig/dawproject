@@ -6,10 +6,10 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 
 public class Send extends Referenceable
 {
-   @XmlElement(required = true)
+   @XmlElement(required = true, name = "Volume")
    public RealParameter volume;
 
-   @XmlElement(required = false)
+   @XmlElement(required = false, name = "Pan")
    public RealParameter pan;
 
    @XmlAttribute

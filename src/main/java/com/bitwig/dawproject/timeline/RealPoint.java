@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement
+@XmlRootElement(name = "RealPoint")
 public class RealPoint extends Point
 {
    @XmlJavaTypeAdapter(DoubleAdapter.class)

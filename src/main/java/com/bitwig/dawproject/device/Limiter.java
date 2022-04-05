@@ -4,7 +4,7 @@ import com.bitwig.dawproject.RealParameter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Limiter")
 public class Limiter extends BuiltinDevice
 {
    @XmlElement

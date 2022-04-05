@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "clip")
+@XmlRootElement(name = "Clip")
 public class Clip
 {
    /** Time on the parent timeline where this clips starts playing. */

@@ -3,7 +3,7 @@ package com.bitwig.dawproject.timeline;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Warp")
 public class Warp
 {
    @XmlAttribute(required = true)

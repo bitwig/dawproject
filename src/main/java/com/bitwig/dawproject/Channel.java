@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Represents a mixer channel.  */
-@XmlRootElement
+@XmlRootElement(name = "Channel")
 public class Channel extends Lane
 {
    /** Role of this channel in the mixer. */
@@ -21,13 +21,13 @@ public class Channel extends Lane
    @XmlAttribute(required = false)
    public Integer audioChannels = 2;
 
-   @XmlElement(required = false)
+   @XmlElement(name = "Volume", required = false)
    public RealParameter volume;
 
-   @XmlElement(required = false)
+   @XmlElement(name = "Pan", required = false)
    public RealParameter pan;
 
-   @XmlElement(required = false)
+   @XmlElement(name = "Mute", required = false)
    public BoolParameter mute;
 
    @XmlAttribute(required = false)
@@ -38,11 +38,11 @@ public class Channel extends Lane
    @XmlAttribute()
    public Channel destination;
 
-   @XmlElementWrapper(name="sends")
-   @XmlElement(name="send", type = Send.class)
+   @XmlElementWrapper(name="Sends")
+   @XmlElement(name="Send", type = Send.class)
    public List<Send> sends;
 
-   @XmlElementWrapper(name="devices")
+   @XmlElementWrapper(name="Devices")
    @XmlElementRef
    public List<Device> devices;
 }
