@@ -23,6 +23,9 @@ public class Device extends Referenceable
    @XmlElement(name = "Enabled")
    public BoolParameter enabled;
 
+   @XmlAttribute(required = true)
+   public DeviceRole deviceRole;
+   
    @XmlAttribute
    public Boolean loaded = true;
 
