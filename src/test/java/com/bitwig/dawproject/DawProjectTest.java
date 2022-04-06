@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.bitwig.dawproject.device.Device;
+import com.bitwig.dawproject.device.DeviceRole;
 import com.bitwig.dawproject.device.Vst3Plugin;
 import com.bitwig.dawproject.timeline.RealPoint;
 import com.bitwig.dawproject.timeline.Clip;
@@ -67,6 +68,7 @@ public class DawProjectTest
          final Device device = new Vst3Plugin();
          device.deviceName = "Limiter";
          //device.id = UUID.randomUUID().toString();
+         device.deviceRole = DeviceRole.audioFX;
          device.state = new FileReference();
          device.state.path = "plugin-states/12323545.vstpreset";
 

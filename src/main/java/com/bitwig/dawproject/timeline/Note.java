@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement
+@XmlRootElement(name = "Note")
 public class Note
 {
    @XmlAttribute(required = true)
@@ -32,6 +32,6 @@ public class Note
    public Double releaseVelocity;
 
    /** Per-note expressions can be stored within the note object as timelines. */
-   @XmlElementRef(required = false)
+   @XmlElementRef(name = "Content", required = false)
    public Timeline content;
 }

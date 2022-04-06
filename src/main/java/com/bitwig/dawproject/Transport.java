@@ -4,9 +4,9 @@ import jakarta.xml.bind.annotation.XmlElement;
 
 public class Transport
 {
-   @XmlElement
+   @XmlElement(name = "Tempo")
    public RealParameter tempo;
 
-   @XmlElement
+   @XmlElement(name = "TimeSignature")
    public TimeSignatureParameter timeSignature;
 }

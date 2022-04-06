@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlID;
 
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
-public class Referenceable extends Nameable
+public abstract class Referenceable extends Nameable
 {
    @XmlAttribute
    @XmlID()

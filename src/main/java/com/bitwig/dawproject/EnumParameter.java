@@ -3,7 +3,7 @@ package com.bitwig.dawproject;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "EnumParameter")
 public class EnumParameter extends Parameter
 {
    @XmlAttribute

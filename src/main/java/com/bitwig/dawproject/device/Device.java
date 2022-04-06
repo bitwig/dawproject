@@ -15,14 +15,17 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement
+@XmlRootElement(name = "Device")
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, ClapPlugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
 public class Device extends Referenceable
 {
    /** this device is enabled (as in not bypassed) */
-   @XmlElement
+   @XmlElement(name = "Enabled")
    public BoolParameter enabled;
 
+   @XmlAttribute(required = true)
+   public DeviceRole deviceRole;
+   
    @XmlAttribute
    public Boolean loaded = true;
 
@@ -42,11 +45,11 @@ public class Device extends Referenceable
    public String deviceVendor;
 
    /** Path to a file representing the device / plug-in state in its native format */
-   @XmlElement(required = false)
+   @XmlElement(name = "State", required = false)
    public FileReference state;
 
    /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
-   @XmlElementWrapper(name="parameters", required = false)
+   @XmlElementWrapper(name="Parameters", required = false)
    @XmlElementRef
    public List<Parameter> automatedParameters = new ArrayList<>();
 }

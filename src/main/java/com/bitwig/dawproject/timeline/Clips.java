@@ -6,9 +6,9 @@ import java.util.List;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Clips")
 public class Clips extends Timeline
 {
-   @XmlElementRef(name = "clip")
+   @XmlElementRef(name = "Clip")
    public List<Clip> clips = new ArrayList<>();
 }

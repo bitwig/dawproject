@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Represents a sequencer track.  */
-@XmlRootElement
+@XmlRootElement(name = "Track")
 public class Track extends Lane
 {
    /** Role of this track in timelines & arranger. */
@@ -22,9 +22,9 @@ public class Track extends Lane
    @XmlAttribute
    public Boolean loaded;
 
-   @XmlElement(required = false)
+   @XmlElement(name = "Channel", required = false)
    public Channel channel;
 
-   @XmlElementRef(name = "tracks")
+   @XmlElementRef(name = "Tracks")
    public List<Track> tracks = new ArrayList<>();
 }

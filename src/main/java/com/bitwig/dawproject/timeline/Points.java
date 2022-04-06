@@ -11,11 +11,11 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "Points")
 @XmlType(propOrder={"target","points","unit", "interpolation"})
 public class Points extends Timeline
 {
-   @XmlElement(required = true)
+   @XmlElement(name = "Target", required = true)
    public AutomationTarget target = new AutomationTarget();
 
    @XmlElementRef(required = true)
@@ -24,6 +24,7 @@ public class Points extends Timeline
    @XmlAttribute(required = false)
    public Unit unit;
 
+   /** Interpolation mode used for this timeline. Default to 'hold' when unspecified. */
    @XmlAttribute(required = false)
    public Interpolation interpolation;
 }

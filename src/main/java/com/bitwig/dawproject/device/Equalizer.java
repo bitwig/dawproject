@@ -8,16 +8,16 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Equalizer")
 public class Equalizer extends BuiltinDevice
 {
-   @XmlElementWrapper(name="bands")
-   @XmlElement(name="band")
+   @XmlElementWrapper(name="Bands")
+   @XmlElement(name="Band")
    public List<EqBand> bands = new ArrayList<>();
 
-   @XmlElement
+   @XmlElement(name = "InputGain")
    public RealParameter inputGain;
 
-   @XmlElement
+   @XmlElement(name = "OutputGain")
    public RealParameter outputGain;
 }

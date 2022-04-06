@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement
+@XmlRootElement(name = "Timeline")
 @XmlSeeAlso({Note.class, Notes.class, Lanes.class, Clip.class, Clips.class, ClipSlot.class, Marker.class,
    Markers.class, Warps.class, Audio.class, Video.class, Point.class, Points.class})
 public abstract class Timeline extends Referenceable
@@ -17,7 +17,10 @@ public abstract class Timeline extends Referenceable
    @XmlIDREF
    public Track track;
 
-   /** The Timebase used by this and nested timelines */
+   /**
+    * The Timebase used by this and nested timelines. If no timebase is provided by this or the parent scope then
+    * 'beats' will be used.
+    */
    @XmlAttribute(required = false)
    public Timebase timebase;
 }
