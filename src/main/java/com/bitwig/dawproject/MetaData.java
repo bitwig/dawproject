@@ -21,8 +21,8 @@ public class MetaData
    @XmlElement(name = "Composer")
    public String composer;
 
-   @XmlElement(name = "SongWriter")
-   public String songWriter;
+   @XmlElement(name = "Songwriter")
+   public String songwriter;
 
    @XmlElement(name = "Producer")
    public String producer;
