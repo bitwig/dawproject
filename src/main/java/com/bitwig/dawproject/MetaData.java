@@ -12,7 +12,7 @@ public class MetaData
    @XmlElement(name = "Artist")
    public String artist;
 
-   @XmlElement(name = "Original Artist")
+   @XmlElement(name = "OriginalArtist")
    public String originalArtist;
 
    @XmlElement(name = "Writer")
