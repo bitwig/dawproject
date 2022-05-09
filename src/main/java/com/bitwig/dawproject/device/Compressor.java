@@ -9,16 +9,16 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Compressor extends BuiltinDevice
 {
    @XmlElement(name = "Threshold")
-   public Parameter threshold;
+   public RealParameter threshold;
 
    @XmlElement(name = "Ratio")
-   public Parameter ratio;
+   public RealParameter ratio;
 
    @XmlElement(name = "Attack")
-   public Parameter attack;
+   public RealParameter attack;
 
    @XmlElement(name = "Release")
-   public Parameter release;
+   public RealParameter release;
 
    @XmlElement(name = "InputGain")
    public RealParameter inputGain;
