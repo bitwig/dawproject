@@ -1,12 +1,13 @@
 package com.bitwig.dawproject.timeline;
 
+import com.bitwig.dawproject.Nameable;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Clip")
-public class Clip
+public class Clip extends Nameable
 {
    /** Time on the parent timeline where this clips starts playing. */
    @XmlAttribute(required = true)
@@ -15,12 +16,6 @@ public class Clip
    /** Duration on the parent timeline of this clip. */
    @XmlAttribute(required = true)
    public double duration;
-
-   @XmlAttribute(required = false)
-   public String name;
-
-   @XmlAttribute(required = false)
-   public String color;
 
    /** The Timebase used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
     *  loopStart, loopEnd but not time and duration which are using the timebase of the parent scope. */
