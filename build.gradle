@@ -13,10 +13,9 @@ repositories {
 
 dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
-    implementation 'com.sun.xml.bind:jaxb-impl:3.0.1'
-    implementation 'jakarta.activation:jakarta.activation-api:1.2.2'
+    runtimeOnly 'com.sun.xml.bind:jaxb-impl:3.0.0'
     implementation 'commons-io:commons-io:2.11.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
 }
 
 group = 'com.bitwig.open'

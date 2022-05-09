@@ -228,11 +228,26 @@ public class DawProject
 
    public static InputStream streamEmbedded(final File file, final String embeddedPath) throws IOException
    {
-      try(ZipFile zipFile = new ZipFile(file))
-      {
-         ZipEntry entry = zipFile.getEntry(embeddedPath);
-         InputStream inputStream = zipFile.getInputStream(entry);
-         return inputStream;
-      }
+       final ZipFile zipFile = new ZipFile (file);
+       final ZipEntry entry = zipFile.getEntry (embeddedPath);
+       final InputStream zipInputStream = zipFile.getInputStream (entry);
+
+       // Ensure that both the stream as well as the ZIP file gets closed
+       return new InputStream ()
+       {
+           @Override
+           public int read () throws IOException
+           {
+               return zipInputStream.read ();
+           }
+
+
+           @Override
+           public void close () throws IOException
+           {
+               zipInputStream.close ();
+               zipFile.close ();
+           }
+       };
    }
 }

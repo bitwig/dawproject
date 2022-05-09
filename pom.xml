@@ -8,9 +8,9 @@
    <name>dawproject file format</name>
    <version>1-SNAPSHOT</version>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
 
    <repositories>
       <repository>
@@ -34,12 +34,8 @@
       <dependency>
          <groupId>com.sun.xml.bind</groupId>
          <artifactId>jaxb-impl</artifactId>
-         <version>3.0.1</version>
-      </dependency>
-      <dependency>
-         <groupId>jakarta.activation</groupId>
-         <artifactId>jakarta.activation-api</artifactId>
-         <version>1.2.2</version>
+         <version>3.0.0</version>
+         <scope>runtime</scope>
       </dependency>
       <dependency>
          <groupId>commons-io</groupId>
@@ -53,7 +49,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.5.1</version>
+            <version>3.8.1</version>
             <configuration>
                <optimize>true</optimize>
                <fork>true</fork>
@@ -82,4 +78,3 @@
    </build>
 
 </project>
-
