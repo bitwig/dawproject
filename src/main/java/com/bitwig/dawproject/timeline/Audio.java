@@ -17,7 +17,7 @@ public class Audio extends Timeline
 
    /** sample-rate of audio-file */
    @XmlAttribute(required = true)
-   public int samplerate;
+   public int sampleRate;
 
    /** number of channels of audio-file (1=mono...) */
    @XmlAttribute(required = true)
