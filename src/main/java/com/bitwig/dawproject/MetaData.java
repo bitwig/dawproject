@@ -12,11 +12,17 @@ public class MetaData
    @XmlElement(name = "Artist")
    public String artist;
 
+   @XmlElement(name = "Album")
+   public String album;
+
    @XmlElement(name = "OriginalArtist")
    public String originalArtist;
 
-   @XmlElement(name = "Writer")
-   public String writer;
+   @XmlElement(name = "Composer")
+   public String composer;
+
+   @XmlElement(name = "SongWriter")
+   public String songWriter;
 
    @XmlElement(name = "Producer")
    public String producer;
@@ -29,6 +35,9 @@ public class MetaData
 
    @XmlElement(name = "Copyright")
    public String copyright;
+
+   @XmlElement(name = "Website")
+   public String website;
 
    @XmlElement(name = "Comment")
    public String comment;
