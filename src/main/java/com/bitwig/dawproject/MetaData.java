@@ -27,6 +27,9 @@ public class MetaData
    @XmlElement(name = "Producer")
    public String producer;
 
+   @XmlElement(name = "Arranger")
+   public String arranger;
+
    @XmlElement(name = "Year")
    public String year;
 
