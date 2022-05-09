@@ -10,13 +10,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Arrangement extends Referenceable
 {
    /** Automation data for time-signature inside this Arrangement */
-   @XmlElement(required = false, name = "TimeSignature", type = Points.class)
-   public Points timeSignature;
+   @XmlElement(required = false, name = "TimeSignatureAutomation", type = Points.class)
+   public Points timeSignatureAutomation;
 
    /** Automation data for tempo inside this Arrangement, which will define the conversion between seconds and beats
     * at the root level. */
-   @XmlElement(required = false, name = "Tempo", type = Points.class)
-   public Points tempo;
+   @XmlElement(required = false, name = "TempoAutomation", type = Points.class)
+   public Points tempoAutomation;
 
    /** Cue markers inside this arrangement */
    @XmlElement(required = false, name = "Markers", type = Markers.class)

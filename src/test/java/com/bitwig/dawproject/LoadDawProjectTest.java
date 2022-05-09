@@ -82,7 +82,7 @@ public class LoadDawProjectTest
    @Test
    public void loadMetadata() throws IOException
    {
-      final Metadata metadata = DawProject.loadMetadata(mFile);
+      final MetaData metadata = DawProject.loadMetadata(mFile);
       Assert.assertNotNull(metadata);
    }
 

@@ -191,7 +191,7 @@ public class DawProjectTest
    public void saveDawProject() throws IOException
    {
       final Project project = createDummyProject(3, simpleFeatures);
-      final Metadata metadata = new Metadata();
+      final MetaData metadata = new MetaData();
 
       final Map<File, String> embeddedFiles = new HashMap<>();
       DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
@@ -216,7 +216,7 @@ public class DawProjectTest
    public void saveAndLoadDawProject() throws IOException
    {
       final Project project = createDummyProject(5, simpleFeatures);
-      final Metadata metadata = new Metadata();
+      final MetaData metadata = new MetaData();
 
       final var file = File.createTempFile("testfile", ".dawproject");
       final Map<File, String> embeddedFiles = new HashMap<>();
@@ -232,7 +232,7 @@ public class DawProjectTest
    public void saveComplexDawProject() throws IOException
    {
       final Project project = createDummyProject(3, EnumSet.allOf(Features.class));
-      final Metadata metadata = new Metadata();
+      final MetaData metadata = new MetaData();
 
       final Map<File, String> embeddedFiles = new HashMap<>();
       DawProject.save(project, metadata, embeddedFiles, new File("target/test-complex.dawproject"));
@@ -243,7 +243,7 @@ public class DawProjectTest
    public void saveAndLoadComplexDawProject() throws IOException
    {
       final Project project = createDummyProject(5, EnumSet.allOf(Features.class));
-      final Metadata metadata = new Metadata();
+      final MetaData metadata = new MetaData();
 
       final Map<File, String> embeddedFiles = new HashMap<>();
       final var file = File.createTempFile("testfile2", ".dawproject");
@@ -260,7 +260,7 @@ public class DawProjectTest
    @Test
    public void writeMetadataSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/metadata.xs"), Metadata.class);
+      DawProject.exportSchema(new File("target/metadata.xs"), MetaData.class);
    }
 
    @Test

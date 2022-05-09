@@ -142,7 +142,7 @@ public class DawProject
       }
    }
 
-   public static void save(Project project, Metadata metadata, Map<File, String> embeddedFiles, File file) throws IOException
+   public static void save(Project project, MetaData metadata, Map<File, String> embeddedFiles, File file) throws IOException
    {
       String metadataXML = toXML(metadata);
       String projectXML = toXML(project);
@@ -216,12 +216,12 @@ public class DawProject
       }
    }
 
-   public static Metadata loadMetadata(final File file) throws IOException
+   public static MetaData loadMetadata(final File file) throws IOException
    {
       try(ZipFile zipFile = new ZipFile(file))
       {
          ZipEntry entry = zipFile.getEntry(METADATA_FILE);
-         Metadata metadata = fromXML(stripBom(zipFile.getInputStream(entry)), Metadata.class);
+         MetaData metadata = fromXML(stripBom(zipFile.getInputStream(entry)), MetaData.class);
          return metadata;
       }
    }
