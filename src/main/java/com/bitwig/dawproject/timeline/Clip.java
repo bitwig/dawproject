@@ -17,8 +17,8 @@ public class Clip extends Nameable
    @XmlAttribute(required = true)
    public double duration;
 
-   /** The Timebase used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
-    *  loopStart, loopEnd but not time and duration which are using the timebase of the parent scope. */
+   /** The TimeUnit used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
+    *  loopStart, loopEnd but not time and duration which are using the TimeUnit of the parent scope. */
    @XmlAttribute(required = false)
    public TimeUnit timeUnit;
 
@@ -36,7 +36,7 @@ public class Clip extends Nameable
    @XmlAttribute(required = false)
    public Double loopEnd;
 
-   /** The Timebase used by the fadeInTime and fadeOutTime. */
+   /** The TimeUnit used by the fadeInTime and fadeOutTime. */
    @XmlAttribute(required = false)
    public TimeUnit fadeTimeUnit;
 

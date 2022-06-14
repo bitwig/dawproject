@@ -11,7 +11,7 @@ public class Video extends Timeline
    @XmlElement(name = "File", required = true)
    public FileReference file = new FileReference();
 
-   /** duration in seconds/beats (timebase) of video-file */
+   /** duration in seconds/beats (TimeUnit dependent) of video-file */
    @XmlAttribute(required = true)
    public double duration;
 

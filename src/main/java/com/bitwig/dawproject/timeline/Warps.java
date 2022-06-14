@@ -27,7 +27,7 @@ public class Warps extends Timeline
    public Timeline content;
 
    /**
-    * The Timebase used by the content (nested) timeline and the contentTime attribute of the Warp events
+    * The TimeUnit used by the content (nested) timeline and the contentTime attribute of the Warp events
     * */
    @XmlAttribute(required = true)
    public TimeUnit contentTimeUnit;

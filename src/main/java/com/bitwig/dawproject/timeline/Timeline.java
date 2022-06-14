@@ -18,7 +18,7 @@ public abstract class Timeline extends Referenceable
    public Track track;
 
    /**
-    * The Timebase used by this and nested timelines. If no timebase is provided by this or the parent scope then
+    * The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then
     * 'beats' will be used.
     */
    @XmlAttribute(required = false)

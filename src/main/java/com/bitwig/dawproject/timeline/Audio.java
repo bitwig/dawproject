@@ -11,7 +11,7 @@ public class Audio extends Timeline
    @XmlElement(name = "File", required = true)
    public FileReference file = new FileReference();
 
-   /** duration in seconds/beats (timebase) of audio-file */
+   /** duration in seconds/beats (TimeUnit dependent) of audio-file */
    @XmlAttribute(required = true)
    public double duration;
 
