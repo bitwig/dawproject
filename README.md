@@ -74,7 +74,7 @@ For a future version a set of templates could be considered to cover the paramet
 
 The timeline base-class has two attributes:
 
-* timebase: assign the content of this timeline to a specific timebase [beats or seconds] (optional)
+* timeUnit: assign the content of this timeline to a specific time-unit [beats or seconds] (optional)
 * track: assign the content of this timeline to a specific track (optional)
 
 ### Lanes
@@ -88,7 +88,7 @@ Contains a list of clips.
 Each clip contains a timeline, or alternatively a reference to a timeline which can be used to represent aliases.
 
 ### Warps
-Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different timebase than the parent context.
+Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different time-unit than the parent context.
 
 This is typically used to represent time-warping of audio.
 
@@ -116,7 +116,7 @@ Some examples (pseudo-xml):
 
   <!-- .... -->
 
-  <arrangement timebase="beats"> <!-- the arrangement -->
+  <arrangement timeUnit="beats"> <!-- the arrangement -->
     <lanes>
       <!-- note track -->
       <lanes track = "id of note track...">
@@ -145,15 +145,15 @@ Some examples (pseudo-xml):
 
           <!-- audio clip with un-warped audio  -->
           <clip time="0" duration="4.657">
-            <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+            <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
           </clip>
 
           <!-- audio clip with beats-to-seconds warping  -->
           <clip time="0" duration="8">
-            <warps timebase="seconds">
+            <warps timeUnit="beats" contentTimeUnit="seconds">
               <audio path="samples/dummy.wav" duration="4.657"/>
-              <warp time="0" warped="0"/>
-              <warp time="8" warped="4.657"/>
+              <warp time="0" contentTime="0"/>
+              <warp time="8" contentTime="4.657"/>
             </warps>
           </clip>
 
@@ -161,10 +161,10 @@ Some examples (pseudo-xml):
           <clip time="24" duration="8">
             <clips>
               <clip time="0" duration="4.657">
-                <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+                <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
               </clip>
               <clip time="20" duration="4.657">
-                <audio path="samples/dummy.wav" duration="4.657" timebase="seconds"/>
+                <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
               </clip>
             </clips>
           </clip>
