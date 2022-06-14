@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Points")
-@XmlType(propOrder={"target","points","unit", "interpolation"})
+@XmlType(propOrder={"target","points","unit"})
 public class Points extends Timeline
 {
    @XmlElement(name = "Target", required = true)
