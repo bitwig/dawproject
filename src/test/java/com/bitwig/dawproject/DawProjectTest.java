@@ -20,7 +20,7 @@ import com.bitwig.dawproject.timeline.Lanes;
 import com.bitwig.dawproject.timeline.Note;
 import com.bitwig.dawproject.timeline.Notes;
 import com.bitwig.dawproject.timeline.Points;
-import com.bitwig.dawproject.timeline.Timebase;
+import com.bitwig.dawproject.timeline.TimeUnit;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -80,7 +80,7 @@ public class DawProjectTest
 
       project.arrangement = new Arrangement();
       final var arrangementLanes = new Lanes();
-      arrangementLanes.timebase = Timebase.beats;
+      arrangementLanes.timeUnit = TimeUnit.beats;
       project.arrangement.lanes = arrangementLanes;
 
       if (features.contains(Features.CUE_MARKERS))

@@ -22,5 +22,5 @@ public abstract class Timeline extends Referenceable
     * 'beats' will be used.
     */
    @XmlAttribute(required = false)
-   public Timebase timebase;
+   public TimeUnit timeUnit;
 }
