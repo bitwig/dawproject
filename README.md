@@ -38,7 +38,7 @@ The format is being actively developed and will still undergo structural changes
 * Adopting limitations from MIDI
 * Storing non-session data (view settings, preferences)
 
-## Enable experimental support in Bitwig Studio (4.0 Beta 3 or later)
+## Enable experimental support in Bitwig Studio (4.0 or later)
 
 Create a file named config.json with the following content inside you user settings directory.
 
