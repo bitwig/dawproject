@@ -20,7 +20,7 @@ public class Clip extends Nameable
    /** The TimeUnit used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
     *  loopStart, loopEnd but not time and duration which are using the TimeUnit of the parent scope. */
    @XmlAttribute(required = false)
-   public TimeUnit timeUnit;
+   public TimeUnit contentTimeUnit;
 
    /** Time inside the content timeline (or reference) where the clip starts playing. */
    @XmlAttribute(required = false)
