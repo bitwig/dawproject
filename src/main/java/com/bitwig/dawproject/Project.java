@@ -31,10 +31,10 @@ public class Project
    @XmlElementRef
    public List<Lane> structure = new ArrayList<>();
 
-   @XmlElementRef(name="Arrangement", type = Arrangement.class, required = false)
+   @XmlElement(name="Arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;
 
    @XmlElementWrapper(name="Scenes")
-   @XmlElementRef
+   @XmlElement(name="Scene")
    public List<Scene> scenes = new ArrayList<>();
 }

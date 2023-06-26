@@ -25,6 +25,6 @@ public class Track extends Lane
    @XmlElement(name = "Channel", required = false)
    public Channel channel;
 
-   @XmlElementRef(name = "Tracks")
+   @XmlElement(name = "Track")
    public List<Track> tracks = new ArrayList<>();
 }
