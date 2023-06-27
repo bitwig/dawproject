@@ -124,9 +124,8 @@ public class GenerateDocumentationTest
          BuiltinDevice.class,
          Compressor.class,
          DeviceRole.class,
-         EqBand.class,
-         EqBandType.class,
          Equalizer.class,
+         EqBand.class,
          Limiter.class,
          NoiseGate.class,
       });
@@ -162,6 +161,21 @@ public class GenerateDocumentationTest
       if (!classDoc.isEmpty())
       {
          out(format(classDoc.getComment()));
+      }
+
+      var superClass = cls.getSuperclass();
+
+      if (superClass != null)
+      {
+         out("\n\nParent type: ");
+
+         while (superClass != Object.class)
+         {
+            out(superClass.getSimpleName());
+            superClass = superClass.getSuperclass();
+            if (superClass != Object.class)
+               out(", ");
+         }
       }
 
       createMarkdownForAttributes(cls);
