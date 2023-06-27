@@ -45,6 +45,8 @@ public class GenerateDocumentationTest
 
       final Class[] rootClasses = {
          Project.class,
+         MetaData.class,
+
          Application.class,
          Arrangement.class,
          BoolParameter.class,
@@ -57,7 +59,6 @@ public class GenerateDocumentationTest
          IntegerParameter.class,
          Interpolation.class,
          Lane.class,
-         MetaData.class,
          MixerRole.class,
          Nameable.class,
          Parameter.class,
@@ -98,20 +99,21 @@ public class GenerateDocumentationTest
       };
 
       final Class[] deviceClasses = {
-         AuPlugin.class,
-         BuiltinDevice.class,
-         ClapPlugin.class,
-         Compressor.class,
          Device.class,
+         AuPlugin.class,
+         ClapPlugin.class,
+         Plugin.class,
+         Vst2Plugin.class,
+         Vst3Plugin.class,
+
+         BuiltinDevice.class,
+         Compressor.class,
          DeviceRole.class,
          EqBand.class,
          EqBandType.class,
          Equalizer.class,
          Limiter.class,
          NoiseGate.class,
-         Plugin.class,
-         Vst2Plugin.class,
-         Vst3Plugin.class
       };
 
       out("# Elements\n\n");
@@ -202,8 +204,8 @@ public class GenerateDocumentationTest
       if (!sb.isEmpty())
       {
          out("");
-         out("| Child Element | Description | Required |");
-         out("| ------------- | ----------- | -------- |");
+         out("| Element | Description | Required |");
+         out("| ------- | ----------- | -------- |");
          out(sb.toString());
       }
    }

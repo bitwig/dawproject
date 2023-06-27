@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlID;
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
 public abstract class Referenceable extends Nameable
 {
+   /** Unique string identifier of this element. This is used for referencing this instance from other elements. */
    @XmlAttribute
    @XmlID()
    public final String id;
