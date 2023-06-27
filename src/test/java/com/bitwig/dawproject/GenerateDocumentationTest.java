@@ -14,6 +14,9 @@ import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,6 +44,7 @@ public class GenerateDocumentationTest
       mFileWriter = new FileWriter(file);
 
       final Class[] rootClasses = {
+         Project.class,
          Application.class,
          Arrangement.class,
          BoolParameter.class,
@@ -57,7 +61,6 @@ public class GenerateDocumentationTest
          MixerRole.class,
          Nameable.class,
          Parameter.class,
-         Project.class,
          RealParameter.class,
          Referenceable.class,
          Scene.class,
@@ -143,21 +146,33 @@ public class GenerateDocumentationTest
          if (!classDoc.isEmpty())
          {
             out(format(classDoc.getComment()));
-
-            out("");
-            out("| Attribute | Description | Required |");
-            out("| --------- | ----------- | -------- |");
-
-            for (final var field : cls.getDeclaredFields())
-            {
-               final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-               createMarkdownForAttribute(field, fieldJavadoc);
-            }
          }
+
+         createMarkdownForAttributes(cls);
+         createMarkdownForElements(cls);
       }
    }
 
-   private void createMarkdownForAttribute(final Field field, final FieldJavadoc javadoc) throws IOException
+   private void createMarkdownForAttributes(final Class cls) throws IOException
+   {
+      final var sb = new StringBuilder();
+
+      for (final var field : cls.getFields())
+      {
+         final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
+         createMarkdownForAttribute(sb, field, fieldJavadoc);
+      }
+
+      if (!sb.isEmpty())
+      {
+         out("");
+         out("| Attribute | Description | Required |");
+         out("| --------- | ----------- | -------- |");
+         out(sb.toString());
+      }
+   }
+
+   private void createMarkdownForAttribute(StringBuilder sb, final Field field, final FieldJavadoc javadoc) throws IOException
    {
       for (Annotation annotation : field.getAnnotations())
       {
@@ -168,7 +183,65 @@ public class GenerateDocumentationTest
             if (name.startsWith("#"))
                name = field.getName();
 
-            out("| " + name + " | " + comment + " | " + (attribute.required() ? "yes" : "no") + " | ");
+            sb.append("| " + name + " | " + comment + " | " + (attribute.required() ? "yes" : "no") + " | ");
+            sb.append("\n");
+         }
+      }
+   }
+
+   private void createMarkdownForElements(final Class cls) throws IOException
+   {
+      final var sb = new StringBuilder();
+
+      for (final var field : cls.getFields())
+      {
+         final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
+         createMarkdownForElement(sb, field, fieldJavadoc);
+      }
+
+      if (!sb.isEmpty())
+      {
+         out("");
+         out("| Child Element | Description | Required |");
+         out("| ------------- | ----------- | -------- |");
+         out(sb.toString());
+      }
+   }
+
+   private void createMarkdownForElement(StringBuilder sb, final Field field, final FieldJavadoc javadoc) throws IOException
+   {
+      for (Annotation annotation : field.getAnnotations())
+      {
+         if (annotation instanceof XmlElementWrapper wrapper)
+         {
+            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+            var name = wrapper.name();
+            if (name.startsWith("#"))
+               name = field.getName();
+
+            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + (wrapper.required() ? "yes" : "no") + " | ");
+            sb.append("\n");
+            return;
+         }
+         else if (annotation instanceof XmlElement element)
+         {
+            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+            var name = element.name();
+            if (name.startsWith("#"))
+               name = field.getName();
+
+            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + (element.required() ? "yes" : "no") + " | ");
+            sb.append("\n");
+         }
+         else if (annotation instanceof XmlElementRef element)
+         {
+            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+            var name = element.name();
+            if (name.startsWith("#"))
+               name = field.getClass().getSimpleName();
+
+            sb.append("| " + name + " | " + comment + " | " + (element.required() ? "yes" : "no") + " | ");
+            sb.append("\n");
          }
       }
    }

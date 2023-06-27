@@ -12,28 +12,36 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
+/** The main root element of the .dawproject format. (The other being <MetaData>). */
+
 @XmlRootElement(name = "Project")
 @XmlSeeAlso({Device.class, Timeline.class})
 public class Project
 {
    public static String CURRENT_VERSION = "0.1";
 
+   /** Version of .dawproject format this file was saved as. */
    @XmlAttribute(required = true)
    public String version = CURRENT_VERSION;
 
+   /** Name of the application that saved this file. */
    @XmlElement(name = "Application", required = true)
    public Application application = new Application();
 
+   /** Transport element containing playback parameters such as Tempo and Time-signature. */
    @XmlElement(name = "Transport")
    public Transport transport;
 
+   /** Track/Channel structure of this file. */
    @XmlElementWrapper(name="Structure")
    @XmlElementRef
    public List<Lane> structure = new ArrayList<>();
 
+   /** The main Arrangement timeline of this file. */
    @XmlElement(name="Arrangement", type = Arrangement.class, required = false)
    public Arrangement arrangement;
 
+   /** Clip Launcher scenes of this file. */
    @XmlElementWrapper(name="Scenes")
    @XmlElement(name="Scene")
    public List<Scene> scenes = new ArrayList<>();
