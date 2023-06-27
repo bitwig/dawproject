@@ -24,7 +24,7 @@ public class Project
    @XmlAttribute(required = true)
    public String version = CURRENT_VERSION;
 
-   /** Name of the application that saved this file. */
+   /** Metadata (name/version) about the application that saved this file. */
    @XmlElement(name = "Application", required = true)
    public Application application = new Application();
 

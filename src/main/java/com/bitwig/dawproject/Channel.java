@@ -18,18 +18,23 @@ public class Channel extends Lane
    @XmlAttribute(required = false)
    public MixerRole role;
 
+   /** Number of audio-channels of this mixer channel. (1=mono, 2=stereo…) */
    @XmlAttribute(required = false)
    public Integer audioChannels = 2;
 
+   /** Channel volume */
    @XmlElement(name = "Volume", required = false)
    public RealParameter volume;
 
+   /** Channel pan/balance */
    @XmlElement(name = "Pan", required = false)
    public RealParameter pan;
 
+   /** Channel mute */
    @XmlElement(name = "Mute", required = false)
    public BoolParameter mute;
 
+   /** Channel solo */
    @XmlAttribute(required = false)
    public Boolean solo;
 
@@ -38,10 +43,12 @@ public class Channel extends Lane
    @XmlAttribute()
    public Channel destination;
 
+   /** Send levels & destination */
    @XmlElementWrapper(name="Sends")
    @XmlElement(name="Send", type = Send.class)
    public List<Send> sends;
 
+   /** Devices & plug-ins of this channel */
    @XmlElementWrapper(name="Devices")
    @XmlElementRef
    public List<Device> devices;

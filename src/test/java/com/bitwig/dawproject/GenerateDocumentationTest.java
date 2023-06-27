@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
 import com.bitwig.dawproject.device.*;
@@ -17,6 +19,9 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlEnumValue;
+import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,62 +48,72 @@ public class GenerateDocumentationTest
       final var file = new File("target/classes.md");
       mFileWriter = new FileWriter(file);
 
-      final Class[] rootClasses = {
+      createMarkdownClassesSummary("Root", new Class[] {
          Project.class,
          MetaData.class,
+      });
 
+      createMarkdownClassesSummary("Other", new Class[] {
          Application.class,
-         Arrangement.class,
-         BoolParameter.class,
-         Channel.class,
-         ContentType.class,
-         DoubleAdapter.class,
-         EnumParameter.class,
-         ExpressionType.class,
          FileReference.class,
-         IntegerParameter.class,
-         Interpolation.class,
-         Lane.class,
-         MixerRole.class,
-         Nameable.class,
-         Parameter.class,
-         RealParameter.class,
-         Referenceable.class,
-         Scene.class,
-         Send.class,
-         SendType.class,
-         TimeSignatureParameter.class,
-         Track.class,
          Transport.class,
-         Unit.class
-      };
+      });
 
-      final Class[] timelineClasses = {
-         Audio.class,
-         AutomationTarget.class,
-         BoolPoint.class,
-         Clip.class,
-         Clips.class,
-         ClipSlot.class,
-         EnumPoint.class,
-         IntegerPoint.class,
+      createMarkdownClassesSummary("Mixer", new Class[] {
+         Track.class,
+         Channel.class,
+         Send.class,
+      });
+
+      /*createMarkdownClassesSummary("Enums", new Class[] {
+         ContentType.class,
+         ExpressionType.class,
+         MixerRole.class,
+         Interpolation.class,
+         Unit.class,
+         SendType.class,
+      });*/
+
+      createMarkdownClassesSummary("Timeline", new Class[] {
+         Arrangement.class,
+         Scene.class,
          Lanes.class,
+         Clips.class,
+         Clip.class,
+         Audio.class,
+         ClipSlot.class,
          Marker.class,
          Markers.class,
          Note.class,
          Notes.class,
-         Point.class,
-         Points.class,
-         RealPoint.class,
          Timeline.class,
-         TimeSignaturePoint.class,
          TimeUnit.class,
          Video.class,
          Warp.class,
          Warps.class
-      };
+      });
 
-      final Class[] deviceClasses = {
+      createMarkdownClassesSummary("Parameters", new Class[] {
+         Parameter.class,
+         BoolParameter.class,
+         EnumParameter.class,
+         IntegerParameter.class,
+         RealParameter.class,
+         TimeSignatureParameter.class,
+      });
+
+      createMarkdownClassesSummary("Automation", new Class[] {
+         AutomationTarget.class,
+         Points.class,
+         Point.class,
+         RealPoint.class,
+         BoolPoint.class,
+         EnumPoint.class,
+         IntegerPoint.class,
+         TimeSignaturePoint.class,
+      });
+
+      createMarkdownClassesSummary("Device", new Class[] {
          Device.class,
          AuPlugin.class,
          ClapPlugin.class,
@@ -114,45 +129,43 @@ public class GenerateDocumentationTest
          Equalizer.class,
          Limiter.class,
          NoiseGate.class,
-      };
-
-      out("# Elements\n\n");
-
-      for (final var cls : rootClasses)
-         createMarkdownClassSummary(cls);
-
-      out("# Timeline Elements\n\n");
-
-      for (final var cls : timelineClasses)
-         createMarkdownClassSummary(cls);
-
-      out("# Device Elements\n\n");
-
-      for (final var cls : deviceClasses)
-         createMarkdownClassSummary(cls);
+      });
 
       mFileWriter.close();
       mFileWriter = null;
       Assert.assertTrue(file.exists());
    }
 
+   public void createMarkdownClassesSummary(final String label, final Class[] classes) throws IOException
+   {
+      out("# " + label + " Elements\n\n");
+
+      for (final var cls : classes)
+         createMarkdownClassSummary(cls);
+
+      out("");
+      out("---");
+      out("");
+   }
+
    public void createMarkdownClassSummary(Class cls) throws IOException
    {
       final var rootElement = cls.getDeclaredAnnotation(XmlRootElement.class);
+      var name = cls.getSimpleName();
       if (rootElement instanceof XmlRootElement re)
+         name = re.name();
+
+      out("\n## " + name);
+
+      ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
+
+      if (!classDoc.isEmpty())
       {
-         out("\n## " + re.name());
-
-         ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
-
-         if (!classDoc.isEmpty())
-         {
-            out(format(classDoc.getComment()));
-         }
-
-         createMarkdownForAttributes(cls);
-         createMarkdownForElements(cls);
+         out(format(classDoc.getComment()));
       }
+
+      createMarkdownForAttributes(cls);
+      createMarkdownForElements(cls);
    }
 
    private void createMarkdownForAttributes(final Class cls) throws IOException
@@ -168,8 +181,8 @@ public class GenerateDocumentationTest
       if (!sb.isEmpty())
       {
          out("");
-         out("| Attribute | Description | Required |");
-         out("| --------- | ----------- | -------- |");
+         out("| Attribute | Description | Type | Required |");
+         out("| --------- | ----------- | ---- | -------- |");
          out(sb.toString());
       }
    }
@@ -180,12 +193,12 @@ public class GenerateDocumentationTest
       {
          if (annotation instanceof XmlAttribute attribute)
          {
-            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+            final var comment = getComment(field, javadoc);
             var name = attribute.name();
             if (name.startsWith("#"))
                name = field.getName();
 
-            sb.append("| " + name + " | " + comment + " | " + (attribute.required() ? "yes" : "no") + " | ");
+            sb.append("| " + name + " | " + comment + " | " + getType(field, javadoc) + " | " + (attribute.required() ? "yes" : "no") + " | ");
             sb.append("\n");
          }
       }
@@ -204,48 +217,98 @@ public class GenerateDocumentationTest
       if (!sb.isEmpty())
       {
          out("");
-         out("| Element | Description | Required |");
-         out("| ------- | ----------- | -------- |");
+         out("| Element | Description | Type | Required |");
+         out("| ------- | ----------- | ---- | -------- |");
          out(sb.toString());
       }
    }
 
    private void createMarkdownForElement(StringBuilder sb, final Field field, final FieldJavadoc javadoc) throws IOException
    {
+      final var comment = getComment(field, javadoc);
+      final var name = getFieldName(field);
+
       for (Annotation annotation : field.getAnnotations())
       {
          if (annotation instanceof XmlElementWrapper wrapper)
          {
-            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
-            var name = wrapper.name();
-            if (name.startsWith("#"))
-               name = field.getName();
-
-            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + (wrapper.required() ? "yes" : "no") + " | ");
+            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + getType(field, javadoc) + " | " + (wrapper.required() ? "yes" : "no") + " | ");
             sb.append("\n");
             return;
          }
          else if (annotation instanceof XmlElement element)
          {
-            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
-            var name = element.name();
-            if (name.startsWith("#"))
-               name = field.getName();
-
-            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + (element.required() ? "yes" : "no") + " | ");
+            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + getType(field, javadoc) + " | " + (element.required() ? "yes" : "no") + " | ");
             sb.append("\n");
          }
          else if (annotation instanceof XmlElementRef element)
          {
-            final var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
-            var name = element.name();
-            if (name.startsWith("#"))
-               name = field.getClass().getSimpleName();
-
-            sb.append("| " + name + " | " + comment + " | " + (element.required() ? "yes" : "no") + " | ");
+            sb.append("| " + name + " | " + comment + " | " + getType(field, javadoc) + " | " + (element.required() ? "yes" : "no") + " | ");
             sb.append("\n");
          }
       }
+   }
+
+   private static String getComment(final Field field, final FieldJavadoc javadoc)
+   {
+      var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+
+      final Class<?> type = field.getType();
+
+      if (type.isEnum())
+      {
+         comment += " ("
+            + Arrays.stream(type.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/"))
+            + ")";
+      }
+
+      return comment;
+   }
+
+   private static String getFieldName(final Field field)
+   {
+      for (Annotation annotation : field.getAnnotations())
+      {
+         if (annotation instanceof XmlElementWrapper wrapper)
+         {
+            if (!wrapper.name().startsWith("#"))
+               return wrapper.name();
+         }
+         else if (annotation instanceof XmlElement element)
+         {
+            if (!element.name().startsWith("#"))
+               return element.name();
+         }
+         else if (annotation instanceof XmlElementRef element)
+         {
+            if (!element.name().startsWith("#"))
+               return element.name();
+         }
+         else if (annotation instanceof XmlEnumValue element)
+         {
+            if (!element.value().startsWith("#"))
+               return element.value();
+         }
+      }
+
+      return field.getName();
+   }
+
+   private static String getType(final Field field, final FieldJavadoc javadoc)
+   {
+      final var xmlIDREF = field.getAnnotation(XmlIDREF.class);
+
+      if (xmlIDREF != null)
+      {
+         return "ID";
+      }
+
+      final Class<?> type = field.getType();
+
+      if (type.isEnum())
+         return "Enum";
+
+      return type.getSimpleName();
    }
 
    private static final CommentFormatter formatter = new CommentFormatter();
