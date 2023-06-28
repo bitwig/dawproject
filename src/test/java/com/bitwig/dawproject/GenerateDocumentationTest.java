@@ -132,7 +132,7 @@ public class GenerateDocumentationTest
 
    public void createMarkdownClassesSummary(final String label, final Class[] classes) throws IOException
    {
-      out("# " + label + " Elements\n\n");
+      out("# " + label + " Elements");
 
       for (final var cls : classes)
          createMarkdownClassSummary(cls);
