@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -119,6 +120,11 @@ public class GenerateDocumentationTest
          //NoiseGate.class,
       });
 
+      createMarkdownClassesSummary("Abstract", new Class[] {
+         Nameable.class,
+         Referenceable.class,
+      });
+
       mFileWriter.close();
       mFileWriter = null;
       Assert.assertTrue(file.exists());
@@ -136,14 +142,18 @@ public class GenerateDocumentationTest
       out("");
    }
 
-   public void createMarkdownClassSummary(Class cls) throws IOException
+   private String getElementNameForClass(Class cls)
    {
       final var rootElement = cls.getDeclaredAnnotation(XmlRootElement.class);
-      var name = cls.getSimpleName();
-      if (rootElement instanceof XmlRootElement re)
-         name = re.name();
+      if (rootElement instanceof XmlRootElement re && !re.name().startsWith("#"))
+         return re.name();
+      return cls.getSimpleName();
+   }
 
-      out("\n## " + name);
+   public void createMarkdownClassSummary(Class cls) throws IOException
+   {
+      final var elementName = getElementNameForClass(cls);
+      out("\n## " + elementName);
 
       ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
 
@@ -154,17 +164,25 @@ public class GenerateDocumentationTest
 
       var superClass = cls.getSuperclass();
 
-      if (superClass != null)
+      if (superClass != Object.class)
       {
-         out("\n\n(*) Inherited from ");
+         StringBuilder sb = new StringBuilder();
+         sb.append("\n\nInherits from ");
 
          while (superClass != Object.class)
          {
-            out(superClass.getSimpleName());
+            sb.append(getElementNameForClass(superClass));
             superClass = superClass.getSuperclass();
             if (superClass != Object.class)
-               out(", ");
+               sb.append(", ");
          }
+         sb.append(" (marked with *)");
+         out(sb.toString());
+      }
+
+      if (Modifier.isAbstract(cls.getModifiers()))
+      {
+         out("\nThis element is abstract in the DOM and cannot be used as an XML element directly.");
       }
 
       createMarkdownForAttributes(cls);
