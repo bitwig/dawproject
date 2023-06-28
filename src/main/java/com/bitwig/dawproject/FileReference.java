@@ -7,7 +7,7 @@ public class FileReference
    /**
     * Relative path. either
     * 1) within the container
-    * 2) relative to .dawproject file (when isExternal = "true")
+    * 2) relative to .dawproject file (when external = "true")
     * */
    @XmlAttribute(required = true)
    public String path;

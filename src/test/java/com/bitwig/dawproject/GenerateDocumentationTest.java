@@ -19,7 +19,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -45,7 +44,7 @@ public class GenerateDocumentationTest
    @Test
    public void createMarkdownClassSummary() throws IOException
    {
-      final var file = new File("target/classes.md");
+      final var file = new File("target/Reference.md");
       mFileWriter = new FileWriter(file);
 
       createMarkdownClassesSummary("Root", new Class[] {
@@ -64,15 +63,6 @@ public class GenerateDocumentationTest
          Channel.class,
          Send.class,
       });
-
-      /*createMarkdownClassesSummary("Enums", new Class[] {
-         ContentType.class,
-         ExpressionType.class,
-         MixerRole.class,
-         Interpolation.class,
-         Unit.class,
-         SendType.class,
-      });*/
 
       createMarkdownClassesSummary("Timeline", new Class[] {
          Arrangement.class,
@@ -122,12 +112,11 @@ public class GenerateDocumentationTest
          Vst3Plugin.class,
 
          BuiltinDevice.class,
-         Compressor.class,
-         DeviceRole.class,
+         //Compressor.class,
          Equalizer.class,
          EqBand.class,
-         Limiter.class,
-         NoiseGate.class,
+         //Limiter.class,
+         //NoiseGate.class,
       });
 
       mFileWriter.close();
@@ -167,7 +156,7 @@ public class GenerateDocumentationTest
 
       if (superClass != null)
       {
-         out("\n\nParent type: ");
+         out("\n\n(*) Inherited from ");
 
          while (superClass != Object.class)
          {
@@ -189,7 +178,7 @@ public class GenerateDocumentationTest
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         createMarkdownForAttribute(sb, field, fieldJavadoc);
+         createMarkdownForAttribute(sb, field, fieldJavadoc, field.getDeclaringClass() == cls);
       }
 
       if (!sb.isEmpty())
@@ -201,7 +190,8 @@ public class GenerateDocumentationTest
       }
    }
 
-   private void createMarkdownForAttribute(StringBuilder sb, final Field field, final FieldJavadoc javadoc) throws IOException
+   private void createMarkdownForAttribute(StringBuilder sb, final Field field, final FieldJavadoc javadoc,
+      final boolean isDeclaredInThisClass) throws IOException
    {
       for (Annotation annotation : field.getAnnotations())
       {
@@ -211,6 +201,9 @@ public class GenerateDocumentationTest
             var name = attribute.name();
             if (name.startsWith("#"))
                name = field.getName();
+
+            if (!isDeclaredInThisClass)
+               name += "*";
 
             sb.append("| " + name + " | " + comment + " | " + getType(field, javadoc) + " | " + (attribute.required() ? "yes" : "no") + " | ");
             sb.append("\n");
@@ -225,7 +218,7 @@ public class GenerateDocumentationTest
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         createMarkdownForElement(sb, field, fieldJavadoc);
+         createMarkdownForElement(sb, field, fieldJavadoc, field.getDeclaringClass() == cls);
       }
 
       if (!sb.isEmpty())
@@ -237,10 +230,14 @@ public class GenerateDocumentationTest
       }
    }
 
-   private void createMarkdownForElement(StringBuilder sb, final Field field, final FieldJavadoc javadoc) throws IOException
+   private void createMarkdownForElement(StringBuilder sb, final Field field, final FieldJavadoc javadoc,
+      final boolean isDeclaredInThisClass) throws IOException
    {
       final var comment = getComment(field, javadoc);
-      final var name = getFieldName(field);
+      var name = getFieldName(field);
+
+      if (!isDeclaredInThisClass)
+         name += "*";
 
       for (Annotation annotation : field.getAnnotations())
       {
