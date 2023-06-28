@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
-/** The main root element of the .dawproject format. (The other being <MetaData>). */
+/** The main root element of the DAWPROJECT format. This is stored in the file project.xml file inside the container. */
 
 @XmlRootElement(name = "Project")
 @XmlSeeAlso({Device.class, Timeline.class})
@@ -20,7 +20,7 @@ public class Project
 {
    public static String CURRENT_VERSION = "0.1";
 
-   /** Version of .dawproject format this file was saved as. */
+   /** Version of DAWPROJECT format this file was saved as. */
    @XmlAttribute(required = true)
    public String version = CURRENT_VERSION;
 

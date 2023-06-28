@@ -25,6 +25,6 @@ dependencies {
 group = 'com.bitwig.open'
 version = '1-SNAPSHOT'
 description = 'dawproject file format'
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_16
 buildDir = new File(project.projectDir, "target")
 

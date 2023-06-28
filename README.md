@@ -4,12 +4,12 @@ Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 ## Motivation
 
-The .dawproject format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
+The DAWPROJECT format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
 Currently, the choices available for this task are rather limited.
 Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
-The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single .dawproject file.
+The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWPROJECT file.
 
 ## Status
 
@@ -52,7 +52,7 @@ The user settings directory is different on each platform
 * Mac: Library/Application Support/Bitwig/Bitwig Studio
 * Linux: ~/.BitwigStudio
 
-This will add an "Export Project..." entry in the FILE menu and allow .dawproject files to be opened.   
+This will add an "Export Project..." entry in the FILE menu and allow DAWPROJECT files to be opened.   
 
 ## Structure
 

@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
@@ -29,7 +31,6 @@ import com.vladsch.flexmark.ext.tables.TableCell;
 import com.vladsch.flexmark.ext.tables.TableHead;
 import com.vladsch.flexmark.ext.tables.TableRow;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
-import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.formatter.Formatter;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
@@ -81,13 +82,16 @@ public class GenerateDocumentationTest
 
       Parser parser = Parser.builder(options).build();
 
-      final Document document = createDocument(parser);
+      final var title = "DAWPROJECT XML Reference";
+      final Document document = createDocument(parser, title);
 
       final var html = HtmlRenderer.builder(options).build().render(document);
       final var fullHTML = new StringBuilder();
       fullHTML.append("<html>\n");
       fullHTML.append("<head>\n");
-      fullHTML.append("<title>.dawproject XML Element Reference</title>\n");
+      fullHTML.append("<title>");
+      fullHTML.append(title);
+      fullHTML.append("</title>\n");
       fullHTML.append("<link rel=\"stylesheet\" href=\"style.css\">\n");
       fullHTML.append("</head>\n");
       fullHTML.append("<body>\n");
@@ -104,10 +108,10 @@ public class GenerateDocumentationTest
    }
 
    @NotNull
-   private Document createDocument(final Parser parser) throws IOException
+   private Document createDocument(final Parser parser, final String title) throws IOException
    {
       final var document = parser.parse("");
-      document.appendChild(createHeading("XML Element Reference", 1));
+      document.appendChild(createHeading(title, 1));
 
       createClassesSummary(document, "Root", new Class[] {
          Project.class,
@@ -221,7 +225,7 @@ public class GenerateDocumentationTest
       if (superClass != Object.class)
       {
          StringBuilder sb = new StringBuilder();
-         sb.append("\n\nInherits from ");
+         sb.append("Inherits from ");
 
          while (superClass != Object.class)
          {
@@ -302,31 +306,91 @@ public class GenerateDocumentationTest
          document.appendChild(table);
    }
 
+   private boolean isDynamicType(final Field field)
+   {
+      return field.getAnnotation(XmlElementRef.class) != null;
+   }
+
+   private boolean isRequired(final Field field)
+   {
+      for (Annotation annotation : field.getAnnotations())
+      {
+         if (annotation instanceof XmlElementWrapper e && e.required())
+            return true;
+         else if (annotation instanceof XmlElement e && e.required())
+            return true;
+         else if (annotation instanceof XmlElementRef e && e.required())
+            return true;
+      }
+      return false;
+   }
+
+   private boolean isElement(final Field field)
+   {
+      for (Annotation annotation : field.getAnnotations())
+      {
+         if (annotation instanceof XmlElementWrapper)
+            return true;
+         else if (annotation instanceof XmlElement)
+            return true;
+         else if (annotation instanceof XmlElementRef)
+            return true;
+      }
+      return false;
+   }
+
+   boolean isFieldList(final Field field)
+   {
+      final Class<?> type = field.getType();
+      return type == List.class;
+   }
+
+   String getListGenericType(final Field field)
+   {
+      if (field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
+      {
+         final var listType = pt.getActualTypeArguments()[0];
+         if (listType instanceof Class cls)
+            return getElementNameForClass(cls);
+      }
+      return "null";
+   }
+
    private void processChildElement(
       TableBody tableBody, final Field field, final FieldJavadoc javadoc,
       final boolean isDeclaredInThisClass) throws IOException
    {
+      if (!isElement(field))
+         return;
+
       final var comment = getComment(field, javadoc);
       var name = getFieldName(field);
 
       if (!isDeclaredInThisClass)
          name += "*";
 
-      for (Annotation annotation : field.getAnnotations())
+      final var isRequired = isRequired(field);
+      final boolean isList = isFieldList(field);
+
+      if (isDynamicType(field))
       {
-         if (annotation instanceof XmlElementWrapper wrapper)
+         var typeDescription = isList ? "list of <Type>" : "<Type>";
+         var typeString = "instance of " + getType(field, javadoc);
+
+         if (isList && field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
          {
-            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (wrapper.required() ? "yes" : "no")));
-            return;
+            typeString = "instance of " + getListGenericType(field);
          }
-         else if (annotation instanceof XmlElement element)
-         {
-            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (element.required() ? "yes" : "no")));
-         }
-         else if (annotation instanceof XmlElementRef element)
-         {
-            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (element.required() ? "yes" : "no")));
-         }
+
+         tableBody.appendChild(createTableRow(typeDescription, comment, typeString, (isRequired ? "yes" : "no")));
+      }
+      else
+      {
+         var typeString = getType(field, javadoc);
+         final var typeDescription = isList ? "list of <" + name + ">" : "<" + name + ">";
+         if (isList)
+            typeString = getListGenericType(field);
+         tableBody.appendChild(createTableRow(typeDescription, comment, typeString, (isRequired ? "yes" : "no")));
       }
    }
 
