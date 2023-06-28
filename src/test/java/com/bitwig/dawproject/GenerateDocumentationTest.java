@@ -58,7 +58,7 @@ public class GenerateDocumentationTest
    @Test
    public void createClassSummary() throws IOException
    {
-      final var htmlFile = new File("target/Reference.html");
+      final var htmlFile = new File("Reference.html");
       final var markdownFile = new File("target/Reference.md");
 
       MutableDataSet options = new MutableDataSet();
@@ -74,6 +74,8 @@ public class GenerateDocumentationTest
 
       options.set(Formatter.SETEXT_HEADING_EQUALIZE_MARKER, false);
 
+      options.set(HtmlRenderer.MAX_BLANK_LINES, 1);
+
       options.set(TablesExtension.TRIM_CELL_WHITESPACE, false);
       options.set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, false);
 
@@ -82,7 +84,17 @@ public class GenerateDocumentationTest
       final Document document = createDocument(parser);
 
       final var html = HtmlRenderer.builder(options).build().render(document);
-      Files.write(htmlFile.toPath(), Collections.singleton(html), StandardCharsets.UTF_8);
+      final var fullHTML = new StringBuilder();
+      fullHTML.append("<html>\n");
+      fullHTML.append("<head>\n");
+      fullHTML.append("<title>.dawproject XML Element Reference</title>\n");
+      fullHTML.append("<link rel=\"stylesheet\" href=\"style.css\">\n");
+      fullHTML.append("</head>\n");
+      fullHTML.append("<body>\n");
+      fullHTML.append(html);
+      fullHTML.append("\n</body>\n");
+      Files.write(htmlFile.toPath(), Collections.singleton(fullHTML.toString()), StandardCharsets.UTF_8);
+
 
       final var commonMark = Formatter.builder(options).build().render(document);
       Files.write(markdownFile.toPath(), Collections.singleton(commonMark), StandardCharsets.UTF_8);
@@ -240,16 +252,13 @@ public class GenerateDocumentationTest
       table.appendChain(tableHead);
       table.appendChild(tableBody);
 
-      boolean shouldAdd = false;
-
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
          processAttribute(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
-         shouldAdd = true;
       }
 
-      if (shouldAdd)
+      if (tableBody.hasChildren())
          document.appendChild(table);
    }
 
@@ -278,21 +287,18 @@ public class GenerateDocumentationTest
    {
       final var table = new TableBlock();
       final var tableHead = new TableHead();
-      tableHead.appendChild(createTableRow("Attribute", "Description", "Type", "Required"));
+      tableHead.appendChild(createTableRow("Element", "Description", "Type", "Required"));
       final var tableBody = new TableBody();
       table.appendChain(tableHead);
       table.appendChild(tableBody);
-
-      boolean shouldAdd = false;
 
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
          processChildElement(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
-         shouldAdd = true;
       }
 
-      if (shouldAdd)
+      if (tableBody.hasChildren())
          document.appendChild(table);
    }
 
