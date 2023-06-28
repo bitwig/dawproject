@@ -18,7 +18,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Application&gt;</td><td>Metadata (name/version) about the application that saved this file.</td><td>Application</td><td>yes</td></tr>
@@ -32,33 +32,34 @@
 <p>Metadata root element of the DAWPROJECT format. This is stored in the file metadata.xml file inside the container.</p>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
-<tr><td>&lt;Title&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Artist&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Album&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;OriginalArtist&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Composer&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Songwriter&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Producer&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Arranger&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Year&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Genre&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Copyright&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Website&gt;</td><td></td><td>String</td><td>no</td></tr>
-<tr><td>&lt;Comment&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Title&gt;</td><td>Title of the song/project.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Artist&gt;</td><td>Recording Artist.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Album&gt;</td><td>Album.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;OriginalArtist&gt;</td><td>Original Artist.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Composer&gt;</td><td>Composer.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Songwriter&gt;</td><td>Songwriter.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Producer&gt;</td><td>Producer.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Arranger&gt;</td><td>Arranger.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Year&gt;</td><td>Year this project/song was recorded.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Genre&gt;</td><td>Genre/style</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Copyright&gt;</td><td>Copyright notice.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Website&gt;</td><td>URL to website related to this project.</td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Comment&gt;</td><td>General comment or description.</td><td>String</td><td>no</td></tr>
 </tbody>
 </table>
 <h2>Other Elements</h2>
 <h3>Application</h3>
+<p>Metadata about the application which saved the DAWPROJECT file.</p>
 <table>
 <thead>
 <tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
 </thead>
 <tbody>
-<tr><td>name</td><td></td><td>String</td><td>yes</td></tr>
-<tr><td>version</td><td></td><td>String</td><td>yes</td></tr>
+<tr><td>name</td><td>Name of the application.</td><td>String</td><td>yes</td></tr>
+<tr><td>version</td><td>Version number of the application.</td><td>String</td><td>yes</td></tr>
 </tbody>
 </table>
 <h3>FileReference</h3>
@@ -73,13 +74,14 @@
 </tbody>
 </table>
 <h3>Transport</h3>
+<p>Transport element containing playback parameters such as Tempo and Time-signature.</p>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
-<tr><td>&lt;Tempo&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
-<tr><td>&lt;TimeSignature&gt;</td><td></td><td>TimeSignatureParameter</td><td>no</td></tr>
+<tr><td>&lt;Tempo&gt;</td><td>Tempo parameter for setting and/or automating the tempo.</td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;TimeSignature&gt;</td><td>Time-signature parameter.</td><td>TimeSignatureParameter</td><td>no</td></tr>
 </tbody>
 </table>
 <h2>Mixer Elements</h2>
@@ -101,7 +103,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Channel&gt;</td><td>Mixer channel used for the output of this track.</td><td>Channel</td><td>no</td></tr>
@@ -109,7 +111,8 @@
 </tbody>
 </table>
 <h3>Channel</h3>
-<p>Represents a mixer channel.</p>
+<p>Represents a mixer channel. It provides the ability to route signals to other channels and can contain
+Device/Plug-in for processing.</p>
 <p>Inherits from Lane, Referenceable, Nameable (marked with *)</p>
 <table>
 <thead>
@@ -128,7 +131,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Volume&gt;</td><td>Channel volume</td><td>RealParameter</td><td>no</td></tr>
@@ -156,7 +159,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Volume&gt;</td><td>Send level</td><td>RealParameter</td><td>yes</td></tr>
@@ -180,7 +183,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;TimeSignatureAutomation&gt;</td><td>Automation data for time-signature inside this Arrangement</td><td>Points</td><td>no</td></tr>
@@ -204,7 +207,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Type&gt;</td><td></td><td>instance of Timeline</td><td>yes</td></tr>
@@ -228,7 +231,7 @@
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Type&gt;</td><td>Lanes representing nested content</td><td>instance of Timeline</td><td>yes</td></tr>
@@ -253,7 +256,7 @@ timeline (defined by timeUnit of the Clips element).</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Clip&gt;</td><td></td><td>Clip</td><td>no</td></tr>
@@ -286,7 +289,7 @@ A Clip must either have a child-element inheriting from Timeline or provide a ID
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Type&gt;</td><td>Content Timeline this clip is playing.</td><td>instance of Timeline</td><td>no</td></tr>
@@ -316,7 +319,7 @@ seconds.</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;File&gt;</td><td>The file that should be played back.</td><td>FileReference</td><td>yes</td></tr>
@@ -340,7 +343,7 @@ seconds.</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Clip&gt;</td><td></td><td>Clip</td><td>no</td></tr>
@@ -376,7 +379,7 @@ seconds.</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Marker&gt;</td><td></td><td>Marker</td><td>yes</td></tr>
@@ -400,7 +403,7 @@ It can additionally contain child timelines</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Type&gt;</td><td>Per-note expressions can be stored within the note object as timelines.</td><td>instance of Timeline</td><td>no</td></tr>
@@ -424,7 +427,7 @@ It can additionally contain child timelines</p>
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Type&gt;</td><td>Contained notes.</td><td>instance of Note</td><td>yes</td></tr>
@@ -472,7 +475,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;File&gt;</td><td></td><td>FileReference</td><td>yes</td></tr>
@@ -511,7 +514,7 @@ A typical use case would be to warp an audio-file (contentTimeUnit = seconds) on
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Warp&gt;</td><td></td><td>Warp</td><td>yes</td></tr>
@@ -656,7 +659,7 @@ it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as p
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Target&gt;</td><td></td><td>AutomationTarget</td><td>yes</td></tr>
@@ -753,7 +756,7 @@ it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as p
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -782,7 +785,7 @@ it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as p
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -811,7 +814,7 @@ it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as p
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -843,7 +846,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -872,7 +875,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -901,7 +904,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -929,7 +932,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
@@ -957,7 +960,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>list of &lt;Bands&gt;</td><td></td><td>EqBand</td><td>no</td></tr>
@@ -980,7 +983,7 @@ This element is abstract in the DOM and cannot be used as an XML element directl
 </table>
 <table>
 <thead>
-<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+<tr><td>Element name</td><td>Description</td><td>Element Type</td><td>Required</td></tr>
 </thead>
 <tbody>
 <tr><td>&lt;Freq&gt;</td><td></td><td>RealParameter</td><td>yes</td></tr>

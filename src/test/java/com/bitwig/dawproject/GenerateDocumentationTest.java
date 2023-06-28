@@ -282,7 +282,10 @@ public class GenerateDocumentationTest
             if (!isDeclaredInThisClass)
                name += "*";
 
-            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (attribute.required() ? "yes" : "no")));
+            final var tableRow =
+               createTableRow(name, comment, getType(field, javadoc), (attribute.required() ? "yes" : "no"));
+
+            tableBody.appendChild(tableRow);
          }
       }
    }
@@ -291,7 +294,7 @@ public class GenerateDocumentationTest
    {
       final var table = new TableBlock();
       final var tableHead = new TableHead();
-      tableHead.appendChild(createTableRow("Element", "Description", "Type", "Required"));
+      tableHead.appendChild(createTableRow("Element name", "Description", "Element Type", "Required"));
       final var tableBody = new TableBody();
       table.appendChain(tableHead);
       table.appendChild(tableBody);

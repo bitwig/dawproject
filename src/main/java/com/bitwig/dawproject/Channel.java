@@ -10,7 +10,10 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-/** Represents a mixer channel.  */
+/**
+ * Represents a mixer channel. It provides the ability to route signals to other channels and can contain
+ * Device/Plug-in for processing.
+ */
 @XmlRootElement(name = "Channel")
 public class Channel extends Lane
 {
