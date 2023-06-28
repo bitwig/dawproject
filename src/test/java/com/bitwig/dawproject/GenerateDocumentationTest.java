@@ -29,11 +29,14 @@ import com.vladsch.flexmark.ext.tables.TableCell;
 import com.vladsch.flexmark.ext.tables.TableHead;
 import com.vladsch.flexmark.ext.tables.TableRow;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.toc.TocExtension;
+import com.vladsch.flexmark.formatter.Formatter;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.vladsch.flexmark.util.sequence.BasedSequence;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
@@ -56,6 +59,7 @@ public class GenerateDocumentationTest
    public void createClassSummary() throws IOException
    {
       final var htmlFile = new File("target/Reference.html");
+      final var markdownFile = new File("target/Reference.md");
 
       MutableDataSet options = new MutableDataSet();
 
@@ -68,6 +72,11 @@ public class GenerateDocumentationTest
             AutolinkExtension.create(),
             StrikethroughExtension.create()));
 
+      options.set(Formatter.SETEXT_HEADING_EQUALIZE_MARKER, false);
+
+      options.set(TablesExtension.TRIM_CELL_WHITESPACE, false);
+      options.set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, false);
+
       Parser parser = Parser.builder(options).build();
 
       final Document document = createDocument(parser);
@@ -75,7 +84,11 @@ public class GenerateDocumentationTest
       final var html = HtmlRenderer.builder(options).build().render(document);
       Files.write(htmlFile.toPath(), Collections.singleton(html), StandardCharsets.UTF_8);
 
+      final var commonMark = Formatter.builder(options).build().render(document);
+      Files.write(markdownFile.toPath(), Collections.singleton(commonMark), StandardCharsets.UTF_8);
+
       Assert.assertTrue(htmlFile.exists());
+      Assert.assertTrue(markdownFile.exists());
    }
 
    @NotNull
@@ -378,6 +391,7 @@ public class GenerateDocumentationTest
       final var heading = new Heading();
       heading.setLevel(level);
       heading.appendChild(new Text(text));
+      heading.setOpeningMarker(BasedSequence.repeatOf("#", level));
       return heading;
    }
 
