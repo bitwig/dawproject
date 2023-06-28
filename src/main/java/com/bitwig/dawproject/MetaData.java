@@ -3,6 +3,8 @@ package com.bitwig.dawproject;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** Metadata root element of the DAWPROJECT format. This is stored in the file metadata.xml file inside the container. */
+
 @XmlRootElement(name = "MetaData")
 public class MetaData
 {

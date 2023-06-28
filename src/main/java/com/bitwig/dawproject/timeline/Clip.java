@@ -6,6 +6,10 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** A Clip provides a clipped view on to a Timeline, and is used either on a Clips timeline (typically for arrangements) or inside a ClipSlot element (for clip launcher Scenes).
+ * A Clip must either have a child-element inheriting from Timeline or provide a ID reference to a timeline somewhere else (for linked/alias clips).
+  */
+
 @XmlRootElement(name = "Clip")
 public class Clip extends Nameable
 {

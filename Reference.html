@@ -1,0 +1,1025 @@
+<html>
+<head>
+<title>DAWPROJECT XML Reference</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>DAWPROJECT XML Reference</h1>
+<h2>Root Elements</h2>
+<h3>Project</h3>
+<p>The main root element of the DAWPROJECT format. This is stored in the file project.xml file inside the container.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>version</td><td>Version of DAWPROJECT format this file was saved as.</td><td>String</td><td>yes</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Application&gt;</td><td>Metadata (name/version) about the application that saved this file.</td><td>Application</td><td>yes</td></tr>
+<tr><td>&lt;Transport&gt;</td><td>Transport element containing playback parameters such as Tempo and Time-signature.</td><td>Transport</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Track/Channel structure of this file.</td><td>instance of Lane</td><td>yes</td></tr>
+<tr><td>&lt;Arrangement&gt;</td><td>The main Arrangement timeline of this file.</td><td>Arrangement</td><td>no</td></tr>
+<tr><td>list of &lt;Scenes&gt;</td><td>Clip Launcher scenes of this file.</td><td>Scene</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>MetaData</h3>
+<p>Metadata root element of the DAWPROJECT format. This is stored in the file metadata.xml file inside the container.</p>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Title&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Artist&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Album&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;OriginalArtist&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Composer&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Songwriter&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Producer&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Arranger&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Year&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Genre&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Copyright&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Website&gt;</td><td></td><td>String</td><td>no</td></tr>
+<tr><td>&lt;Comment&gt;</td><td></td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h2>Other Elements</h2>
+<h3>Application</h3>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>name</td><td></td><td>String</td><td>yes</td></tr>
+<tr><td>version</td><td></td><td>String</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>FileReference</h3>
+<p>References a file either within a DAWPROJECT container or on disk.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>path</td><td>Relative path. either 1) within the container 2) relative to .dawproject file (when external = &quot;true&quot;)</td><td>String</td><td>yes</td></tr>
+<tr><td>external</td><td>When true, the path is relative to the .dawproject file. Default value is false.</td><td>Boolean</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Transport</h3>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Tempo&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;TimeSignature&gt;</td><td></td><td>TimeSignatureParameter</td><td>no</td></tr>
+</tbody>
+</table>
+<h2>Mixer Elements</h2>
+<h3>Track</h3>
+<p>Represents a sequencer track.</p>
+<p>Inherits from Lane, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>contentType</td><td>Role of this track in timelines &amp; arranger. Can be multiple.</td><td>ContentType[]</td><td>no</td></tr>
+<tr><td>loaded</td><td>If this track is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Channel&gt;</td><td>Mixer channel used for the output of this track.</td><td>Channel</td><td>no</td></tr>
+<tr><td>list of &lt;Track&gt;</td><td>Child tracks, typically used to represent group/folder tracks with contentType=&quot;tracks&quot;.</td><td>Track</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Channel</h3>
+<p>Represents a mixer channel.</p>
+<p>Inherits from Lane, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>role</td><td>Role of this channel in the mixer. (regular/master/effect/submix/vca)</td><td>Enum</td><td>no</td></tr>
+<tr><td>audioChannels</td><td>Number of audio-channels of this mixer channel. (1=mono, 2=stereo…)</td><td>Integer</td><td>no</td></tr>
+<tr><td>solo</td><td>Channel solo</td><td>Boolean</td><td>no</td></tr>
+<tr><td>destination</td><td>Output channel routing</td><td>ID</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Volume&gt;</td><td>Channel volume</td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;Pan&gt;</td><td>Channel pan/balance</td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;Mute&gt;</td><td>Channel mute</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>list of &lt;Sends&gt;</td><td>Send levels &amp; destination</td><td>Send</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Devices &amp; plug-ins of this channel</td><td>instance of Device</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Send</h3>
+<p></p>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>type</td><td>Send type (pre/post)</td><td>Enum</td><td>no</td></tr>
+<tr><td>destination</td><td>Send destination</td><td>ID</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Volume&gt;</td><td>Send level</td><td>RealParameter</td><td>yes</td></tr>
+<tr><td>&lt;Pan&gt;</td><td>Send pan</td><td>RealParameter</td><td>no</td></tr>
+</tbody>
+</table>
+<h2>Timeline Elements</h2>
+<h3>Arrangement</h3>
+<p></p>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;TimeSignatureAutomation&gt;</td><td>Automation data for time-signature inside this Arrangement</td><td>Points</td><td>no</td></tr>
+<tr><td>&lt;TempoAutomation&gt;</td><td>Automation data for tempo inside this Arrangement, which will define the conversion between seconds and beats at the root level.</td><td>Points</td><td>no</td></tr>
+<tr><td>&lt;Markers&gt;</td><td>Cue markers inside this arrangement</td><td>Markers</td><td>no</td></tr>
+<tr><td>&lt;Lanes&gt;</td><td></td><td>Lanes</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Scene</h3>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Type&gt;</td><td></td><td>instance of Timeline</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Lanes</h3>
+<p></p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Type&gt;</td><td>Lanes representing nested content</td><td>instance of Timeline</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Clips</h3>
+<p>Represents a timeline of clips. Each contained Clip have its time and duration that defines its location on this
+timeline (defined by timeUnit of the Clips element).</p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Clip&gt;</td><td></td><td>Clip</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Clip</h3>
+<p>A Clip provides a clipped view on to a Timeline, and is used either on a Clips timeline (typically for arrangements) or inside a ClipSlot element (for clip launcher Scenes).
+A Clip must either have a child-element inheriting from Timeline or provide a ID reference to a timeline somewhere else (for linked/alias clips).</p>
+<p>Inherits from Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>time</td><td>Time on the parent timeline where this clips starts playing.</td><td>double</td><td>yes</td></tr>
+<tr><td>duration</td><td>Duration on the parent timeline of this clip.</td><td>double</td><td>yes</td></tr>
+<tr><td>contentTimeUnit</td><td>The TimeUnit used by the scope inside this timeline. This affects the content/reference, playStart, playStop,  loopStart, loopEnd but not time and duration which are using the TimeUnit of the parent scope. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>playStart</td><td>Time inside the content timeline (or reference) where the clip starts playing.</td><td>Double</td><td>no</td></tr>
+<tr><td>playStop</td><td>Time inside the content timeline (or reference) where the clip stops playing.</td><td>Double</td><td>no</td></tr>
+<tr><td>loopStart</td><td></td><td>Double</td><td>no</td></tr>
+<tr><td>loopEnd</td><td></td><td>Double</td><td>no</td></tr>
+<tr><td>fadeTimeUnit</td><td>The TimeUnit used by the fadeInTime and fadeOutTime. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>fadeInTime</td><td>Duration of fade-in</td><td>Double</td><td>no</td></tr>
+<tr><td>fadeOutTime</td><td>Duration of fade-out</td><td>Double</td><td>no</td></tr>
+<tr><td>reference</td><td>Reference to a Content Timeline this clip is playing, in case of linked/alias clips. You can use either content or reference for one clip, but not both.</td><td>ID</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Type&gt;</td><td>Content Timeline this clip is playing.</td><td>instance of Timeline</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Audio</h3>
+<p>Representation of an audio file as a timeline. Duration should be the entire length of the file, any clipping
+should be done by placing the Audio element within a Clip element. The timeUnit attribute should always be set to
+seconds.</p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>duration</td><td>Duration in seconds of audio-file.</td><td>double</td><td>yes</td></tr>
+<tr><td>sampleRate</td><td>Sample-rate of audio-file.</td><td>int</td><td>yes</td></tr>
+<tr><td>channels</td><td>Number of channels of audio-file (1=mono, 2=stereo...).</td><td>int</td><td>yes</td></tr>
+<tr><td>algorithm</td><td>Playback algorithm used to warp audio (vendor-specific).</td><td>String</td><td>no</td></tr>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;File&gt;</td><td>The file that should be played back.</td><td>FileReference</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>ClipSlot</h3>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>hasStop</td><td></td><td>Boolean</td><td>no</td></tr>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Clip&gt;</td><td></td><td>Clip</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Marker</h3>
+<p>Inherits from Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>time</td><td></td><td>double</td><td>yes</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Markers</h3>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Marker&gt;</td><td></td><td>Marker</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Note</h3>
+<p>A single Note (MIDI-style).
+It can additionally contain child timelines</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>time</td><td>Time on the parent timeline where this note starts playing.</td><td>Double</td><td>yes</td></tr>
+<tr><td>duration</td><td>Duration on the parent timeline of this note.</td><td>Double</td><td>yes</td></tr>
+<tr><td>channel</td><td>MIDI channel of this note.</td><td>int</td><td>no</td></tr>
+<tr><td>key</td><td>MIDI key of this note.</td><td>int</td><td>yes</td></tr>
+<tr><td>vel</td><td>Note On Velocity of this note. (normalized)</td><td>Double</td><td>no</td></tr>
+<tr><td>rel</td><td>Note Off Velocity of this note. (normalized)</td><td>Double</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Type&gt;</td><td>Per-note expressions can be stored within the note object as timelines.</td><td>instance of Timeline</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Notes</h3>
+<p>Timeline containing Notes (MIDI-style)</p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Type&gt;</td><td>Contained notes.</td><td>instance of Note</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Timeline</h3>
+<p></p>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<p>
+This element is abstract in the DOM and cannot be used as an XML element directly.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>track</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>TimeUnit</h3>
+<p>Inherits from Enum (marked with *)</p>
+<h3>Video</h3>
+<p></p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>duration</td><td>duration in seconds/beats (TimeUnit dependent) of video-file</td><td>double</td><td>yes</td></tr>
+<tr><td>sampleRate</td><td>sample-rate of audio (if present)</td><td>int</td><td>no</td></tr>
+<tr><td>channels</td><td>number of channels of audio (1=mono..., if present)</td><td>int</td><td>no</td></tr>
+<tr><td>algorithm</td><td>Playback algorithm used to warp audio (vendor-specific, if present)</td><td>String</td><td>no</td></tr>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;File&gt;</td><td></td><td>FileReference</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Warp</h3>
+<p></p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>time</td><td>The time this point represent to the 'outside' of the Warps element. The TimeUnit is defined by the parent Warps element timeUnit attribute or inherited from the parent element of the Warps container</td><td>double</td><td>yes</td></tr>
+<tr><td>contentTime</td><td>The time this point represent to the 'inside' of the Warps element. The TimeUnit is defined by the parent Warps element contentTimeUnit attribute</td><td>double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Warps</h3>
+<p>Warps the time of nested content as defined by a list of Warp points.
+
+A typical use case would be to warp an audio-file (contentTimeUnit = seconds) onto a timeline defined in beats
+(timeUnit = beats) as defined by a set of Warp events.</p>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>contentTimeUnit</td><td>The TimeUnit used by the content (nested) timeline and the contentTime attribute of the Warp events (beats/seconds)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Warp&gt;</td><td></td><td>Warp</td><td>yes</td></tr>
+<tr><td>&lt;Type&gt;</td><td>Content timeline to be warped.</td><td>instance of Timeline</td><td>yes</td></tr>
+</tbody>
+</table>
+<h2>Parameters Elements</h2>
+<h3>Parameter</h3>
+<p></p>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<p>
+This element is abstract in the DOM and cannot be used as an XML element directly.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>parameterID</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>BoolParameter</h3>
+<p>Inherits from Parameter, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Boolean</td><td>no</td></tr>
+<tr><td>parameterID*</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>EnumParameter</h3>
+<p></p>
+<p>Inherits from Parameter, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Integer</td><td>no</td></tr>
+<tr><td>count</td><td>Number of entries in enum value. value will be in the range [0 .. count-1]</td><td>Integer</td><td>yes</td></tr>
+<tr><td>labels</td><td>Labels of the individual enum values</td><td>String[]</td><td>no</td></tr>
+<tr><td>parameterID*</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>IntegerParameter</h3>
+<p>Inherits from Parameter, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Integer</td><td>no</td></tr>
+<tr><td>min</td><td></td><td>Integer</td><td>no</td></tr>
+<tr><td>max</td><td></td><td>Integer</td><td>no</td></tr>
+<tr><td>parameterID*</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>RealParameter</h3>
+<p>Inherits from Parameter, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Double</td><td>no</td></tr>
+<tr><td>unit</td><td> (linear/normalized/percent/decibel/hertz/semitones/seconds/beats/bpm)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>min</td><td></td><td>Double</td><td>no</td></tr>
+<tr><td>max</td><td></td><td>Double</td><td>no</td></tr>
+<tr><td>parameterID*</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>TimeSignatureParameter</h3>
+<p>Inherits from Parameter, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>numerator</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>denominator</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>parameterID*</td><td>Parameter ID as used by VST2 (index), VST3(ParamID)</td><td>Integer</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h2>Automation Elements</h2>
+<h3>AutomationTarget</h3>
+<p>Defines the target of automation or expression, usually used within a Points element.
+
+Either it points directly ot a parameter or an expression, and in the expression case
+it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as poly pressure)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>parameter</td><td></td><td>ID</td><td>no</td></tr>
+<tr><td>expression</td><td> (gain/pan/transpose/timbre/formant/pressure/channelController/channelPressure/polyPressure/pitchBend/programChange)</td><td>Enum</td><td>no</td></tr>
+<tr><td>channel</td><td>MIDI channel</td><td>Integer</td><td>no</td></tr>
+<tr><td>key</td><td>MIDI key. Used when expression=&quot;polyPressure&quot;.</td><td>Integer</td><td>no</td></tr>
+<tr><td>controller</td><td>MIDI key. Used when expression=&quot;channelController&quot;.</td><td>Integer</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Points</h3>
+<p>Inherits from Timeline, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>unit</td><td> (linear/normalized/percent/decibel/hertz/semitones/seconds/beats/bpm)</td><td>Enum</td><td>no</td></tr>
+<tr><td>track*</td><td>When present, the timeline is local to this track.</td><td>ID</td><td>no</td></tr>
+<tr><td>timeUnit*</td><td>The TimeUnit used by this and nested timelines. If no TimeUnit is provided by this or the parent scope then 'beats' will be used. (beats/seconds)</td><td>Enum</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Target&gt;</td><td></td><td>AutomationTarget</td><td>yes</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td></td><td>instance of Point</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Point</h3>
+<p></p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>time</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>RealPoint</h3>
+<p></p>
+<p>Inherits from Point (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Double</td><td>yes</td></tr>
+<tr><td>interpolation</td><td>Interpolation mode used for the segment starting at this point. Default to 'hold' when unspecified. (hold/linear)</td><td>Enum</td><td>no</td></tr>
+<tr><td>time*</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>BoolPoint</h3>
+<p>Inherits from Point (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Boolean</td><td>yes</td></tr>
+<tr><td>time*</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>EnumPoint</h3>
+<p>Inherits from Point (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>time*</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>IntegerPoint</h3>
+<p>Inherits from Point (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>value</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>time*</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>TimeSignaturePoint</h3>
+<p>Inherits from Point (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>numerator</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>denominator</td><td></td><td>Integer</td><td>yes</td></tr>
+<tr><td>time*</td><td>Time (within enclosing Points timeline) of this event</td><td>Double</td><td>yes</td></tr>
+</tbody>
+</table>
+<h2>Device Elements</h2>
+<h3>Device</h3>
+<p>Either a Plug-in or native Device with in a DAW.</p>
+<p>Inherits from Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>deviceRole</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>AuPlugin</h3>
+<p>Inherits from Plugin, Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>pluginVersion*</td><td>Version of the plug-in</td><td>String</td><td>no</td></tr>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>ClapPlugin</h3>
+<p>Inherits from Plugin, Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>pluginVersion*</td><td>Version of the plug-in</td><td>String</td><td>no</td></tr>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Plugin</h3>
+<p></p>
+<p>Inherits from Device, Referenceable, Nameable (marked with *)</p>
+<p>
+This element is abstract in the DOM and cannot be used as an XML element directly.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>pluginVersion</td><td>Version of the plug-in</td><td>String</td><td>no</td></tr>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Vst2Plugin</h3>
+<p>Inherits from Plugin, Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>pluginVersion*</td><td>Version of the plug-in</td><td>String</td><td>no</td></tr>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Vst3Plugin</h3>
+<p>Inherits from Plugin, Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>pluginVersion*</td><td>Version of the plug-in</td><td>String</td><td>no</td></tr>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>BuiltinDevice</h3>
+<p>Inherits from Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>Equalizer</h3>
+<p>Inherits from BuiltinDevice, Device, Referenceable, Nameable (marked with *)</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>deviceRole*</td><td>Role of this device/plug-in. (instrument/noteFX/audioFX/analyzer)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>loaded*</td><td>If this device/plug-in is loaded/active of not.</td><td>Boolean</td><td>no</td></tr>
+<tr><td>deviceName*</td><td>Name of the device/plugin</td><td>String</td><td>yes</td></tr>
+<tr><td>deviceID*</td><td>Unique identifier of device/plug-in For standards which use UUID as an identifier use the textual representation of the UUID (VST3) For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)</td><td>String</td><td>no</td></tr>
+<tr><td>deviceVendor*</td><td>Vendor name of the device/plugin</td><td>String</td><td>no</td></tr>
+<tr><td>id*</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>list of &lt;Bands&gt;</td><td></td><td>EqBand</td><td>no</td></tr>
+<tr><td>&lt;InputGain&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;OutputGain&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;Enabled*&gt;</td><td>This device is enabled (as in not bypassed).</td><td>BoolParameter</td><td>no</td></tr>
+<tr><td>&lt;State*&gt;</td><td>Path to a file representing the device / plug-in state in its native format</td><td>FileReference</td><td>no</td></tr>
+<tr><td>list of &lt;Type&gt;</td><td>Parameters for this device, which is required for automated parameters in order to provide an ID.</td><td>instance of Parameter</td><td>yes</td></tr>
+</tbody>
+</table>
+<h3>EqBand</h3>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>type</td><td> (highPass/lowPass/bandPass/highShelf/lowShelf/bell/notch)</td><td>Enum</td><td>yes</td></tr>
+<tr><td>order</td><td></td><td>Integer</td><td>no</td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><td>Element</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>&lt;Freq&gt;</td><td></td><td>RealParameter</td><td>yes</td></tr>
+<tr><td>&lt;Gain&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;Q&gt;</td><td></td><td>RealParameter</td><td>no</td></tr>
+<tr><td>&lt;Enabled&gt;</td><td></td><td>BoolParameter</td><td>no</td></tr>
+</tbody>
+</table>
+<h2>Abstract Elements</h2>
+<h3>Nameable</h3>
+<p></p>
+<p>
+This element is abstract in the DOM and cannot be used as an XML element directly.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>name</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+<h3>Referenceable</h3>
+<p></p>
+<p>Inherits from Nameable (marked with *)</p>
+<p>
+This element is abstract in the DOM and cannot be used as an XML element directly.</p>
+<table>
+<thead>
+<tr><td>Attribute</td><td>Description</td><td>Type</td><td>Required</td></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Unique string identifier of this element. This is used for referencing this instance from other elements.</td><td>String</td><td>no</td></tr>
+<tr><td>name*</td><td>Name of this object</td><td>String</td><td>no</td></tr>
+<tr><td>color*</td><td>Color of this object in HTML-style format. (#rrggbb)</td><td>String</td><td>no</td></tr>
+<tr><td>comment*</td><td>Comment describing this object</td><td>String</td><td>no</td></tr>
+</tbody>
+</table>
+
+</body>
+

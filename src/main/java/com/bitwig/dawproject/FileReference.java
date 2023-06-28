@@ -2,6 +2,8 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 
+/** References a file either within a DAWPROJECT container or on disk. */
+
 public class FileReference
 {
    /**

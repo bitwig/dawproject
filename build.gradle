@@ -19,11 +19,12 @@ dependencies {
 
     annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.13.0'
     implementation 'com.github.therapi:therapi-runtime-javadoc:0.13.0'
+    testImplementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
 }
 
 group = 'com.bitwig.open'
 version = '1-SNAPSHOT'
 description = 'dawproject file format'
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_16
 buildDir = new File(project.projectDir, "target")
 

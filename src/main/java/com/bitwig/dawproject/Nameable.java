@@ -8,7 +8,7 @@ public abstract class Nameable
    @XmlAttribute
    public String name;
 
-   /** Color of this object in HTML-style format. #XXXXXX */
+   /** Color of this object in HTML-style format. (#rrggbb) */
    @XmlAttribute
    public String color;
 
