@@ -1,12 +1,14 @@
 package com.bitwig.dawproject;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
@@ -16,6 +18,22 @@ import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
+import com.vladsch.flexmark.ast.Heading;
+import com.vladsch.flexmark.ast.Paragraph;
+import com.vladsch.flexmark.ast.Text;
+import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
+import com.vladsch.flexmark.ext.tables.TableBlock;
+import com.vladsch.flexmark.ext.tables.TableBody;
+import com.vladsch.flexmark.ext.tables.TableCell;
+import com.vladsch.flexmark.ext.tables.TableHead;
+import com.vladsch.flexmark.ext.tables.TableRow;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Document;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
@@ -23,49 +41,67 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class GenerateDocumentationTest
 {
-   private void out(final String text) throws IOException
-   {
-      if (mFileWriter != null)
-      {
-         mFileWriter.write(text);
-         mFileWriter.write("\n");
-      }
-      else
-         System.out.println(text);
-   }
    private static String format(Comment c)
    {
       return formatter.format(c);
    }
-   @Test
-   public void createMarkdownClassSummary() throws IOException
-   {
-      final var file = new File("target/Reference.md");
-      mFileWriter = new FileWriter(file);
 
-      createMarkdownClassesSummary("Root", new Class[] {
+   @Test
+   public void createClassSummary() throws IOException
+   {
+      final var htmlFile = new File("target/Reference.html");
+
+      MutableDataSet options = new MutableDataSet();
+
+      // uncomment to convert soft-breaks to hard breaks
+      //options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+
+      options.set(Parser.EXTENSIONS,
+         Arrays.asList(
+            TablesExtension.create(),
+            AutolinkExtension.create(),
+            StrikethroughExtension.create()));
+
+      Parser parser = Parser.builder(options).build();
+
+      final Document document = createDocument(parser);
+
+      final var html = HtmlRenderer.builder(options).build().render(document);
+      Files.write(htmlFile.toPath(), Collections.singleton(html), StandardCharsets.UTF_8);
+
+      Assert.assertTrue(htmlFile.exists());
+   }
+
+   @NotNull
+   private Document createDocument(final Parser parser) throws IOException
+   {
+      final var document = parser.parse("");
+      document.appendChild(createHeading("XML Element Reference", 1));
+
+      createClassesSummary(document, "Root", new Class[] {
          Project.class,
          MetaData.class,
       });
 
-      createMarkdownClassesSummary("Other", new Class[] {
+      createClassesSummary(document, "Other", new Class[] {
          Application.class,
          FileReference.class,
          Transport.class,
       });
 
-      createMarkdownClassesSummary("Mixer", new Class[] {
+      createClassesSummary(document, "Mixer", new Class[] {
          Track.class,
          Channel.class,
          Send.class,
       });
 
-      createMarkdownClassesSummary("Timeline", new Class[] {
+      createClassesSummary(document, "Timeline", new Class[] {
          Arrangement.class,
          Scene.class,
          Lanes.class,
@@ -84,7 +120,7 @@ public class GenerateDocumentationTest
          Warps.class
       });
 
-      createMarkdownClassesSummary("Parameters", new Class[] {
+      createClassesSummary(document, "Parameters", new Class[] {
          Parameter.class,
          BoolParameter.class,
          EnumParameter.class,
@@ -93,7 +129,7 @@ public class GenerateDocumentationTest
          TimeSignatureParameter.class,
       });
 
-      createMarkdownClassesSummary("Automation", new Class[] {
+      createClassesSummary(document, "Automation", new Class[] {
          AutomationTarget.class,
          Points.class,
          Point.class,
@@ -104,7 +140,7 @@ public class GenerateDocumentationTest
          TimeSignaturePoint.class,
       });
 
-      createMarkdownClassesSummary("Device", new Class[] {
+      createClassesSummary(document, "Device", new Class[] {
          Device.class,
          AuPlugin.class,
          ClapPlugin.class,
@@ -120,26 +156,19 @@ public class GenerateDocumentationTest
          //NoiseGate.class,
       });
 
-      createMarkdownClassesSummary("Abstract", new Class[] {
+      createClassesSummary(document, "Abstract", new Class[] {
          Nameable.class,
          Referenceable.class,
       });
-
-      mFileWriter.close();
-      mFileWriter = null;
-      Assert.assertTrue(file.exists());
+      return document;
    }
 
-   public void createMarkdownClassesSummary(final String label, final Class[] classes) throws IOException
+   public void createClassesSummary(final Document document, final String label, final Class[] classes) throws IOException
    {
-      out("# " + label + " Elements");
+      document.appendChild(createHeading(label + " Elements", 2));
 
       for (final var cls : classes)
-         createMarkdownClassSummary(cls);
-
-      out("");
-      out("---");
-      out("");
+         createClassSummary(document, cls);
    }
 
    private String getElementNameForClass(Class cls)
@@ -150,16 +179,16 @@ public class GenerateDocumentationTest
       return cls.getSimpleName();
    }
 
-   public void createMarkdownClassSummary(Class cls) throws IOException
+   public void createClassSummary(final Document document, final Class cls) throws IOException
    {
       final var elementName = getElementNameForClass(cls);
-      out("\n## " + elementName);
+      document.appendChild(createHeading(elementName, 3));
 
       ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
 
       if (!classDoc.isEmpty())
       {
-         out(format(classDoc.getComment()));
+         document.appendChild(createParagraph(format(classDoc.getComment())));
       }
 
       var superClass = cls.getSuperclass();
@@ -177,39 +206,43 @@ public class GenerateDocumentationTest
                sb.append(", ");
          }
          sb.append(" (marked with *)");
-         out(sb.toString());
+         document.appendChild(createParagraph(sb.toString()));
       }
 
       if (Modifier.isAbstract(cls.getModifiers()))
       {
-         out("\nThis element is abstract in the DOM and cannot be used as an XML element directly.");
+         document.appendChild(createParagraph("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
-      createMarkdownForAttributes(cls);
-      createMarkdownForElements(cls);
+      processAttributes(cls, document);
+      processChildElements(cls, document);
    }
 
-   private void createMarkdownForAttributes(final Class cls) throws IOException
+   private void processAttributes(final Class cls, final Document document)
    {
-      final var sb = new StringBuilder();
+      final var table = new TableBlock();
+      final var tableHead = new TableHead();
+      tableHead.appendChild(createTableRow("Attribute", "Description", "Type", "Required"));
+      final var tableBody = new TableBody();
+      table.appendChain(tableHead);
+      table.appendChild(tableBody);
+
+      boolean shouldAdd = false;
 
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         createMarkdownForAttribute(sb, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         processAttribute(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         shouldAdd = true;
       }
 
-      if (!sb.isEmpty())
-      {
-         out("");
-         out("| Attribute | Description | Type | Required |");
-         out("| --------- | ----------- | ---- | -------- |");
-         out(sb.toString());
-      }
+      if (shouldAdd)
+         document.appendChild(table);
    }
 
-   private void createMarkdownForAttribute(StringBuilder sb, final Field field, final FieldJavadoc javadoc,
-      final boolean isDeclaredInThisClass) throws IOException
+   private void processAttribute(
+      final TableBody tableBody, final Field field, final FieldJavadoc javadoc,
+      final boolean isDeclaredInThisClass)
    {
       for (Annotation annotation : field.getAnnotations())
       {
@@ -223,32 +256,35 @@ public class GenerateDocumentationTest
             if (!isDeclaredInThisClass)
                name += "*";
 
-            sb.append("| " + name + " | " + comment + " | " + getType(field, javadoc) + " | " + (attribute.required() ? "yes" : "no") + " | ");
-            sb.append("\n");
+            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (attribute.required() ? "yes" : "no")));
          }
       }
    }
 
-   private void createMarkdownForElements(final Class cls) throws IOException
+   private void processChildElements(final Class cls, final Document document) throws IOException
    {
-      final var sb = new StringBuilder();
+      final var table = new TableBlock();
+      final var tableHead = new TableHead();
+      tableHead.appendChild(createTableRow("Attribute", "Description", "Type", "Required"));
+      final var tableBody = new TableBody();
+      table.appendChain(tableHead);
+      table.appendChild(tableBody);
+
+      boolean shouldAdd = false;
 
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         createMarkdownForElement(sb, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         processChildElement(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         shouldAdd = true;
       }
 
-      if (!sb.isEmpty())
-      {
-         out("");
-         out("| Element | Description | Type | Required |");
-         out("| ------- | ----------- | ---- | -------- |");
-         out(sb.toString());
-      }
+      if (shouldAdd)
+         document.appendChild(table);
    }
 
-   private void createMarkdownForElement(StringBuilder sb, final Field field, final FieldJavadoc javadoc,
+   private void processChildElement(
+      TableBody tableBody, final Field field, final FieldJavadoc javadoc,
       final boolean isDeclaredInThisClass) throws IOException
    {
       final var comment = getComment(field, javadoc);
@@ -261,19 +297,16 @@ public class GenerateDocumentationTest
       {
          if (annotation instanceof XmlElementWrapper wrapper)
          {
-            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + getType(field, javadoc) + " | " + (wrapper.required() ? "yes" : "no") + " | ");
-            sb.append("\n");
+            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (wrapper.required() ? "yes" : "no")));
             return;
          }
          else if (annotation instanceof XmlElement element)
          {
-            sb.append("| &lt;" + name + "/&gt; | " + comment + " | " + getType(field, javadoc) + " | " + (element.required() ? "yes" : "no") + " | ");
-            sb.append("\n");
+            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (element.required() ? "yes" : "no")));
          }
          else if (annotation instanceof XmlElementRef element)
          {
-            sb.append("| " + name + " | " + comment + " | " + getType(field, javadoc) + " | " + (element.required() ? "yes" : "no") + " | ");
-            sb.append("\n");
+            tableBody.appendChild(createTableRow(name, comment, getType(field, javadoc), (element.required() ? "yes" : "no")));
          }
       }
    }
@@ -340,6 +373,33 @@ public class GenerateDocumentationTest
       return type.getSimpleName();
    }
 
+   private Heading createHeading(final String text, int level)
+   {
+      final var heading = new Heading();
+      heading.setLevel(level);
+      heading.appendChild(new Text(text));
+      return heading;
+   }
+
+   private Paragraph createParagraph(final String text)
+   {
+      final var paragraph = new Paragraph();
+      paragraph.appendChild(new Text(text));
+      return paragraph;
+   }
+
+   private Node createTableRow(final String... texts)
+   {
+      final var headerRow = new TableRow();
+      for (final String text : texts)
+      {
+         final var tableCell = new TableCell();
+         tableCell.appendChild(new Text(text));
+         headerRow.appendChild(tableCell);
+      }
+
+      return headerRow;
+   }
+
    private static final CommentFormatter formatter = new CommentFormatter();
-   private FileWriter mFileWriter;
 }
