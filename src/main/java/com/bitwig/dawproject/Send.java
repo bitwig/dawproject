@@ -6,15 +6,19 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 
 public class Send extends Referenceable
 {
+   /** Send level */
    @XmlElement(required = true, name = "Volume")
    public RealParameter volume;
 
+   /** Send pan */
    @XmlElement(required = false, name = "Pan")
    public RealParameter pan;
 
+   /** Send type */
    @XmlAttribute
    public SendType type = SendType.post;
 
+   /** Send destination */
    @XmlAttribute
    @XmlIDREF
    public Channel destination;

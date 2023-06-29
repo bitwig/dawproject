@@ -15,17 +15,21 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
+/** Either a Plug-in or native Device with in a DAW. */
+
 @XmlRootElement(name = "Device")
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, ClapPlugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
 public class Device extends Referenceable
 {
-   /** this device is enabled (as in not bypassed) */
+   /** This device is enabled (as in not bypassed). */
    @XmlElement(name = "Enabled")
    public BoolParameter enabled;
 
+   /** Role of this device/plug-in. */
    @XmlAttribute(required = true)
    public DeviceRole deviceRole;
-   
+
+   /** If this device/plug-in is loaded/active of not. */
    @XmlAttribute
    public Boolean loaded = true;
 
@@ -33,10 +37,9 @@ public class Device extends Referenceable
    @XmlAttribute(required = true)
    public String deviceName;
 
-   /** Unique identifier of device/plug-in
-    * For standards which use UUID as an identifier use the textual representation of the UUID (VST3)
-    * For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2)
-    * */
+   /** Unique identifier of device/plug-in.
+    * For standards which use UUID as an identifier use the textual representation of the UUID (VST3).
+    * For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2) */
    @XmlAttribute
    public String deviceID;
 
@@ -44,7 +47,7 @@ public class Device extends Referenceable
    @XmlAttribute
    public String deviceVendor;
 
-   /** Path to a file representing the device / plug-in state in its native format */
+   /** Path to a file representing the device / plug-in state in its native format. */
    @XmlElement(name = "State", required = false)
    public FileReference state;
 

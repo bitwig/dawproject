@@ -10,6 +10,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlSeeAlso({RealPoint.class, EnumPoint.class, BoolPoint.class, IntegerPoint.class, TimeSignaturePoint.class})
 public class Point
 {
+   /** Time (within enclosing Points timeline) of this event */
    @XmlJavaTypeAdapter(DoubleAdapter.class)
    @XmlAttribute(required = true)
    public Double time;

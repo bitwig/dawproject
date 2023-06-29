@@ -6,6 +6,9 @@ import java.util.List;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** Represents a timeline of clips. Each contained Clip have its time and duration that defines its location on this
+ * timeline (defined by timeUnit of the Clips element). */
+
 @XmlRootElement(name = "Clips")
 public class Clips extends Timeline
 {

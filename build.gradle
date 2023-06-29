@@ -16,11 +16,15 @@ dependencies {
     runtimeOnly 'com.sun.xml.bind:jaxb-impl:3.0.0'
     implementation 'commons-io:commons-io:2.11.0'
     testImplementation 'junit:junit:4.13.1'
+
+    annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.13.0'
+    implementation 'com.github.therapi:therapi-runtime-javadoc:0.13.0'
+    testImplementation 'com.j2html:j2html:1.6.0'
 }
 
 group = 'com.bitwig.open'
 version = '1-SNAPSHOT'
 description = 'dawproject file format'
-java.sourceCompatibility = JavaVersion.VERSION_12
+java.sourceCompatibility = JavaVersion.VERSION_16
 buildDir = new File(project.projectDir, "target")
 

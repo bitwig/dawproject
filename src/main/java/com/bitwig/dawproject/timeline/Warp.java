@@ -3,6 +3,8 @@ package com.bitwig.dawproject.timeline;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** A single warp event, which defines the time both on the outer scope (time) and the inner scope (contentTime). The
+ *  time range between the Warp events are assumed to be linearly interpolated. */
 @XmlRootElement(name = "Warp")
 public class Warp
 {
