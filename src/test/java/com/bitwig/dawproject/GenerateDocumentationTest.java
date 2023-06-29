@@ -8,9 +8,11 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
@@ -20,27 +22,11 @@ import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
-import com.vladsch.flexmark.ast.AnchorRefTarget;
-import com.vladsch.flexmark.ast.Heading;
-import com.vladsch.flexmark.ast.Paragraph;
-import com.vladsch.flexmark.ast.Text;
-import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
-import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension;
-import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
-import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
-import com.vladsch.flexmark.ext.tables.TableBlock;
-import com.vladsch.flexmark.ext.tables.TableBody;
-import com.vladsch.flexmark.ext.tables.TableCell;
-import com.vladsch.flexmark.ext.tables.TableHead;
-import com.vladsch.flexmark.ext.tables.TableRow;
-import com.vladsch.flexmark.ext.tables.TablesExtension;
-import com.vladsch.flexmark.formatter.Formatter;
-import com.vladsch.flexmark.html.HtmlRenderer;
-import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.ast.Document;
-import com.vladsch.flexmark.util.ast.Node;
-import com.vladsch.flexmark.util.data.MutableDataSet;
-import com.vladsch.flexmark.util.sequence.BasedSequence;
+import j2html.tags.DomContent;
+import j2html.tags.specialized.HtmlTag;
+import j2html.tags.specialized.SpanTag;
+import j2html.tags.specialized.TableTag;
+import j2html.tags.specialized.TrTag;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
@@ -48,9 +34,10 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
+import static j2html.TagCreator.*;
+import static j2html.TagCreator.th;
 
 public class GenerateDocumentationTest
 {
@@ -65,143 +52,93 @@ public class GenerateDocumentationTest
       final var htmlFile = new File("Reference.html");
       final var markdownFile = new File("target/Reference.md");
 
-      MutableDataSet options = new MutableDataSet();
-
-      // uncomment to convert soft-breaks to hard breaks
-      //options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
-
-      options.set(Parser.EXTENSIONS,
-         Arrays.asList(
-            TablesExtension.create(),
-            AutolinkExtension.create(),
-            AnchorLinkExtension.create(),
-            StrikethroughExtension.create()));
-
-      options.set(Formatter.SETEXT_HEADING_EQUALIZE_MARKER, false);
-
-      options.set(HtmlRenderer.MAX_BLANK_LINES, 1);
-
-      options.set(TablesExtension.TRIM_CELL_WHITESPACE, false);
-      options.set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, false);
-
-      Parser parser = Parser.builder(options).build();
-
       final var title = "DAWPROJECT XML Reference";
-      final Document document = createDocument(parser, title);
+      final var html = createDocument(title);
 
-      final var html = HtmlRenderer.builder(options).build().render(document);
-      final var fullHTML = new StringBuilder();
-      fullHTML.append("<html>\n");
-      fullHTML.append("<head>\n");
-      fullHTML.append("<title>");
-      fullHTML.append(title);
-      fullHTML.append("</title>\n");
-      fullHTML.append("<link rel=\"stylesheet\" href=\"style.css\">\n");
-      fullHTML.append("</head>\n");
-      fullHTML.append("<body>\n");
-      fullHTML.append(html);
-      fullHTML.append("\n</body>\n");
-      Files.write(htmlFile.toPath(), Collections.singleton(fullHTML.toString()), StandardCharsets.UTF_8);
-
-
-      final var commonMark = Formatter.builder(options).build().render(document);
-      Files.write(markdownFile.toPath(), Collections.singleton(commonMark), StandardCharsets.UTF_8);
+      Files.write(htmlFile.toPath(), Collections.singleton(html.render()), StandardCharsets.UTF_8);
 
       Assert.assertTrue(htmlFile.exists());
-      Assert.assertTrue(markdownFile.exists());
    }
 
-   @NotNull
-   private Document createDocument(final Parser parser, final String title) throws IOException
+   private HtmlTag createDocument(final String title) throws IOException
    {
-      final var document = parser.parse("");
-      document.appendChild(createHeading(title, 1));
+      return html(
+         head(
+            title(title),
+            link().withRel("stylesheet").withHref("style.css")),
+         body(
+            h1(title), createClassesSummary("Root", new Class[] {
+               Project.class, MetaData.class,
+            }), createClassesSummary("Other", new Class[] {
+               Application.class, FileReference.class, Transport.class,
+            }), createClassesSummary("Mixer", new Class[] {
+               Track.class, Channel.class, Send.class,
+            }),
 
-      createClassesSummary(document, "Root", new Class[] {
-         Project.class,
-         MetaData.class,
-      });
+            createClassesSummary("Timeline", new Class[] {
+               Arrangement.class,
+               Scene.class,
+               Lanes.class,
+               Clips.class,
+               Clip.class,
+               Audio.class,
+               ClipSlot.class,
+               Marker.class,
+               Markers.class,
+               Note.class,
+               Notes.class,
+               Timeline.class,
+               TimeUnit.class,
+               Video.class,
+               Warp.class,
+               Warps.class
+            }),
 
-      createClassesSummary(document, "Other", new Class[] {
-         Application.class,
-         FileReference.class,
-         Transport.class,
-      });
+            createClassesSummary("Parameters", new Class[] {
+               Parameter.class,
+               BoolParameter.class,
+               EnumParameter.class,
+               IntegerParameter.class,
+               RealParameter.class,
+               TimeSignatureParameter.class,
+            }),
 
-      createClassesSummary(document, "Mixer", new Class[] {
-         Track.class,
-         Channel.class,
-         Send.class,
-      });
+            createClassesSummary("Automation", new Class[] {
+               AutomationTarget.class,
+               Points.class,
+               Point.class,
+               RealPoint.class,
+               BoolPoint.class,
+               EnumPoint.class,
+               IntegerPoint.class,
+               TimeSignaturePoint.class,
+            }),
 
-      createClassesSummary(document, "Timeline", new Class[] {
-         Arrangement.class,
-         Scene.class,
-         Lanes.class,
-         Clips.class,
-         Clip.class,
-         Audio.class,
-         ClipSlot.class,
-         Marker.class,
-         Markers.class,
-         Note.class,
-         Notes.class,
-         Timeline.class,
-         TimeUnit.class,
-         Video.class,
-         Warp.class,
-         Warps.class
-      });
+            createClassesSummary("Device", new Class[] {
+               Device.class, AuPlugin.class, ClapPlugin.class, Plugin.class, Vst2Plugin.class, Vst3Plugin.class,
 
-      createClassesSummary(document, "Parameters", new Class[] {
-         Parameter.class,
-         BoolParameter.class,
-         EnumParameter.class,
-         IntegerParameter.class,
-         RealParameter.class,
-         TimeSignatureParameter.class,
-      });
+               BuiltinDevice.class,
+               //Compressor.class,
+               Equalizer.class, EqBand.class,
+               //Limiter.class,
+               //NoiseGate.class,
+            }),
 
-      createClassesSummary(document, "Automation", new Class[] {
-         AutomationTarget.class,
-         Points.class,
-         Point.class,
-         RealPoint.class,
-         BoolPoint.class,
-         EnumPoint.class,
-         IntegerPoint.class,
-         TimeSignaturePoint.class,
-      });
-
-      createClassesSummary(document, "Device", new Class[] {
-         Device.class,
-         AuPlugin.class,
-         ClapPlugin.class,
-         Plugin.class,
-         Vst2Plugin.class,
-         Vst3Plugin.class,
-
-         BuiltinDevice.class,
-         //Compressor.class,
-         Equalizer.class,
-         EqBand.class,
-         //Limiter.class,
-         //NoiseGate.class,
-      });
-
-      createClassesSummary(document, "Abstract", new Class[] {
-         Nameable.class,
-         Referenceable.class,
-      });
-      return document;
+            createClassesSummary("Abstract", new Class[] {
+               Nameable.class, Referenceable.class,
+            })));
    }
 
-   public void createClassesSummary(final Document document, final String label, final Class[] classes) throws IOException
+   public DomContent createClassesSummary(final String label, final Class[] classes) throws IOException
    {
-      document.appendChild(createHeading(label + " Elements", 2));
+      final var content = new ArrayList<DomContent>();
+
+      content.add(h2(label + " Elements"));
 
       for (final var cls : classes)
-         createClassSummary(document, cls);
+         content.add(createClassSummary(cls));
+
+      return new SpanTag().with(content).withStyle("elements-block");
    }
 
    private String getElementNameForClass(Class cls)
@@ -217,22 +154,17 @@ public class GenerateDocumentationTest
       return "<" + s + ">";
    }
 
-   public void createClassSummary(final Document document, final Class cls) throws IOException
+   public DomContent createClassSummary(final Class cls) throws IOException
    {
+      final var content = new ArrayList<DomContent>();
       final var elementName = getElementNameForClass(cls);
-      final var heading = createHeading(bracketize(elementName), 3);
-      heading.setAnchorRefId(elementName);
-      heading.setExplicitAnchorRefId(true);
-      document.appendChild(heading);
-
-      final var anchorLink = new AnchorLink();
-      document.appendChild(anchorLink);
+      content.add(a(h3(bracketize(elementName))).withRel(elementName));
 
       ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
 
       if (!classDoc.isEmpty())
       {
-         document.appendChild(createParagraph(format(classDoc.getComment())));
+         content.add(p(format(classDoc.getComment())));
       }
 
       var superClass = cls.getSuperclass();
@@ -249,40 +181,39 @@ public class GenerateDocumentationTest
             if (superClass != Object.class)
                sb.append(", ");
          }
-         sb.append(" (marked with *)");
-         document.appendChild(createParagraph(sb.toString()));
+         content.add(p(sb.toString()));
       }
 
       if (Modifier.isAbstract(cls.getModifiers()))
       {
-         document.appendChild(createParagraph("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
+         content.add(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
-      processAttributes(cls, document);
-      processChildElements(cls, document);
+      createAttributeTable(cls).ifPresent(content::add);
+      createElementsTable(cls).ifPresent(content::add);
+
+      return new SpanTag().with(content).withStyle("element-block");
    }
 
-   private void processAttributes(final Class cls, final Document document)
+   private Optional<TableTag> createAttributeTable(final Class cls)
    {
-      final var table = new TableBlock();
-      final var tableHead = new TableHead();
-      tableHead.appendChild(createTableRow("Attribute", "Description", "Type", "Required"));
-      final var tableBody = new TableBody();
-      table.appendChain(tableHead);
-      table.appendChild(tableBody);
+      final var content = new ArrayList<DomContent>();
+
+      content.add(tr(th("Attribute"), th("Description"), th("Type"), th("Required")));
 
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         processAttribute(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         createAttributeTableRow(field, fieldJavadoc, field.getDeclaringClass() == cls).ifPresent(content::add);
       }
 
-      if (tableBody.hasChildren())
-         document.appendChild(table);
+      if (content.size() > 1)
+         return Optional.of(table().with(content));
+      return Optional.empty();
    }
 
-   private void processAttribute(
-      final TableBody tableBody, final Field field, final FieldJavadoc javadoc,
+   private Optional<TrTag> createAttributeTableRow(
+      final Field field, final FieldJavadoc javadoc,
       final boolean isDeclaredInThisClass)
    {
       for (Annotation annotation : field.getAnnotations())
@@ -294,34 +225,33 @@ public class GenerateDocumentationTest
             if (name.startsWith("#"))
                name = field.getName();
 
+            var tr =
+               tr(td(name), td(comment), td(getType(field, javadoc)), td(attribute.required() ? "yes" : "no"));
+
             if (!isDeclaredInThisClass)
-               name += "*";
+               tr = tr.withClass("inherited");
 
-            final var tableRow =
-               createTableRow(name, comment, getType(field, javadoc), (attribute.required() ? "yes" : "no"));
-
-            tableBody.appendChild(tableRow);
+            return Optional.of(tr);
          }
       }
+      return Optional.empty();
    }
 
-   private void processChildElements(final Class cls, final Document document) throws IOException
+   private Optional<TableTag> createElementsTable(final Class cls) throws IOException
    {
-      final var table = new TableBlock();
-      final var tableHead = new TableHead();
-      tableHead.appendChild(createTableRow("Element name", "Description", "Element Type", "Required"));
-      final var tableBody = new TableBody();
-      table.appendChain(tableHead);
-      table.appendChild(tableBody);
+      final var content = new ArrayList<DomContent>();
+
+      content.add(tr(th("Element name"), th("Description"), th("Element Type"), th("Required")));
 
       for (final var field : cls.getFields())
       {
          final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-         processChildElement(tableBody, field, fieldJavadoc, field.getDeclaringClass() == cls);
+         createElementTableRow(field, fieldJavadoc, field.getDeclaringClass() == cls).ifPresent(content::add);
       }
 
-      if (tableBody.hasChildren())
-         document.appendChild(table);
+      if (content.size() > 1)
+         return Optional.of(table().with(content));
+      return Optional.empty();
    }
 
    private boolean isDynamicType(final Field field)
@@ -374,18 +304,15 @@ public class GenerateDocumentationTest
       return "null";
    }
 
-   private void processChildElement(
-      TableBody tableBody, final Field field, final FieldJavadoc javadoc,
+   private Optional<TrTag> createElementTableRow(
+      final Field field, final FieldJavadoc javadoc,
       final boolean isDeclaredInThisClass) throws IOException
    {
       if (!isElement(field))
-         return;
+         return Optional.empty();
 
       final var comment = getComment(field, javadoc);
       var name = getFieldName(field);
-
-      if (!isDeclaredInThisClass)
-         name += "*";
 
       final var isRequired = isRequired(field);
       final boolean isList = isFieldList(field);
@@ -400,15 +327,22 @@ public class GenerateDocumentationTest
             typeString = "instance of " + bracketize(getListGenericType(field));
          }
 
-         tableBody.appendChild(createTableRow(typeDescription, comment, typeString, (isRequired ? "yes" : "no")));
+         var tr = tr(td(typeDescription), td(comment), td(typeString), td(isRequired ? "yes" : "no"));
+         if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
+
+         return Optional.of(tr);
       }
       else
       {
          var typeString = getType(field, javadoc);
-         final var typeDescription = isList ? "list of <" + name + ">" : "<" + name + ">";
+         final var typeDescription = isList ? "<" + name + ">" : "<" + name + ">...";
          if (isList)
             typeString = getListGenericType(field);
-         tableBody.appendChild(createTableRow(typeDescription, comment, bracketize(typeString), (isRequired ? "yes" : "no")));
+
+         var tr = tr(td(typeDescription), td(comment), td(bracketize(typeString)), td(isRequired ? "yes" : "no"));
+         if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
+
+         return Optional.of(tr);
       }
    }
 
@@ -472,35 +406,6 @@ public class GenerateDocumentationTest
          return "Enum";
 
       return type.getSimpleName();
-   }
-
-   private Heading createHeading(final String text, int level)
-   {
-      final var heading = new Heading();
-      heading.setLevel(level);
-      heading.appendChild(new Text(text));
-      heading.setOpeningMarker(BasedSequence.repeatOf("#", level));
-      return heading;
-   }
-
-   private Paragraph createParagraph(final String text)
-   {
-      final var paragraph = new Paragraph();
-      paragraph.appendChild(new Text(text));
-      return paragraph;
-   }
-
-   private Node createTableRow(final String... texts)
-   {
-      final var headerRow = new TableRow();
-      for (final String text : texts)
-      {
-         final var tableCell = new TableCell();
-         tableCell.appendChild(new Text(text));
-         headerRow.appendChild(tableCell);
-      }
-
-      return headerRow;
    }
 
    private static final CommentFormatter formatter = new CommentFormatter();
