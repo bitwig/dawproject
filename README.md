@@ -1,4 +1,4 @@
-# .dawproject
+# DAWPROJECT
 
 Open exchange format for user data between Digital Audio Workstations (DAWs)
 
@@ -66,125 +66,97 @@ Apart from the location of the XML files, the exporting DAW is free to choose th
 [DAWPROJECT XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
 
 ## Devices / Plug-ins
-Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset) inside the container and referenced using paths.
+
+Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset/clap-preset) inside the container and referenced using paths.
 
 For a future version a set of templates could be considered to cover the parameters set of standard effects & instruments (eq / compressor / sampler etc etc) to make these transferable between different DAWs.
 
-## Timeline data types
+## Example project
 
-### General
+The exporting application is free to structure tracks and timelines in a way that fits its internal model.
+The choice is left to the importing application to either use the level of structure provided (if applicable) or to flatten/convert it to match its model. 
 
-The timeline base-class has two attributes:
-
-* timeUnit: assign the content of this timeline to a specific time-unit [beats or seconds] (optional)
-* track: assign the content of this timeline to a specific track (optional)
-
-### Lanes
-Contains a list of lanes, which can be of any timeline type.
-
-### Markers
-Contains a list of cue markers.
-
-### Clips
-Contains a list of clips.
-Each clip contains a timeline, or alternatively a reference to a timeline which can be used to represent aliases.
-
-### Warps
-Contains a nested timeline along with a list of warp-markers which provides a remapping of time inside the warps object, which is usually a different time-unit than the parent context.
-
-This is typically used to represent time-warping of audio.
-
-### Notes
-Contains a list of notes.
-
-### Audio
-Contains a reference to an audio file (embedded or referenced) and settings for how it is to be played back.
-
-### Video
-Same as audio.
-
-### Points
-Contains a list of automation points along with a reference to the parameter being automated.
-
-## Typical timeline structures
-
-The exporting application is free to structure timelines in a way that fits its internal model.
-The choice is left to the importing application to either use the level of structure provided (if applicable) or to flatten it.
-
-Some examples (pseudo-xml):
+As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.0 with one instrument track and one audio track. As the audio clips in Bitwig Studio are themselves a timeline of audio events, you will notice that there are two levels of <Clips> elements, id25 representing the clip timeline on the arrangement, and id26 representing the  audio events inside the clip.
 
 ```xml
-<project>
-
-  <!-- .... -->
-
-  <arrangement timeUnit="beats"> <!-- the arrangement -->
-    <lanes>
-      <!-- note track -->
-      <lanes track = "id of note track...">
-        <clips>
-          <!-- note clip -->
-          <clip time="8" duration="8">
-            <notes id="5">
-              <note time="3" duration="0.5" key="55" vel="0.8" />
-            </notes>
-          </clip>
-
-          <!-- alias clip -->
-          <clip time="24" duration="8" reference="5"/>
-        </clips>
-
-        <!-- track-level automation -->
-        <points parameter="id of parameter...">
-          <point time="0" value="0"/>
-          <point time="8" value="1.0"/>
-        </points>
-      </lanes>
-
-      !-- audio track -->
-      <lanes track = "id of audio track...">
-        <clips>
-
-          <!-- audio clip with un-warped audio  -->
-          <clip time="0" duration="4.657">
-            <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
-          </clip>
-
-          <!-- audio clip with beats-to-seconds warping  -->
-          <clip time="0" duration="8">
-            <warps timeUnit="beats" contentTimeUnit="seconds">
-              <audio path="samples/dummy.wav" duration="4.657"/>
-              <warp time="0" contentTime="0"/>
-              <warp time="8" contentTime="4.657"/>
-            </warps>
-          </clip>
-
-          <!-- clip with nested audio clips -->
-          <clip time="24" duration="8">
-            <clips>
-              <clip time="0" duration="4.657">
-                <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
-              </clip>
-              <clip time="20" duration="4.657">
-                <audio path="samples/dummy.wav" duration="4.657" timeUnit="seconds"/>
-              </clip>
-            </clips>
-          </clip>
-
-          <!-- clip with local automation/expression -->
-          <clip time="24" duration="8">
-            <lanes>
-              <points parameter="id of parameter...">
-                <point time="0" value="0.2"/>
-                <point time="20" value="0.7"/>
-              </points>
-              <audio/> <!-- clip content -->
-            </lanes>
-          </clip>
-        </clips>
-      </lanes>
-   </lanes>
-  </arrangement>
-</project>
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project version="0.1">
+  <Application name="Bitwig Studio" version="5.0"/>
+  <Transport>
+    <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
+    <TimeSignature denominator="4" numerator="4" id="id1"/>
+  </Transport>
+  <Structure>
+    <Track contentType="notes" loaded="true" id="id2" name="Bass" color="#a2eabf">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+        <Devices>
+          <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+            <Parameters/>
+            <Enabled value="true" id="id8" name="On/Off"/>
+            <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
+          </ClapPlugin>
+        </Devices>
+        <Mute value="false" id="id6" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio" loaded="true" id="id9" name="Drumloop" color="#b53bba">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id10">
+        <Mute value="false" id="id13" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id12" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.177125" id="id11" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio notes" loaded="true" id="id14" name="Master">
+      <Channel audioChannels="2" role="master" solo="false" id="id15">
+        <Mute value="false" id="id18" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id17" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="1.000000" id="id16" name="Volume"/>
+      </Channel>
+    </Track>
+  </Structure>
+  <Arrangement id="id19">
+    <Lanes timeUnit="beats" id="id20">
+      <Lanes track="id2" id="id21">
+        <Clips id="id22">
+          <Clip time="0.0" duration="8.0" playStart="0.0">
+            <Notes id="id23">
+              <Note time="0.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="1.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="4.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="5.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="0.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="4.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="1.500000" duration="2.500000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="5.500000" duration="0.250000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="6.000000" duration="2.000000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+            </Notes>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id9" id="id24">
+        <Clips id="id25">
+          <Clip time="0.0" duration="8.00003433227539" playStart="0.0" loopStart="0.0" loopEnd="8.00003433227539" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0" name="Drumfunk3 170bpm">
+            <Clips id="id26">
+              <Clip time="0.0" duration="8.00003433227539" contentTimeUnit="beats" playStart="0.0" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0">
+                <Warps contentTimeUnit="seconds" timeUnit="beats" id="id28">
+                  <Audio algorithm="stretch" channels="2" duration="2.823541666666667" sampleRate="48000" id="id27">
+                    <File path="audio/Drumfunk3 170bpm.wav"/>
+                  </Audio>
+                  <Warp time="0.0" contentTime="0.0"/>
+                  <Warp time="8.00003433227539" contentTime="2.823541666666667"/>
+                </Warps>
+              </Clip>
+            </Clips>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id14" id="id29">
+        <Clips id="id30"/>
+      </Lanes>
+    </Lanes>
+  </Arrangement>
+  <Scenes/>
+</Project>
 ```
