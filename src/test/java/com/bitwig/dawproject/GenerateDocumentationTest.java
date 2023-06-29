@@ -150,6 +150,12 @@ public class GenerateDocumentationTest
 
    private DomContent createElementLink(Class cls)
    {
+      if (cls == String.class)
+         return text("text");
+
+      if (cls.isPrimitive())
+         return text(cls.getSimpleName());
+
       final var name = getElementNameForClass(cls);
       return a("<" + name + ">").withHref("#"+name).withClass("element-link");
    }
