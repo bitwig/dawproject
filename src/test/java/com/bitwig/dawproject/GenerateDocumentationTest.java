@@ -20,8 +20,12 @@ import com.bitwig.dawproject.device.*;
 import com.github.therapi.runtimejavadoc.ClassJavadoc;
 import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
+import com.github.therapi.runtimejavadoc.CommentVisitor;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
+import com.github.therapi.runtimejavadoc.Link;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
+import com.github.therapi.runtimejavadoc.Value;
+import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
@@ -41,9 +45,9 @@ import static j2html.TagCreator.th;
 
 public class GenerateDocumentationTest
 {
-   private static String format(Comment c)
+   private static DomContent formatJavadocComment(Comment comment)
    {
-      return formatter.format(c);
+      return rawHtml(formatter.format(comment));
    }
 
    @Test
@@ -175,7 +179,7 @@ public class GenerateDocumentationTest
 
       if (!classDoc.isEmpty())
       {
-         content.with(p(format(classDoc.getComment())));
+         content.with(p(formatJavadocComment(classDoc.getComment())));
       }
 
       var superClass = cls.getSuperclass();
@@ -352,17 +356,18 @@ public class GenerateDocumentationTest
       }
    }
 
-   private static String getComment(final Field field, final FieldJavadoc javadoc)
+   private static DomContent getComment(final Field field, final FieldJavadoc javadoc)
    {
-      var comment = javadoc != null ? format(javadoc.getComment()).replace("\n", "") : "";
+      final var comment = javadoc != null ? formatJavadocComment(javadoc.getComment()) : text("");
 
       final Class<?> type = field.getType();
 
       if (type.isEnum())
       {
-         comment += " ("
-            + Arrays.stream(type.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/"))
-            + ")";
+         final var choices =
+            " (" + Arrays.stream(type.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
+
+         return text(comment + choices);
       }
 
       return comment;
