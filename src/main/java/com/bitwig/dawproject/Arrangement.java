@@ -6,6 +6,8 @@ import com.bitwig.dawproject.timeline.Points;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** Represents the main Arrangement timeline of a DAW. */
+
 @XmlRootElement(name = "Arrangement")
 public class Arrangement extends Referenceable
 {
@@ -22,6 +24,8 @@ public class Arrangement extends Referenceable
    @XmlElement(required = false, name = "Markers", type = Markers.class)
    public Markers markers;
 
+   /** The lanes of this arrangement. Generally this would contain another Lanes timeline for (and scoped to) each
+    * track which would then contain all Note, Audio, and Automation timelines. */
    @XmlElement(name = "Lanes", type = Lanes.class)
    public Lanes lanes;
 }

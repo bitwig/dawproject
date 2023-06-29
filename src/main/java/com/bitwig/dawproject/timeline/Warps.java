@@ -13,7 +13,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  *
  * A typical use case would be to warp an audio-file (contentTimeUnit = seconds) onto a timeline defined in beats
  * (timeUnit = beats) as defined by a set of Warp events.
- */
+ *
+ * At least two Warp events need to present in order to define a usable beats/seconds conversion. For a plain
+ * fixed-speed mapping, provide two event: One at (0,0) and a second event with the desired beat-time length along
+ * with the length of the contained Audio file in seconds.
+ * */
 
 @XmlRootElement(name = "Warps")
 public class Warps extends Timeline

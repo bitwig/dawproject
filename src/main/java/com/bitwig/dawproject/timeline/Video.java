@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** Similar to the Audio timeline but references a Video file instead. */
 @XmlRootElement(name = "Video")
 public class Video extends Timeline
 {

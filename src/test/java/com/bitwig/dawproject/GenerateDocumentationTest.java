@@ -88,7 +88,6 @@ public class GenerateDocumentationTest
                Note.class,
                Notes.class,
                Timeline.class,
-               TimeUnit.class,
                Video.class,
                Warp.class,
                Warps.class
@@ -138,7 +137,7 @@ public class GenerateDocumentationTest
       for (final var cls : classes)
          content.add(createClassSummary(cls));
 
-      return new SpanTag().with(content).withStyle("elements-block");
+      return new SpanTag().with(content).withClass("elements-block");
    }
 
    private String getElementNameForClass(Class cls)
@@ -149,6 +148,12 @@ public class GenerateDocumentationTest
       return cls.getSimpleName();
    }
 
+   private DomContent createElementLink(Class cls)
+   {
+      final var name = getElementNameForClass(cls);
+      return a("<" + name + ">").withHref("#"+name).withClass("element-link");
+   }
+
    private String bracketize(final String s)
    {
       return "<" + s + ">";
@@ -156,43 +161,40 @@ public class GenerateDocumentationTest
 
    public DomContent createClassSummary(final Class cls) throws IOException
    {
-      final var content = new ArrayList<DomContent>();
+      final var content = span().withClass("element-block");
       final var elementName = getElementNameForClass(cls);
-      content.add(a(h3(bracketize(elementName))).withRel(elementName));
+      content.with(h3(bracketize(elementName)).withId(elementName).withClass("element-title"));
 
       ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
 
       if (!classDoc.isEmpty())
       {
-         content.add(p(format(classDoc.getComment())));
+         content.with(p(format(classDoc.getComment())));
       }
 
       var superClass = cls.getSuperclass();
 
       if (superClass != Object.class)
       {
-         StringBuilder sb = new StringBuilder();
-         sb.append("Inherits from ");
+         final var p = p("Inherits from");
 
          while (superClass != Object.class)
          {
-            sb.append(bracketize(getElementNameForClass(superClass)));
+            p.with(createElementLink(superClass));
             superClass = superClass.getSuperclass();
-            if (superClass != Object.class)
-               sb.append(", ");
          }
-         content.add(p(sb.toString()));
+         content.with(p);
       }
 
       if (Modifier.isAbstract(cls.getModifiers()))
       {
-         content.add(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
+         content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
-      createAttributeTable(cls).ifPresent(content::add);
-      createElementsTable(cls).ifPresent(content::add);
+      createAttributeTable(cls).ifPresent(content::with);
+      createElementsTable(cls).ifPresent(content::with);
 
-      return new SpanTag().with(content).withStyle("element-block");
+      return content;
    }
 
    private Optional<TableTag> createAttributeTable(final Class cls)
@@ -293,15 +295,15 @@ public class GenerateDocumentationTest
       return type == List.class;
    }
 
-   String getListGenericType(final Field field)
+   Class getListGenericType(final Field field)
    {
       if (field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
       {
          final var listType = pt.getActualTypeArguments()[0];
          if (listType instanceof Class cls)
-            return getElementNameForClass(cls);
+            return cls;
       }
-      return "null";
+      return null;
    }
 
    private Optional<TrTag> createElementTableRow(
@@ -320,26 +322,24 @@ public class GenerateDocumentationTest
       if (isDynamicType(field))
       {
          var typeDescription = isList ? "<Type>..." : "<Type>";
-         var typeString = "instance of " + bracketize(getType(field, javadoc));
+         var typeCell = td(text("instance of "), createElementLink(field.getType()));
 
          if (isList && field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
          {
-            typeString = "instance of " + bracketize(getListGenericType(field));
+            typeCell = td(text("instance of "), createElementLink(getListGenericType(field)));
          }
 
-         var tr = tr(td(typeDescription), td(comment), td(typeString), td(isRequired ? "yes" : "no"));
+         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
       }
       else
       {
-         var typeString = getType(field, javadoc);
-         final var typeDescription = isList ? "<" + name + ">" : "<" + name + ">...";
-         if (isList)
-            typeString = getListGenericType(field);
+         var typeCell = td(createElementLink(isList ? getListGenericType(field) : field.getType()));
+         final var typeDescription = isList ? "<" + name + ">..." : "<" + name + ">";
 
-         var tr = tr(td(typeDescription), td(comment), td(bracketize(typeString)), td(isRequired ? "yes" : "no"));
+         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);

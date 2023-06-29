@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@200..600');
+
 body {
     margin: 24px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -19,11 +21,20 @@ table {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
     margin-top: 16px;
     margin-bottom: 16px;
-    border-collapse:collapse
+    border-collapse:collapse;
 }
 
-thead {
-    background-color: #cedeef;
+th {
+    background-color: #999;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.8em;
+    text-align: left;
+}
+
+h1 {
+    font-weight: 200;
+    font-size: 260%
 }
 
 tbody tr {
@@ -35,5 +46,18 @@ tbody tr:nth-of-type(even) {
 }
 
 .inherited {
-    color: #888;
+    font-style: italic;
+    color: #777;
+}
+
+.element-link {
+    color: chocolate;
+    font-weight: 300;
+    margin-inline-start: 8px;
+    text-decoration: none;
+}
+
+.element-title {
+    font-weight: 300;
+    font-size: 1.7em;
 }
