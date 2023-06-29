@@ -12,6 +12,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Clips")
 public class Clips extends Timeline
 {
+
+   /** Clips of this timeline. */
    @XmlElement(name = "Clip")
    public List<Clip> clips = new ArrayList<>();
 }

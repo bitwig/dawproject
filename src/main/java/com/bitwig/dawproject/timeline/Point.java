@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "Point")
 @XmlSeeAlso({RealPoint.class, EnumPoint.class, BoolPoint.class, IntegerPoint.class, TimeSignaturePoint.class})
-public class Point
+public abstract class Point
 {
    /** Time (within enclosing Points timeline) of this event */
    @XmlJavaTypeAdapter(DoubleAdapter.class)

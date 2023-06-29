@@ -20,6 +20,7 @@ dependencies {
     annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.13.0'
     implementation 'com.github.therapi:therapi-runtime-javadoc:0.13.0'
     testImplementation 'com.j2html:j2html:1.6.0'
+    testImplementation 'org.reflections:reflections:0.10.2'
 }
 
 group = 'com.bitwig.open'
