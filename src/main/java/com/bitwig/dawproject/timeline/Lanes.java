@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Lanes")
 public class Lanes extends Timeline
 {
-   /** Lanes representing nested content */
+   /** Lanes representing nested content. */
    @XmlElementRef
    public List<Timeline> lanes = new ArrayList<>();
 }

@@ -3,6 +3,7 @@ package com.bitwig.dawproject.timeline;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -12,6 +13,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Notes extends Timeline
 {
    /** Contained notes. */
-   @XmlElementRef(required = true)
+   @XmlElement(required = true, name = "Note")
    public List<Note> notes = new ArrayList<>();
 }

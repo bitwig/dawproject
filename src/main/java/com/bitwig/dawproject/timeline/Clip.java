@@ -34,9 +34,11 @@ public class Clip extends Nameable
    @XmlAttribute(required = false)
    public Double playStop;
 
+   /** Time inside the content timeline (or reference) where the clip loop starts. */
    @XmlAttribute(required = false)
    public Double loopStart;
 
+   /** Time inside the content timeline (or reference) where the clip loop ends. */
    @XmlAttribute(required = false)
    public Double loopEnd;
 

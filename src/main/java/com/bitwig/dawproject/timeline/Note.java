@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * It can additionally contain child timelines
  * */
 @XmlRootElement(name = "Note")
-public class Note
+public final class Note
 {
    /** Time on the parent timeline where this note starts playing. */
    @XmlAttribute(required = true)

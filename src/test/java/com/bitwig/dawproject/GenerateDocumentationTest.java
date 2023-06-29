@@ -10,9 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
@@ -20,12 +22,8 @@ import com.bitwig.dawproject.device.*;
 import com.github.therapi.runtimejavadoc.ClassJavadoc;
 import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
-import com.github.therapi.runtimejavadoc.CommentVisitor;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
-import com.github.therapi.runtimejavadoc.Link;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
-import com.github.therapi.runtimejavadoc.Value;
-import j2html.tags.ContainerTag;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
@@ -40,6 +38,7 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.junit.Assert;
 import org.junit.Test;
+import org.reflections.Reflections;
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.th;
 
@@ -199,6 +198,22 @@ public class GenerateDocumentationTest
       if (Modifier.isAbstract(cls.getModifiers()))
       {
          content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
+
+      }
+
+      final var subTypes =
+         mReflections.getSubTypesOf(cls);
+
+      if (!subTypes.isEmpty())
+      {
+         final var p = p("Implementations");
+
+         for (final var subType : subTypes)
+         {
+            p.with(createElementLink((Class)subType));
+         }
+
+         content.with(p);
       }
 
       createAttributeTable(cls).ifPresent(content::with);
@@ -206,6 +221,9 @@ public class GenerateDocumentationTest
 
       return content;
    }
+
+   private Reflections mReflections = new Reflections("com.bitwig.dawproject");
+
 
    private Optional<TableTag> createAttributeTable(final Class cls)
    {
