@@ -20,9 +20,12 @@ import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
+import com.vladsch.flexmark.ast.AnchorRefTarget;
 import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.Paragraph;
 import com.vladsch.flexmark.ast.Text;
+import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension;
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.tables.TableBlock;
@@ -71,6 +74,7 @@ public class GenerateDocumentationTest
          Arrays.asList(
             TablesExtension.create(),
             AutolinkExtension.create(),
+            AnchorLinkExtension.create(),
             StrikethroughExtension.create()));
 
       options.set(Formatter.SETEXT_HEADING_EQUALIZE_MARKER, false);
@@ -208,10 +212,21 @@ public class GenerateDocumentationTest
       return cls.getSimpleName();
    }
 
+   private String bracketize(final String s)
+   {
+      return "<" + s + ">";
+   }
+
    public void createClassSummary(final Document document, final Class cls) throws IOException
    {
       final var elementName = getElementNameForClass(cls);
-      document.appendChild(createHeading(elementName, 3));
+      final var heading = createHeading(bracketize(elementName), 3);
+      heading.setAnchorRefId(elementName);
+      heading.setExplicitAnchorRefId(true);
+      document.appendChild(heading);
+
+      final var anchorLink = new AnchorLink();
+      document.appendChild(anchorLink);
 
       ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
 
@@ -229,7 +244,7 @@ public class GenerateDocumentationTest
 
          while (superClass != Object.class)
          {
-            sb.append(getElementNameForClass(superClass));
+            sb.append(bracketize(getElementNameForClass(superClass)));
             superClass = superClass.getSuperclass();
             if (superClass != Object.class)
                sb.append(", ");
@@ -377,12 +392,12 @@ public class GenerateDocumentationTest
 
       if (isDynamicType(field))
       {
-         var typeDescription = isList ? "list of <Type>" : "<Type>";
-         var typeString = "instance of " + getType(field, javadoc);
+         var typeDescription = isList ? "<Type>..." : "<Type>";
+         var typeString = "instance of " + bracketize(getType(field, javadoc));
 
          if (isList && field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
          {
-            typeString = "instance of " + getListGenericType(field);
+            typeString = "instance of " + bracketize(getListGenericType(field));
          }
 
          tableBody.appendChild(createTableRow(typeDescription, comment, typeString, (isRequired ? "yes" : "no")));
@@ -393,7 +408,7 @@ public class GenerateDocumentationTest
          final var typeDescription = isList ? "list of <" + name + ">" : "<" + name + ">";
          if (isList)
             typeString = getListGenericType(field);
-         tableBody.appendChild(createTableRow(typeDescription, comment, typeString, (isRequired ? "yes" : "no")));
+         tableBody.appendChild(createTableRow(typeDescription, comment, bracketize(typeString), (isRequired ? "yes" : "no")));
       }
    }
 
