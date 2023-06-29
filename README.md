@@ -63,6 +63,8 @@ This will add an "Export Project..." entry in the FILE menu and allow DAWPROJECT
 
 Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
 
+[DAWPROJECT XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
+
 ## Devices / Plug-ins
 Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset) inside the container and referenced using paths.
 
