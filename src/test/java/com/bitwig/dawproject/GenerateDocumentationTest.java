@@ -374,16 +374,22 @@ public class GenerateDocumentationTest
       }
    }
 
-   private static DomContent getComment(final Field field, final FieldJavadoc javadoc)
+   private DomContent getComment(final Field field, final FieldJavadoc javadoc)
    {
       final var comment = javadoc != null ? formatJavadocComment(javadoc.getComment()) : text("");
 
       final Class<?> type = field.getType();
 
-      if (type.isEnum())
+      final var enumClass = type.isEnum()
+         ? type
+         : type.isArray()
+            ?  type.getComponentType().isEnum() ? type.getComponentType() : null
+            : null;
+
+      if (enumClass != null)
       {
          final var choices =
-            " (" + Arrays.stream(type.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
+            " (" + Arrays.stream(enumClass.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
 
          return text(comment + choices);
       }
