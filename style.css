@@ -62,7 +62,7 @@ tbody tr:nth-of-type(even) {
 
 .inherited {
     font-style: italic;
-    color: #777;
+    font-weight: 200;
 }
 
 .element-link {

@@ -230,7 +230,7 @@ public class GenerateDocumentationTest
    {
       final var content = new ArrayList<DomContent>();
 
-      content.add(tr(th("Attribute"), th("Description"), th("Type"), th("Required")));
+      content.add(tr(th("Attribute").withStyle("text-align:center;"), th("Description"), th("Type").withStyle("text-align:center;"), th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
       {
@@ -257,7 +257,7 @@ public class GenerateDocumentationTest
                name = field.getName();
 
             var tr =
-               tr(td(name), td(comment), td(getType(field, javadoc)), td(attribute.required() ? "yes" : "no"));
+               tr(td(name).withStyle("text-align:center;"), td(comment), td(getType(field, javadoc)).withStyle("text-align:center;"), td(attribute.required() ? "yes" : "no").withStyle("text-align:center;"));
 
             if (!isDeclaredInThisClass)
                tr = tr.withClass("inherited");
@@ -272,7 +272,10 @@ public class GenerateDocumentationTest
    {
       final var content = new ArrayList<DomContent>();
 
-      content.add(tr(th("Element name"), th("Description"), th("Element Type"), th("Required")));
+      content.add(tr(th("Element name").withStyle("text-align:center;"),
+         th("Description"),
+         th("Element Type"),
+         th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
       {
@@ -354,7 +357,7 @@ public class GenerateDocumentationTest
          if (isList) elementName.with(br(), text("(multiple)"));
          TdTag typeCell = createElementLinksToSubclasses(field);
 
-         var tr = tr(elementName, td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
@@ -365,7 +368,7 @@ public class GenerateDocumentationTest
          final var elementName = td("<" + name + ">");
          if (isList) elementName.with(br(), text("(multiple)"));
 
-         var tr = tr(elementName, td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
