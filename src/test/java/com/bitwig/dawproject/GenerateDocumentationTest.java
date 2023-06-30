@@ -83,19 +83,19 @@ public class GenerateDocumentationTest
             createClassesSummary("Timeline", new Class[] {
                Arrangement.class,
                Scene.class,
+               ClipSlot.class,
+               Timeline.class,
                Lanes.class,
                Clips.class,
                Clip.class,
-               Audio.class,
-               ClipSlot.class,
-               Marker.class,
-               Markers.class,
-               Note.class,
                Notes.class,
-               Timeline.class,
+               Note.class,
+               Audio.class,
                Video.class,
+               Warps.class,
                Warp.class,
-               Warps.class
+               Markers.class,
+               Marker.class,
             }),
 
             createClassesSummary("Parameters", new Class[] {
