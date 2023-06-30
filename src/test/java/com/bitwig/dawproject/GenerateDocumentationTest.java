@@ -108,8 +108,8 @@ public class GenerateDocumentationTest
             }),
 
             createClassesSummary("Automation", new Class[] {
-               AutomationTarget.class,
                Points.class,
+               AutomationTarget.class,
                Point.class,
                RealPoint.class,
                BoolPoint.class,
@@ -187,7 +187,7 @@ public class GenerateDocumentationTest
 
       if (superClass != Object.class)
       {
-         final var p = p("Inherits from");
+         final var p = p("Inherits from").withClass("bubble");
 
          while (superClass != Object.class)
          {
@@ -197,18 +197,12 @@ public class GenerateDocumentationTest
          content.with(p);
       }
 
-      if (Modifier.isAbstract(cls.getModifiers()))
-      {
-         content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
-
-      }
-
       final var subTypes =
          mReflections.getSubTypesOf(cls);
 
       if (!subTypes.isEmpty())
       {
-         final var p = p("Implementations");
+         final var p = p("Implementations").withClass("bubble");
 
          for (final var subType : subTypes)
          {
@@ -216,6 +210,11 @@ public class GenerateDocumentationTest
          }
 
          content.with(p);
+      }
+
+      if (Modifier.isAbstract(cls.getModifiers()))
+      {
+         content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
       createAttributeTable(cls).ifPresent(content::with);

@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+/** A single automation point (abstract class). */
 @XmlRootElement(name = "Point")
 @XmlSeeAlso({RealPoint.class, EnumPoint.class, BoolPoint.class, IntegerPoint.class, TimeSignaturePoint.class})
 public abstract class Point

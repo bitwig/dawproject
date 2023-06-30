@@ -3,6 +3,7 @@ package com.bitwig.dawproject.timeline;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+/** A single automation point for a time-signature value. */
 @XmlRootElement(name = "TimeSignaturePoint")
 public class TimeSignaturePoint extends Point
 {

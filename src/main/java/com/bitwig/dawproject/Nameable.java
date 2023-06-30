@@ -4,7 +4,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 
 public abstract class Nameable
 {
-   /** Name of this object */
+   /** Name/label of this object. */
    @XmlAttribute
    public String name;
 
@@ -12,7 +12,7 @@ public abstract class Nameable
    @XmlAttribute
    public String color;
 
-   /** Comment describing this object */
+   /** Comment/description of this object. */
    @XmlAttribute
    public String comment;
 }

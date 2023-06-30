@@ -27,11 +27,11 @@ public class AutomationTarget
    @XmlAttribute(required = false)
    public Integer channel;
 
-   /** MIDI key. Used when expression="polyPressure". */
+   /** MIDI key. <p>Used when expression="polyPressure".</p> */
    @XmlAttribute(required = false)
    public Integer key;
 
-   /** MIDI key. Used when expression="channelController". */
+   /** MIDI Channel Controller Number (0 based index). <p>Used when expression="channelController".</p> */
    @XmlAttribute(required = false)
    public Integer controller;
 }

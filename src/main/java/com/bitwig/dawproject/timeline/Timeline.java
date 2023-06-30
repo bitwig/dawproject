@@ -7,6 +7,7 @@ import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
+/** Abstract base class for all timeline structures. */
 @XmlRootElement(name = "Timeline")
 @XmlSeeAlso({Note.class, Notes.class, Lanes.class, Clip.class, Clips.class, ClipSlot.class, Marker.class,
    Markers.class, Warps.class, Audio.class, Video.class, Point.class, Points.class})
