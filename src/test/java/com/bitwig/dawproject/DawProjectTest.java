@@ -260,13 +260,13 @@ public class DawProjectTest
    @Test
    public void writeMetadataSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/metadata.xs"), MetaData.class);
+      DawProject.exportSchema(new File("MetaData.xsd"), MetaData.class);
    }
 
    @Test
    public void writeProjectSchema() throws IOException
    {
-      DawProject.exportSchema(new File("target/project.xs"), Project.class);
+      DawProject.exportSchema(new File("Project.xsd"), Project.class);
    }
 
    @Ignore

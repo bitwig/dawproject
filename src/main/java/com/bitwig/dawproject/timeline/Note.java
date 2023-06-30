@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /** A single Note (MIDI-style).
- * It can additionally contain child timelines
+ * It can additionally contain child timelines to hold per-note expression.
  * */
 @XmlRootElement(name = "Note")
 public final class Note

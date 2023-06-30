@@ -25,9 +25,11 @@ import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import j2html.tags.DomContent;
+import j2html.tags.Text;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
 import j2html.tags.specialized.TableTag;
+import j2html.tags.specialized.TdTag;
 import j2html.tags.specialized.TrTag;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -81,19 +83,19 @@ public class GenerateDocumentationTest
             createClassesSummary("Timeline", new Class[] {
                Arrangement.class,
                Scene.class,
+               ClipSlot.class,
+               Timeline.class,
                Lanes.class,
                Clips.class,
                Clip.class,
-               Audio.class,
-               ClipSlot.class,
-               Marker.class,
-               Markers.class,
-               Note.class,
                Notes.class,
-               Timeline.class,
+               Note.class,
+               Audio.class,
                Video.class,
+               Warps.class,
                Warp.class,
-               Warps.class
+               Markers.class,
+               Marker.class,
             }),
 
             createClassesSummary("Parameters", new Class[] {
@@ -106,8 +108,8 @@ public class GenerateDocumentationTest
             }),
 
             createClassesSummary("Automation", new Class[] {
-               AutomationTarget.class,
                Points.class,
+               AutomationTarget.class,
                Point.class,
                RealPoint.class,
                BoolPoint.class,
@@ -185,7 +187,7 @@ public class GenerateDocumentationTest
 
       if (superClass != Object.class)
       {
-         final var p = p("Inherits from");
+         final var p = p("Inherits from").withClass("bubble");
 
          while (superClass != Object.class)
          {
@@ -195,18 +197,12 @@ public class GenerateDocumentationTest
          content.with(p);
       }
 
-      if (Modifier.isAbstract(cls.getModifiers()))
-      {
-         content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
-
-      }
-
       final var subTypes =
          mReflections.getSubTypesOf(cls);
 
       if (!subTypes.isEmpty())
       {
-         final var p = p("Implementations");
+         final var p = p("Implementations").withClass("bubble");
 
          for (final var subType : subTypes)
          {
@@ -214,6 +210,11 @@ public class GenerateDocumentationTest
          }
 
          content.with(p);
+      }
+
+      if (Modifier.isAbstract(cls.getModifiers()))
+      {
+         content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
       createAttributeTable(cls).ifPresent(content::with);
@@ -229,7 +230,7 @@ public class GenerateDocumentationTest
    {
       final var content = new ArrayList<DomContent>();
 
-      content.add(tr(th("Attribute"), th("Description"), th("Type"), th("Required")));
+      content.add(tr(th("Attribute").withStyle("text-align:center;"), th("Description"), th("Type").withStyle("text-align:center;"), th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
       {
@@ -256,7 +257,7 @@ public class GenerateDocumentationTest
                name = field.getName();
 
             var tr =
-               tr(td(name), td(comment), td(getType(field, javadoc)), td(attribute.required() ? "yes" : "no"));
+               tr(td(name).withStyle("text-align:center;"), td(comment), td(getType(field, javadoc)).withStyle("text-align:center;"), td(attribute.required() ? "yes" : "no").withStyle("text-align:center;"));
 
             if (!isDeclaredInThisClass)
                tr = tr.withClass("inherited");
@@ -271,7 +272,10 @@ public class GenerateDocumentationTest
    {
       final var content = new ArrayList<DomContent>();
 
-      content.add(tr(th("Element name"), th("Description"), th("Element Type"), th("Required")));
+      content.add(tr(th("Element name").withStyle("text-align:center;"),
+         th("Description"),
+         th("Element Type"),
+         th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
       {
@@ -349,15 +353,11 @@ public class GenerateDocumentationTest
 
       if (isDynamicType(field))
       {
-         var typeDescription = isList ? "<Type>..." : "<Type>";
-         var typeCell = td(text("instance of "), createElementLink(field.getType()));
+         final var elementName = td(text("from Type"));
+         if (isList) elementName.with(br(), text("(multiple)"));
+         TdTag typeCell = createElementLinksToSubclasses(field);
 
-         if (isList && field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
-         {
-            typeCell = td(text("instance of "), createElementLink(getListGenericType(field)));
-         }
-
-         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
@@ -365,25 +365,49 @@ public class GenerateDocumentationTest
       else
       {
          var typeCell = td(createElementLink(isList ? getListGenericType(field) : field.getType()));
-         final var typeDescription = isList ? "<" + name + ">..." : "<" + name + ">";
+         final var elementName = td("<" + name + ">");
+         if (isList) elementName.with(br(), text("(multiple)"));
 
-         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
       }
    }
 
-   private static DomContent getComment(final Field field, final FieldJavadoc javadoc)
+   private TdTag createElementLinksToSubclasses(final Field field)
+   {
+      final var td = td();
+      final boolean isList = isFieldList(field);
+
+      final var isCollection =
+         isList && field.getGenericType() instanceof final ParameterizedType pt && pt.getActualTypeArguments().length == 1;
+
+      final Class<?> type = isCollection ? getListGenericType(field) : field.getType();
+      mReflections.getSubTypesOf(type).forEach(t -> {
+         td.with(createElementLink(t));
+         td.with(br());
+      });
+
+      return td;
+   }
+
+   private DomContent getComment(final Field field, final FieldJavadoc javadoc)
    {
       final var comment = javadoc != null ? formatJavadocComment(javadoc.getComment()) : text("");
 
       final Class<?> type = field.getType();
 
-      if (type.isEnum())
+      final var enumClass = type.isEnum()
+         ? type
+         : type.isArray()
+            ?  type.getComponentType().isEnum() ? type.getComponentType() : null
+            : null;
+
+      if (enumClass != null)
       {
          final var choices =
-            " (" + Arrays.stream(type.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
+            " (" + Arrays.stream(enumClass.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
 
          return text(comment + choices);
       }
@@ -433,6 +457,9 @@ public class GenerateDocumentationTest
 
       if (type.isEnum())
          return "Enum";
+
+      if (type.isArray() && type.getComponentType().isEnum())
+         return "Enum,...";
 
       return type.getSimpleName();
    }

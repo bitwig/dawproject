@@ -5,20 +5,20 @@ body {
     font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.25;
     color: #212529;
     text-align: left;
     background-color: #fff
 }
 
 th, td {
-    padding: 4px;
+    padding: 8px;
     padding-inline: 12px;
-    line-height: 1.5;
+    line-height: 1.25;
 }
 
 table {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     margin-top: 16px;
     margin-bottom: 16px;
     border-collapse:collapse;
@@ -34,7 +34,22 @@ th {
 
 h1 {
     font-weight: 200;
-    font-size: 260%
+    font-size: 2.6em;
+}
+
+h2 {
+    color: #777;
+    font-weight: 300;
+    font-size: 2.1em;
+    font-style: italic;
+    padding-top: 16px;
+    border-top: 1px solid #cccccc;
+}
+
+.element-title {
+    font-weight: 200;
+    font-size: 1.8em;
+    letter-spacing: 2px;
 }
 
 tbody tr {
@@ -47,17 +62,27 @@ tbody tr:nth-of-type(even) {
 
 .inherited {
     font-style: italic;
-    color: #777;
+    font-weight: 200;
+    color: #555;
 }
 
 .element-link {
-    color: chocolate;
+    color: #FF5A00;
+    font-size: 1em;
     font-weight: 300;
     margin-inline-start: 8px;
     text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.25s;
+    margin-bottom: 8px;
 }
 
-.element-title {
-    font-weight: 300;
-    font-size: 1.7em;
+.element-link:hover {
+    color: #2E9CE6;
+}
+
+.bubble {
+    /*outline: 2px solid #bbb;
+    border-radius: 8px;
+    padding: 4px 12px 4px 12px;*/
 }

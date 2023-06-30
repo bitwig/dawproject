@@ -11,7 +11,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Arrangement")
 public class Arrangement extends Referenceable
 {
-   /** Automation data for time-signature inside this Arrangement */
+   /** Automation data for time-signature inside this Arrangement.
+    * <pre>{@code
+    * <Arrangement>
+    *   <TimeSignatureAutomation target="id-of-TimeSignatureParameter" ... >
+    *     <TimeSignaturePoint time="0" numerator="7", denominator="8"/>
+    *     <TimeSignaturePoint time="21" numerator="4", denominator="4"/>
+    *        ...
+    *   </TimeSignatureAutomation>
+    * </Arrangement>
+    * }</pre>
+    *  */
    @XmlElement(required = false, name = "TimeSignatureAutomation", type = Points.class)
    public Points timeSignatureAutomation;
 

@@ -16,7 +16,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 /** Either a Plug-in or native Device with in a DAW. */
-
 @XmlRootElement(name = "Device")
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, ClapPlugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
 public class Device extends Referenceable

@@ -35,6 +35,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Warps")
 public class Warps extends Timeline
 {
+   /** Warp events defining the transformation. (minimum 2) */
    @XmlElement(required = true, name = "Warp")
    public List<Warp> events = new ArrayList<>();
 
