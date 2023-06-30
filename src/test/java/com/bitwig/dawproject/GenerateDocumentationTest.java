@@ -25,9 +25,11 @@ import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import j2html.tags.DomContent;
+import j2html.tags.Text;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
 import j2html.tags.specialized.TableTag;
+import j2html.tags.specialized.TdTag;
 import j2html.tags.specialized.TrTag;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -349,15 +351,11 @@ public class GenerateDocumentationTest
 
       if (isDynamicType(field))
       {
-         var typeDescription = isList ? "<Type>..." : "<Type>";
-         var typeCell = td(text("instance of "), createElementLink(field.getType()));
+         final var elementName = td(text("from Type"));
+         if (isList) elementName.with(br(), text("(multiple)"));
+         TdTag typeCell = createElementLinksToSubclasses(field);
 
-         if (isList && field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1)
-         {
-            typeCell = td(text("instance of "), createElementLink(getListGenericType(field)));
-         }
-
-         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName, td(comment), typeCell, td(isRequired ? "yes" : "no"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
@@ -365,13 +363,31 @@ public class GenerateDocumentationTest
       else
       {
          var typeCell = td(createElementLink(isList ? getListGenericType(field) : field.getType()));
-         final var typeDescription = isList ? "<" + name + ">..." : "<" + name + ">";
+         final var elementName = td("<" + name + ">");
+         if (isList) elementName.with(br(), text("(multiple)"));
 
-         var tr = tr(td(typeDescription), td(comment), typeCell, td(isRequired ? "yes" : "no"));
+         var tr = tr(elementName, td(comment), typeCell, td(isRequired ? "yes" : "no"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
       }
+   }
+
+   private TdTag createElementLinksToSubclasses(final Field field)
+   {
+      final var td = td();
+      final boolean isList = isFieldList(field);
+
+      final var isCollection =
+         isList && field.getGenericType() instanceof final ParameterizedType pt && pt.getActualTypeArguments().length == 1;
+
+      final Class<?> type = isCollection ? getListGenericType(field) : field.getType();
+      mReflections.getSubTypesOf(type).forEach(t -> {
+         td.with(createElementLink(t));
+         td.with(br());
+      });
+
+      return td;
    }
 
    private DomContent getComment(final Field field, final FieldJavadoc javadoc)
