@@ -440,6 +440,9 @@ public class GenerateDocumentationTest
       if (type.isEnum())
          return "Enum";
 
+      if (type.isArray() && type.getComponentType().isEnum())
+         return "Enum,...";
+
       return type.getSimpleName();
    }
 
