@@ -10,11 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.timeline.*;
@@ -25,7 +23,6 @@ import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import j2html.tags.DomContent;
-import j2html.tags.Text;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
 import j2html.tags.specialized.TableTag;
@@ -129,7 +126,7 @@ public class GenerateDocumentationTest
             }),
 
             createClassesSummary("Abstract", new Class[] {
-               Nameable.class, Referenceable.class,
+               Nameable.class, Referenceable.class, MediaFile.class,
             })));
    }
 
