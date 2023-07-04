@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import com.bitwig.dawproject.device.Device;
 import com.bitwig.dawproject.device.DeviceRole;
 import com.bitwig.dawproject.device.Vst3Plugin;
+import com.bitwig.dawproject.timeline.Audio;
 import com.bitwig.dawproject.timeline.RealPoint;
 import com.bitwig.dawproject.timeline.Clip;
 import com.bitwig.dawproject.timeline.Clips;
@@ -21,6 +24,9 @@ import com.bitwig.dawproject.timeline.Note;
 import com.bitwig.dawproject.timeline.Notes;
 import com.bitwig.dawproject.timeline.Points;
 import com.bitwig.dawproject.timeline.TimeUnit;
+import com.bitwig.dawproject.timeline.Timeline;
+import com.bitwig.dawproject.timeline.Warp;
+import com.bitwig.dawproject.timeline.Warps;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -40,28 +46,79 @@ public class DawProjectTest
 
    EnumSet<Features> simpleFeatures = EnumSet.of(Features.CLIPS, Features.NOTES, Features.AUDIO);
 
-   private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
+   private Project createEmptyProject()
    {
       Referenceable.resetID();
       final Project project = new Project();
 
       project.application.name = "Test";
       project.application.version = "1.0";
+      return project;
+   }
 
-      final Track masterTrack = new Track();
-      masterTrack.channel = new Channel();
-      project.structure.add(masterTrack);
-      masterTrack.name = "Master";
+   private Track createTrack(final String name, final EnumSet<ContentType> contentTypes, final MixerRole mixerRole, final double volume, final double pan)
+   {
+      final Track track = new Track();
+      track.channel = new Channel();
+      track.name = name;
+      final var volumeParameter = new RealParameter();
+      volumeParameter.value = volume;
+      volumeParameter.unit = Unit.linear;
+      track.channel.volume = volumeParameter;
 
-      final var p3 = new RealParameter();
-      p3.value = 1.0;
-      p3.unit = Unit.linear;
-      masterTrack.channel.volume = p3;
-      final var p2 = new RealParameter();
-      p2.value = 0.0;
-      p2.unit = Unit.linear;
-      masterTrack.channel.pan = p2;
-      masterTrack.channel.role = MixerRole.master;
+      final var panParameter = new RealParameter();
+      panParameter.value = pan;
+      panParameter.unit = Unit.normalized;
+      track.channel.pan = panParameter;
+
+      track.contentType = contentTypes.toArray(new ContentType[]{});
+      track.channel.role = mixerRole;
+
+      return track;
+   }
+
+   private Audio createAudio(final String relativePath, final int sampleRate, final int channels, final double duration)
+   {
+      final var audio = new Audio();
+      audio.file = new FileReference();
+      audio.file.path = relativePath;
+      audio.file.external = false;
+      audio.sampleRate = sampleRate;
+      audio.channels = channels;
+      audio.duration = duration;
+      return audio;
+   }
+
+   private Warp createWarp(final double time, final double contentTime)
+   {
+      final var warp = new Warp();
+      warp.time = time;
+      warp.contentTime = contentTime;
+      return warp;
+   }
+
+   private Clip createClip(final Timeline content, final double time, final double duration)
+   {
+      final var clip = new Clip();
+      clip.content = content;
+      clip.time = time;
+      clip.duration = duration;
+      return clip;
+   }
+
+   private Clips createClips(final Clip... clips)
+   {
+      final var timeline = new Clips();
+      Collections.addAll(timeline.clips, clips);
+
+      return timeline;
+   }
+
+   private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
+   {
+      final Project project = createEmptyProject();
+
+      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
 
       if (features.contains(Features.PLUGINS))
       {
@@ -93,24 +150,10 @@ public class DawProjectTest
 
       for (int i = 0; i < numTracks; i++)
       {
-         final var track = new Track();
+         final var track = createTrack("Track " + (i+1), EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
          project.structure.add(track);
-         track.name = "Track " + (i+1);
          track.color = "#" + i + i + i + i + i +i;
-         track.contentType = new ContentType[]{ContentType.notes, ContentType.audio};
-         track.channel = new Channel();
-
-         final var channel = track.channel;
-         final var p1 = new RealParameter();
-         p1.value = 1.0;
-         p1.unit = Unit.linear;
-         channel.volume = p1;
-         final var p = new RealParameter();
-         p.value = 0.0;
-         p.unit = Unit.linear;
-         channel.pan = p;
-         channel.destination = masterTrack.channel;
-         channel.role = MixerRole.regular;
+         track.channel.destination = masterTrack.channel;
 
          final var trackLanes = new Lanes();
          trackLanes.track = track;
@@ -155,7 +198,7 @@ public class DawProjectTest
             if (i == 0 && features.contains(Features.AUTOMATION))
             {
                final var points = new Points();
-               points.target.parameter = channel.volume;
+               points.target.parameter = track.channel.volume;
                trackLanes.lanes.add(points);
 
                // fade-in over 8 quarter notes
@@ -288,4 +331,54 @@ public class DawProjectTest
       Assert.assertEquals(1380652, data.length);
    }
 
+   @Test
+   public void createWarpedAudioExample() throws IOException
+   {
+      final Project project = createEmptyProject();
+      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      final var audioTrack = createTrack("Audio", EnumSet.of(ContentType.audio), MixerRole.regular,1, 0.5);
+      audioTrack.channel.destination = masterTrack.channel;
+
+      project.structure.add(masterTrack);
+      project.structure.add(audioTrack);
+
+      project.arrangement = new Arrangement();
+      project.transport = new Transport();
+      project.transport.tempo = new RealParameter();
+      project.transport.tempo.unit = Unit.bpm;
+      project.transport.tempo.value = 140.0;
+      final var arrangementLanes = new Lanes();
+      project.arrangement.lanes = arrangementLanes;
+
+      final var warps = new Warps();
+      final var sample = "white-glasses.wav";
+      final var sampleDuration = 3.097;
+      warps.content = createAudio(sample, 44100, 2, sampleDuration);
+      warps.contentTimeUnit = TimeUnit.seconds;
+      warps.events.add(createWarp(0,0));
+      warps.events.add(createWarp(8,sampleDuration));
+      final var audioClip = createClip(warps, 0, 8);
+      audioClip.playStart = 0.0;
+      final var clips = createClips(audioClip);
+      clips.track = audioTrack;
+
+      arrangementLanes.lanes.add(clips);
+
+      saveTestProject(project, "warped-audio", (meta, files) ->
+      {
+         files.put(new File("test-data/" + sample), sample);
+      });
+   }
+
+   private static void saveTestProject(final Project project, final String name, final BiConsumer<MetaData, Map<File, String>> configurer) throws IOException
+   {
+      final MetaData metadata = new MetaData();
+      final Map<File, String> embeddedFiles = new HashMap<>();
+
+      if (configurer != null)
+         configurer.accept(metadata, embeddedFiles);
+
+      DawProject.save(project, metadata, embeddedFiles, new File("target/" + name + ".dawproject"));
+      DawProject.saveXML(project, new File("target/" + name + ".xml"));
+   }
 }
