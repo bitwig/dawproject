@@ -4,16 +4,16 @@ Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 ## Motivation
 
-The DAWPROJECT format wants to provide a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
+The DAWPROJECT format provides a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
 Currently, the choices available for this task are rather limited.
-Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time so it's unsuited for musical data. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
+Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time, which limits it to post-audio workflows. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
 The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWPROJECT file.
 
 ## Status
 
-The format is being actively developed and will still undergo structural changes. 
+The format is being actively developed and will still undergo structural changes. The aim is to have a stable (1.0) specification of the format in 2023.
 
 ## Goals
 
@@ -33,43 +33,39 @@ The format is being actively developed and will still undergo structural changes
 
 ## Non-goals
 
-* Being used as a native file-format for a DAW
+* Being the native file-format for a DAW
 * Optimal performance (like a binary format could provide)
-* Adopting limitations from MIDI
-* Storing non-session data (view settings, preferences)
+* Storing low-level MIDI events directly (but rather relying on higher level abstractions)
+* Storing non-session data (view settings, preferences) 
 
-## Enable experimental support in Bitwig Studio (4.0 or later)
-
-Create a file named config.json with the following content inside you user settings directory.
-
-```json
-dawproject : true
-```
-
-The user settings directory is different on each platform
-
-* Windows: %LOCALAPPDATA%/Bitwig Studio
-* Mac: Library/Application Support/Bitwig/Bitwig Studio
-* Linux: ~/.BitwigStudio
-
-This will add an "Export Project..." entry in the FILE menu and allow DAWPROJECT files to be opened.   
-
-## Structure
+## Format Specification
 
 * File Extension: .dawproject
 * Container: ZIP
 * Format: XML (project.xml, metadata.xml)
 * Text encoding: UTF-8
+* The exporting DAW is free to choose the directory structure it wants for media and plug-in files.
 
-Apart from the location of the XML files, the exporting DAW is free to choose the directory structure it wants.
+* [DAWPROJECT XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
+* [Project XML Schema](Project.xsd)
+* [MetaData XML Schema](MetaData.xsd)
 
-[DAWPROJECT XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
+## Building
 
-## Devices / Plug-ins
+Requires Java Runtime version 16 or later.
 
-Plug-in states are stored as files in their respective standard format (fxp/fxb/vstpreset/clap-preset) inside the container and referenced using paths.
+To build (using Gradle):
 
-For a future version a set of templates could be considered to cover the parameters set of standard effects & instruments (eq / compressor / sampler etc etc) to make these transferable between different DAWs.
+```
+./gradlew build
+```
+
+## Language Support
+
+DAWPROJECT is based on plain XML/ZIP and can be used with any programming language that can parse those.
+
+The DOM of DAWPROJECT is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
+Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
 
 ## Example project
 
@@ -160,3 +156,21 @@ As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.
   <Scenes/>
 </Project>
 ```
+
+## DAW Support
+
+### Enable experimental support in Bitwig Studio (4.0 or later)
+
+Create a file named config.json with the following content inside you user settings directory.
+
+```
+dawproject : true
+```
+
+The user settings directory is different on each platform
+
+* Windows: %LOCALAPPDATA%/Bitwig Studio
+* Mac: Library/Application Support/Bitwig/Bitwig Studio
+* Linux: ~/.BitwigStudio
+
+This will add an "Export Project..." entry in the FILE menu and allow DAWPROJECT files to be opened.  

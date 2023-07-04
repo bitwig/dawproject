@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@200..600');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200;8..144,300;8..144,400&display=swap');
 
 body {
     margin: 24px;
-    font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: "Roboto Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.25;
@@ -33,11 +33,12 @@ th {
 }
 
 h1 {
-    font-weight: 200;
+    font-weight: 100;
     font-size: 2.6em;
 }
 
 h2 {
+    font-synthesis: none;
     color: #777;
     font-weight: 300;
     font-size: 2.1em;
@@ -62,7 +63,7 @@ tbody tr:nth-of-type(even) {
 
 .inherited {
     font-style: italic;
-    font-weight: 200;
+    font-weight: 250;
     color: #555;
 }
 

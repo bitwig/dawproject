@@ -46,7 +46,8 @@ public class Device extends Referenceable
    @XmlAttribute
    public String deviceVendor;
 
-   /** Path to a file representing the device / plug-in state in its native format. */
+   /** Path to a file representing the device / plug-in state in its native format.
+    * <p>This file must be embedded inside the container ZIP and have the FileReference configured with (external=false).</p> */
    @XmlElement(name = "State", required = false)
    public FileReference state;
 

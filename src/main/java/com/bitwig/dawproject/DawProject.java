@@ -232,7 +232,7 @@ public class DawProject
        final ZipEntry entry = zipFile.getEntry (embeddedPath);
        final InputStream zipInputStream = zipFile.getInputStream (entry);
 
-       // Ensure that both the stream as well as the ZIP file gets closed
+       // Ensure that both the stream and the ZIP file gets closed
        return new InputStream ()
        {
            @Override
