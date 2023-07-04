@@ -80,6 +80,7 @@ public class DawProjectTest
    private Audio createAudio(final String relativePath, final int sampleRate, final int channels, final double duration)
    {
       final var audio = new Audio();
+      audio.timeUnit = TimeUnit.seconds;
       audio.file = new FileReference();
       audio.file.path = relativePath;
       audio.file.external = false;
@@ -119,6 +120,7 @@ public class DawProjectTest
       final Project project = createEmptyProject();
 
       final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      project.structure.add(masterTrack);
 
       if (features.contains(Features.PLUGINS))
       {
@@ -331,9 +333,35 @@ public class DawProjectTest
       Assert.assertEquals(1380652, data.length);
    }
 
-   @Test
-   public void createWarpedAudioExample() throws IOException
+   enum AudioScenario
    {
+      Warped,
+      RawBeats,
+      RawSeconds,
+   }
+
+   @Test
+   public void createAudioExample() throws IOException
+   {
+      for (AudioScenario scenario : AudioScenario.values())
+      {
+         createAudioExample(0, 0, scenario, false);
+         createAudioExample(0, 0, scenario, true);
+         createAudioExample(1, 0, scenario, false);
+         createAudioExample(0, 1, scenario, false);
+      }
+   }
+
+   public void createAudioExample(final double playStartOffset, final double clipTime, final AudioScenario scenario, final boolean withFades) throws IOException
+   {
+      String name = scenario.name();
+      if (withFades)
+         name += "WithFades";
+      if (playStartOffset != 0)
+         name += "Offset";
+      if (clipTime != 0)
+         name += "Clipstart";
+
       final Project project = createEmptyProject();
       final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
       final var audioTrack = createTrack("Audio", EnumSet.of(ContentType.audio), MixerRole.regular,1, 0.5);
@@ -349,22 +377,36 @@ public class DawProjectTest
       project.transport.tempo.value = 140.0;
       final var arrangementLanes = new Lanes();
       project.arrangement.lanes = arrangementLanes;
+      project.arrangement.lanes.timeUnit = scenario == AudioScenario.RawSeconds ? TimeUnit.seconds : TimeUnit.beats;
 
-      final var warps = new Warps();
       final var sample = "white-glasses.wav";
+      Clip audioClip;
       final var sampleDuration = 3.097;
-      warps.content = createAudio(sample, 44100, 2, sampleDuration);
-      warps.contentTimeUnit = TimeUnit.seconds;
-      warps.events.add(createWarp(0,0));
-      warps.events.add(createWarp(8,sampleDuration));
-      final var audioClip = createClip(warps, 0, 8);
-      audioClip.playStart = 0.0;
+      final var audio = createAudio(sample, 44100, 2, sampleDuration);
+      if (scenario == AudioScenario.Warped)
+      {
+         final var warps = new Warps();
+         warps.content = audio;
+         warps.contentTimeUnit = TimeUnit.seconds;
+         warps.events.add(createWarp(0, 0));
+         warps.events.add(createWarp(8, sampleDuration));
+         audioClip = createClip(warps, clipTime, 8);
+         audioClip.contentTimeUnit = TimeUnit.beats;
+         audioClip.playStart = 0.0;
+      }
+      else
+      {
+         audioClip = createClip(audio, clipTime, sampleDuration);
+         audioClip.contentTimeUnit = TimeUnit.seconds;
+         audioClip.playStart = 0.0;
+         audioClip.playStop = sampleDuration;
+      }
+
       final var clips = createClips(audioClip);
       clips.track = audioTrack;
-
       arrangementLanes.lanes.add(clips);
 
-      saveTestProject(project, "warped-audio", (meta, files) ->
+      saveTestProject(project, name, (meta, files) ->
       {
          files.put(new File("test-data/" + sample), sample);
       });
@@ -380,5 +422,6 @@ public class DawProjectTest
 
       DawProject.save(project, metadata, embeddedFiles, new File("target/" + name + ".dawproject"));
       DawProject.saveXML(project, new File("target/" + name + ".xml"));
+      DawProject.validate(project);
    }
 }
