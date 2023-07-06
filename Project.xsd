@@ -616,27 +616,32 @@
 
   <xs:complexType name="audio">
     <xs:complexContent>
+      <xs:extension base="mediaFile">
+        <xs:sequence/>
+        <xs:attribute name="algorithm" type="xs:string"/>
+        <xs:attribute name="channels" type="xs:int" use="required"/>
+        <xs:attribute name="sampleRate" type="xs:int" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="mediaFile">
+    <xs:complexContent>
       <xs:extension base="timeline">
         <xs:sequence>
           <xs:element name="File" type="fileReference"/>
         </xs:sequence>
-        <xs:attribute name="algorithm" type="xs:string"/>
-        <xs:attribute name="channels" type="xs:int" use="required"/>
         <xs:attribute name="duration" type="xs:double" use="required"/>
-        <xs:attribute name="sampleRate" type="xs:int" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="video">
     <xs:complexContent>
-      <xs:extension base="timeline">
-        <xs:sequence>
-          <xs:element name="File" type="fileReference"/>
-        </xs:sequence>
+      <xs:extension base="mediaFile">
+        <xs:sequence/>
         <xs:attribute name="algorithm" type="xs:string"/>
         <xs:attribute name="channels" type="xs:int" use="required"/>
-        <xs:attribute name="duration" type="xs:double" use="required"/>
         <xs:attribute name="sampleRate" type="xs:int" use="required"/>
       </xs:extension>
     </xs:complexContent>
