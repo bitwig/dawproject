@@ -227,8 +227,11 @@ public class GenerateDocumentationTest
          content.with(p("\nThis element is abstract in the DOM and cannot be used as an XML element directly."));
       }
 
-      createAttributeTable(cls).ifPresent(content::with);
-      createElementsTable(cls).ifPresent(content::with);
+      final var table = table().withClass("detail-table");
+
+      content.with(table);
+      createAttributeTable(table, cls);
+      createElementsTable(table, cls);
 
       return content;
    }
@@ -236,11 +239,11 @@ public class GenerateDocumentationTest
    private Reflections mReflections = new Reflections("com.bitwig.dawproject");
 
 
-   private Optional<TableTag> createAttributeTable(final Class cls)
+   private void createAttributeTable(final TableTag table, final Class cls)
    {
       final var content = new ArrayList<DomContent>();
 
-      content.add(tr(th("Attribute").withStyle("text-align:center;"), th("Description"), th("Type").withStyle("text-align:center;"), th("Required").withStyle("text-align:center;")));
+      content.add(tr(th("Attribute name").withStyle("text-align:center;"), th("Description"), th("Type").withStyle("text-align:center;"), th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
       {
@@ -249,8 +252,7 @@ public class GenerateDocumentationTest
       }
 
       if (content.size() > 1)
-         return Optional.of(table().with(content).withClass("detail-table"));
-      return Optional.empty();
+         table.with(content);
    }
 
    private Optional<TrTag> createAttributeTableRow(
@@ -278,13 +280,13 @@ public class GenerateDocumentationTest
       return Optional.empty();
    }
 
-   private Optional<TableTag> createElementsTable(final Class cls) throws IOException
+   private void createElementsTable(final TableTag table, final Class cls) throws IOException
    {
       final var content = new ArrayList<DomContent>();
 
       content.add(tr(th("Element name").withStyle("text-align:center;"),
          th("Description"),
-         th("Element Type"),
+         th("Element Type").withStyle("text-align:center;"),
          th("Required").withStyle("text-align:center;")));
 
       for (final var field : cls.getFields())
@@ -294,8 +296,7 @@ public class GenerateDocumentationTest
       }
 
       if (content.size() > 1)
-         return Optional.of(table().with(content).withClass("detail-table"));
-      return Optional.empty();
+         table.with(content);
    }
 
    private boolean isDynamicType(final Field field)
@@ -367,7 +368,7 @@ public class GenerateDocumentationTest
          if (isList) elementName.with(br(), text("(multiple)"));
          TdTag typeCell = createElementLinksToSubclasses(field);
 
-         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell.withStyle("text-align:center;"), td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);
@@ -378,7 +379,7 @@ public class GenerateDocumentationTest
          final var elementName = td("<" + name + ">");
          if (isList) elementName.with(br(), text("(multiple)"));
 
-         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell, td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
+         var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell.withStyle("text-align:center;"), td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
          if (!isDeclaredInThisClass) tr = tr.withClass("inherited");
 
          return Optional.of(tr);

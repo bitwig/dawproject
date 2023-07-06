@@ -8,7 +8,8 @@ body {
     line-height: 1.25;
     color: #212529;
     text-align: left;
-    background-color: #fff
+    background-color: #fff;
+    margin-bottom: 80px;
 }
 
 th, td {
@@ -101,7 +102,7 @@ tbody tr:nth-of-type(even) {
 
 .goto-toc {
     border-radius: 8px;
-    padding: 12px;
+    padding: 4px 12px 4px 12px;
     background-color: #eee;
     position:fixed;
     bottom: 24px;
