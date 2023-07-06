@@ -354,7 +354,7 @@ public class DawProjectTest
 
    public void createAudioExample(final double playStartOffset, final double clipTime, final AudioScenario scenario, final boolean withFades) throws IOException
    {
-      String name = scenario.name();
+      String name = "Audio" + scenario.name();
       if (withFades)
          name += "WithFades";
       if (playStartOffset != 0)
@@ -374,10 +374,11 @@ public class DawProjectTest
       project.transport = new Transport();
       project.transport.tempo = new RealParameter();
       project.transport.tempo.unit = Unit.bpm;
-      project.transport.tempo.value = 140.0;
+      project.transport.tempo.value = 155.0;
       final var arrangementLanes = new Lanes();
       project.arrangement.lanes = arrangementLanes;
-      project.arrangement.lanes.timeUnit = scenario == AudioScenario.RawSeconds ? TimeUnit.seconds : TimeUnit.beats;
+      final var arrangementIsInSeconds = scenario == AudioScenario.RawSeconds;
+      project.arrangement.lanes.timeUnit = arrangementIsInSeconds ? TimeUnit.seconds : TimeUnit.beats;
 
       final var sample = "white-glasses.wav";
       Clip audioClip;
@@ -392,14 +393,26 @@ public class DawProjectTest
          warps.events.add(createWarp(8, sampleDuration));
          audioClip = createClip(warps, clipTime, 8);
          audioClip.contentTimeUnit = TimeUnit.beats;
-         audioClip.playStart = 0.0;
+         audioClip.playStart = playStartOffset;
+         if (withFades)
+         {
+            audioClip.fadeTimeUnit = TimeUnit.beats;
+            audioClip.fadeInTime = 0.25;
+            audioClip.fadeOutTime = 0.25;
+         }
       }
       else
       {
-         audioClip = createClip(audio, clipTime, sampleDuration);
+         audioClip = createClip(audio, clipTime, arrangementIsInSeconds ? sampleDuration : 8);
          audioClip.contentTimeUnit = TimeUnit.seconds;
-         audioClip.playStart = 0.0;
+         audioClip.playStart = playStartOffset;
          audioClip.playStop = sampleDuration;
+         if (withFades)
+         {
+            audioClip.fadeTimeUnit = TimeUnit.seconds;
+            audioClip.fadeInTime = 0.1;
+            audioClip.fadeOutTime = 0.1;
+         }
       }
 
       final var clips = createClips(audioClip);
