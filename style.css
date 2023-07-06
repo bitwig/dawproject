@@ -61,6 +61,10 @@ tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
+.detail-table {
+    width: 100%;
+}
+
 .inherited {
     font-style: italic;
     font-weight: 250;

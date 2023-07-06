@@ -236,7 +236,7 @@ public class GenerateDocumentationTest
       }
 
       if (content.size() > 1)
-         return Optional.of(table().with(content));
+         return Optional.of(table().with(content).withClass("detail-table"));
       return Optional.empty();
    }
 
@@ -281,7 +281,7 @@ public class GenerateDocumentationTest
       }
 
       if (content.size() > 1)
-         return Optional.of(table().with(content));
+         return Optional.of(table().with(content).withClass("detail-table"));
       return Optional.empty();
    }
 
@@ -404,9 +404,9 @@ public class GenerateDocumentationTest
       if (enumClass != null)
       {
          final var choices =
-            " (" + Arrays.stream(enumClass.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining("/")) + ")";
+            "Possible values: " + Arrays.stream(enumClass.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining(", "));
 
-         return text(comment + choices);
+         return span(comment, p(choices));
       }
 
       return comment;
