@@ -204,8 +204,8 @@ public class DawProjectTest
                trackLanes.lanes.add(points);
 
                // fade-in over 8 quarter notes
-               points.points.add(createPoint(0.0, 0.0));
-               points.points.add(createPoint(8.0, 1.0));
+               points.points.add(createPoint(0.0, 0.0, Interpolation.linear));
+               points.points.add(createPoint(8.0, 1.0, Interpolation.linear));
             }
          }
       }
@@ -216,11 +216,12 @@ public class DawProjectTest
       return project;
    }
 
-   private RealPoint createPoint(final double time, final double value)
+   private RealPoint createPoint(final double time, final double value, final Interpolation interpolation)
    {
       final var point = new RealPoint();
       point.time = time;
       point.value = value;
+      point.interpolation = interpolation;
       return point;
    }
 
@@ -451,6 +452,74 @@ public class DawProjectTest
       {
          files.put(new File("test-data/" + sample), sample);
       });
+   }
+
+   @Test
+   public void createMIDIAutomationInClipsExample() throws IOException
+   {
+      createMIDIAutomationExample("MIDI-CC1-AutomationOnTrack", false, false);
+      createMIDIAutomationExample("MIDI-CC1-AutomationInClips", true, false);
+      createMIDIAutomationExample("MIDI-PitchBend-AutomationOnTrack", false, true);
+      createMIDIAutomationExample("MIDI-PitchBend-AutomationInClips", true, true);
+   }
+
+   public void createMIDIAutomationExample(final String name, final boolean inClips, final boolean isPitchBend) throws IOException
+   {
+      final Project project = createEmptyProject();
+      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      final var instrumentTrack = createTrack("Notes", EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
+      instrumentTrack.channel.destination = masterTrack.channel;
+
+      project.structure.add(masterTrack);
+      project.structure.add(instrumentTrack);
+
+      project.arrangement = new Arrangement();
+      project.transport = new Transport();
+      project.transport.tempo = new RealParameter();
+      project.transport.tempo.unit = Unit.bpm;
+      project.transport.tempo.value = 123.0;
+      final var arrangementLanes = new Lanes();
+      project.arrangement.lanes = arrangementLanes;
+      project.arrangement.lanes.timeUnit = TimeUnit.beats;
+
+      // Create some mod-wheel or pitch-bend automation
+      final var automation = new Points();
+      automation.unit = Unit.normalized;
+      if (isPitchBend)
+      {
+         automation.target.expression = ExpressionType.pitchBend;
+         automation.target.channel = 0;
+      }
+      else
+      {
+         automation.target.expression = ExpressionType.channelController;
+         automation.target.channel = 0;
+         automation.target.controller = 1;
+      }
+      automation.points.add(createPoint(0, 0.0, Interpolation.linear));
+      automation.points.add(createPoint(1, 0.0, Interpolation.linear));
+      automation.points.add(createPoint(2, 0.5, Interpolation.linear));
+      automation.points.add(createPoint(3, 0.5, Interpolation.linear));
+      automation.points.add(createPoint(4, 1.0, Interpolation.linear));
+      automation.points.add(createPoint(5, 1.0, Interpolation.linear));
+      automation.points.add(createPoint(6, 0.5, Interpolation.linear));
+      automation.points.add(createPoint(7, 1, Interpolation.hold));
+      automation.points.add(createPoint(8, 0.5, Interpolation.hold));
+
+      if (inClips)
+      {
+         final var noteClip = createClip(automation, 0, 8);
+         final var clips = createClips(noteClip);
+         clips.track = instrumentTrack;
+         arrangementLanes.lanes.add(clips);
+      }
+      else
+      {
+         automation.track = instrumentTrack;
+         arrangementLanes.lanes.add(automation);
+      }
+
+      saveTestProject(project, name, null);
    }
 
    private static void saveTestProject(final Project project, final String name, final BiConsumer<MetaData, Map<File, String>> configurer) throws IOException
