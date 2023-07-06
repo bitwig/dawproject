@@ -91,3 +91,19 @@ tbody tr:nth-of-type(even) {
     border-radius: 8px;
     padding: 4px 12px 4px 12px;*/
 }
+
+.toc {
+    /*outline: 2px solid #bbb;*/
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #eee;
+}
+
+.goto-toc {
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #eee;
+    position:fixed;
+    bottom: 24px;
+    right: 24px
+}

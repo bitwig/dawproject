@@ -23,6 +23,7 @@ import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import j2html.tags.DomContent;
+import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.SpanTag;
 import j2html.tags.specialized.TableTag;
@@ -64,20 +65,25 @@ public class GenerateDocumentationTest
 
    private HtmlTag createDocument(final String title) throws IOException
    {
+      final var toc = div().withClass("toc");
+      toc.with(b("Table of Contents"));
       return html(
          head(
             title(title),
             link().withRel("stylesheet").withHref("style.css")),
          body(
-            h1(title), createClassesSummary("Root", new Class[] {
+            h1(title).withId("toc"),
+            div(a(rawHtml("&uarr;")).withHref("#toc")).withClass("goto-toc"),
+            toc,
+            createClassesSummary(toc, "Root", new Class[] {
                Project.class, MetaData.class,
-            }), createClassesSummary("Other", new Class[] {
+            }), createClassesSummary(toc, "Other", new Class[] {
                Application.class, FileReference.class, Transport.class,
-            }), createClassesSummary("Mixer", new Class[] {
+            }), createClassesSummary(toc, "Mixer", new Class[] {
                Track.class, Channel.class, Send.class,
             }),
 
-            createClassesSummary("Timeline", new Class[] {
+            createClassesSummary(toc, "Timeline", new Class[] {
                Arrangement.class,
                Scene.class,
                ClipSlot.class,
@@ -95,7 +101,7 @@ public class GenerateDocumentationTest
                Marker.class,
             }),
 
-            createClassesSummary("Parameters", new Class[] {
+            createClassesSummary(toc, "Parameters", new Class[] {
                Parameter.class,
                BoolParameter.class,
                EnumParameter.class,
@@ -104,7 +110,7 @@ public class GenerateDocumentationTest
                TimeSignatureParameter.class,
             }),
 
-            createClassesSummary("Automation", new Class[] {
+            createClassesSummary(toc, "Automation", new Class[] {
                Points.class,
                AutomationTarget.class,
                Point.class,
@@ -115,7 +121,7 @@ public class GenerateDocumentationTest
                TimeSignaturePoint.class,
             }),
 
-            createClassesSummary("Device", new Class[] {
+            createClassesSummary(toc, "Device", new Class[] {
                Device.class, AuPlugin.class, ClapPlugin.class, Plugin.class, Vst2Plugin.class, Vst3Plugin.class,
 
                BuiltinDevice.class,
@@ -125,19 +131,26 @@ public class GenerateDocumentationTest
                //NoiseGate.class,
             }),
 
-            createClassesSummary("Abstract", new Class[] {
+            createClassesSummary(toc, "Abstract", new Class[] {
                Nameable.class, Referenceable.class, MediaFile.class,
             })));
    }
 
-   public DomContent createClassesSummary(final String label, final Class[] classes) throws IOException
+   public DomContent createClassesSummary(final DivTag toc, final String label, final Class[] classes) throws IOException
    {
       final var content = new ArrayList<DomContent>();
 
       content.add(h2(label + " Elements"));
 
+      final var tocP = p(label + " Elements");
+      final var tocDiv = div();
+      toc.with(tocP, tocDiv);
+
       for (final var cls : classes)
+      {
          content.add(createClassSummary(cls));
+         tocDiv.with(createElementLink(cls));
+      }
 
       return new SpanTag().with(content).withClass("elements-block");
    }
