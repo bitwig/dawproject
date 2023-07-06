@@ -65,7 +65,7 @@ public class GenerateDocumentationTest
 
    private HtmlTag createDocument(final String title) throws IOException
    {
-      final var toc = div().withClass("toc");
+      final var toc = div();
       toc.with(b("Table of Contents"));
       return html(
          head(
@@ -73,7 +73,7 @@ public class GenerateDocumentationTest
             link().withRel("stylesheet").withHref("style.css")),
          body(
             h1(title).withId("toc"),
-            div(a(rawHtml("&uarr;")).withHref("#toc")).withClass("goto-toc"),
+            div(a(rawHtml("&uarr;")).withHref("#top")).withClass("goto-toc"),
             toc,
             createClassesSummary(toc, "Root", new Class[] {
                Project.class, MetaData.class,
