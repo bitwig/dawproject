@@ -338,6 +338,19 @@ public class DawProjectTest
       Warped,
       RawBeats,
       RawSeconds,
+      FileWithAbsolutePath,
+      FileWithRelativePath,
+   }
+
+   boolean shouldTestOffsetAndFades(final AudioScenario scenario)
+   {
+      return switch (scenario)
+      {
+         case Warped -> true;
+         case RawBeats -> true;
+         case RawSeconds -> true;
+         default -> false;
+      };
    }
 
    @Test
@@ -346,9 +359,12 @@ public class DawProjectTest
       for (AudioScenario scenario : AudioScenario.values())
       {
          createAudioExample(0, 0, scenario, false);
-         createAudioExample(0, 0, scenario, true);
-         createAudioExample(1, 0, scenario, false);
-         createAudioExample(0, 1, scenario, false);
+         if (shouldTestOffsetAndFades(scenario))
+         {
+            createAudioExample(0, 0, scenario, true);
+            createAudioExample(1, 0, scenario, false);
+            createAudioExample(0, 1, scenario, false);
+         }
       }
    }
 
@@ -384,6 +400,18 @@ public class DawProjectTest
       Clip audioClip;
       final var sampleDuration = 3.097;
       final var audio = createAudio(sample, 44100, 2, sampleDuration);
+
+      if (scenario == AudioScenario.FileWithAbsolutePath)
+      {
+         audio.file.external = true;
+         audio.file.path = new File("test-data", sample).getAbsolutePath();
+      }
+      else if (scenario == AudioScenario.FileWithRelativePath)
+      {
+         audio.file.external = true;
+         audio.file.path = "../test-data/" + sample;
+      }
+
       if (scenario == AudioScenario.Warped)
       {
          final var warps = new Warps();
