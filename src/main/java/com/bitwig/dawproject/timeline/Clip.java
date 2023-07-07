@@ -46,11 +46,12 @@ public class Clip extends Nameable
    @XmlAttribute(required = false)
    public TimeUnit fadeTimeUnit;
 
-   /** Duration of fade-in */
+   /** Duration of fade-in.
+    * <p>To create cross-fade, use a negative value which will make this Clip start at <i>t = time - abs(fadeInTime)</i> </p> */
    @XmlAttribute(required = false)
    public Double fadeInTime;
 
-   /** Duration of fade-out */
+   /** Duration of fade-out. */
    @XmlAttribute(required = false)
    public Double fadeOutTime;
 
