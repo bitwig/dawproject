@@ -11,12 +11,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.bitwig.dawproject.device.AuPlugin;
-import com.bitwig.dawproject.device.BuiltinDevice;
 import com.bitwig.dawproject.device.ClapPlugin;
 import com.bitwig.dawproject.device.Device;
-import com.bitwig.dawproject.device.EqBand;
+import com.bitwig.dawproject.device.DeviceRole;
 import com.bitwig.dawproject.device.EqBandType;
-import com.bitwig.dawproject.device.Equalizer;
 import com.bitwig.dawproject.device.Plugin;
 import com.bitwig.dawproject.device.Vst2Plugin;
 import com.bitwig.dawproject.device.Vst3Plugin;
@@ -43,7 +41,7 @@ import com.bitwig.dawproject.timeline.Timeline;
 import com.bitwig.dawproject.timeline.Video;
 import com.bitwig.dawproject.timeline.Warp;
 import com.bitwig.dawproject.timeline.Warps;
-import com.github.therapi.runtimejavadoc.ClassJavadoc;
+import com.github.therapi.runtimejavadoc.BaseJavadoc;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
@@ -76,6 +74,13 @@ import static j2html.TagCreator.tr;
 public class GenerateSwiftTest
 {
    final static Class[] classes = new Class[] {
+
+      Nameable.class,
+      Referenceable.class,
+      MediaFile.class,
+      Lane.class,
+      Timeline.class,
+
       Project.class,
       MetaData.class,
       Application.class,
@@ -87,7 +92,6 @@ public class GenerateSwiftTest
       Arrangement.class,
       Scene.class,
       ClipSlot.class,
-      Timeline.class,
       Lanes.class,
       Clips.class,
       Clip.class,
@@ -120,21 +124,18 @@ public class GenerateSwiftTest
       Vst2Plugin.class,
       Vst3Plugin.class,
 
-      BuiltinDevice.class,
+      //BuiltinDevice.class,
       //Compressor.class,
-      Equalizer.class,
-      EqBand.class,
+      //Equalizer.class,
+      //EqBand.class,
       //Limiter.class,
       //NoiseGate.class,
-      Nameable.class,
-      Referenceable.class,
-      MediaFile.class,
    };
 
    @Test
    public void generateSwiftFile() throws IOException
    {
-      final var swiftFile = new File("dawproject.swift");
+      final var swiftFile = new File("../../../../../dp-test/dp-test/dawproject.swift");
 
       final StringBuilder sb = new StringBuilder();
       generateStructs(sb);
@@ -150,14 +151,24 @@ public class GenerateSwiftTest
       generateEnum(sb, Unit.values());
       generateEnum(sb, SendType.values());
       generateEnum(sb, MixerRole.values());
+      generateEnum(sb, DeviceRole.values());
       generateEnum(sb, ContentType.values());
+      generateEnum(sb, ExpressionType.values());
       generateEnum(sb, EqBandType.values());
+
+      for (final var cls : classes)
+      {
+         if (Modifier.isAbstract(cls.getModifiers()))
+         {
+            generateProtocol(sb, cls);
+         }
+      }
 
       for (final var cls : classes)
       {
          if (!Modifier.isAbstract(cls.getModifiers()))
          {
-            generateStruct(sb, cls);
+            generateClass(sb, cls);
          }
       }
    }
@@ -178,25 +189,63 @@ public class GenerateSwiftTest
       sb.append("}\n\n");
    }
 
-   private void generateStruct(final StringBuilder sb, final Class cls)
+   private void appendJavaDoc(final StringBuilder sb, final BaseJavadoc javadoc, int indentation)
    {
-      ClassJavadoc classDoc = RuntimeJavadoc.getJavadoc(cls);
-
-      if (!classDoc.isEmpty())
+      if (!javadoc.isEmpty())
       {
+         final var indent = " ".repeat(indentation);
+         sb.append(indent);
          sb.append("/* ");
-         sb.append(classDoc.getComment());
-         sb.append(" */\n\n");
+         final var comment = javadoc.getComment().toString();
+         sb.append(comment.replace("\n", "\n" + indent));
+         sb.append(" */\n");
       }
+   }
+
+   private void generateProtocol(final StringBuilder sb, final Class cls)
+   {
+      appendJavaDoc(sb, RuntimeJavadoc.getJavadoc(cls), 0);
 
       final var name = cls.getSimpleName();
-      sb.append("struct " + name + " {\n");
+      sb.append("\nprotocol " + name + " {\n");
+      for (final var field : cls.getDeclaredFields())
+      {
+         if (shouldIncludeField(field))
+         {
+            final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
+            generateStructField(sb, field, fieldJavadoc, true);
+         }
+      }
+      sb.append("}\n\n");
+   }
+
+   private void generateClass(final StringBuilder sb, final Class cls)
+   {
+      appendJavaDoc(sb, RuntimeJavadoc.getJavadoc(cls), 0);
+      final var name = cls.getSimpleName();
+
+      sb.append("\nclass " + name);
+
+      boolean hadSuper = false;
+      var superClass = cls.getSuperclass();
+      while (superClass != Object.class)
+      {
+         if (!hadSuper) sb.append(": ");
+         else sb.append(", ");
+
+         sb.append(superClass.getSimpleName());
+         hadSuper = true;
+         superClass = superClass.getSuperclass();
+      }
+
+      sb.append(" {\n");
+
       for (final var field : cls.getFields())
       {
          if (shouldIncludeField(field))
          {
             final var fieldJavadoc = RuntimeJavadoc.getJavadoc(field);
-            generateStructField(sb, field, fieldJavadoc);
+            generateStructField(sb, field, fieldJavadoc, false);
          }
       }
       sb.append("}\n\n");
@@ -209,26 +258,26 @@ public class GenerateSwiftTest
       return true;
    }
 
-   private void generateStructField(final StringBuilder sb, final Field field, final FieldJavadoc fieldJavadoc)
+   private void generateStructField(final StringBuilder sb, final Field field, final FieldJavadoc fieldJavadoc,
+      final boolean isProtocol)
    {
       final String commentText = fieldJavadoc != null && !fieldJavadoc.isEmpty() ? fieldJavadoc.getComment().toString() : "";
 
-      final var isCommentLong = commentText.length() > 40;
-      if (isCommentLong)
-      {
-         sb.append("\n    /* ");
-         sb.append(fieldJavadoc.getComment());
-         sb.append(" */\n");
-      }
+      final var isCommentLong = commentText.length() > 50 || commentText.contains("\n");
 
-      var typeString = getTypeString(field) + (!isRequired(field) ? "?" : "");
+      if (isCommentLong)
+         appendJavaDoc(sb, fieldJavadoc, 4);
+
+      var typeString = getTypeString(field) + "?"; //(!isRequired(field) ? "?" : "");
       sb.append("    var " + getFieldName(field) + ": " + typeString);
+      if (isProtocol)
+         sb.append(" { get }");
       if (!isCommentLong && !commentText.isEmpty())
       {
          sb.append(" // ");
          sb.append(commentText);
       }
-      sb.append("\n");
+      sb.append("\n\n");
    }
 
 
@@ -259,12 +308,20 @@ public class GenerateSwiftTest
          return "Int";
       if (type == Double.class)
          return "Double";
+      if (type == Boolean.class)
+         return "Bool";
+      if (type == double.class)
+         return "Float64";
+      if (type == int.class)
+         return "Int";
+      if (type.isArray())
+         return "[" + type.getSimpleName().replace("[", "");
       return type.getSimpleName();
    }
 
    private static String getFieldName(final Field field)
    {
-      /*for (Annotation annotation : field.getAnnotations())
+    /*  for (final var annotation : field.getAnnotations())
       {
          if (annotation instanceof XmlElementWrapper wrapper)
          {

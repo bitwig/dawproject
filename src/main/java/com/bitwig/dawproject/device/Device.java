@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 /** Either a Plug-in or native Device with in a DAW. */
 @XmlRootElement(name = "Device")
 @XmlSeeAlso({Vst2Plugin.class, Vst3Plugin.class, ClapPlugin.class, BuiltinDevice.class, AuPlugin.class, Parameter.class})
-public class Device extends Referenceable
+public abstract class Device extends Referenceable
 {
    /** This device is enabled (as in not bypassed). */
    @XmlElement(name = "Enabled")
