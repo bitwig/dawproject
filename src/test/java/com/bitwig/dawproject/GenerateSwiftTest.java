@@ -7,8 +7,10 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bitwig.dawproject.device.AuPlugin;
 import com.bitwig.dawproject.device.ClapPlugin;
@@ -48,6 +50,7 @@ import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import org.junit.Assert;
 import org.junit.Test;
@@ -135,7 +138,7 @@ public class GenerateSwiftTest
    @Test
    public void generateSwiftFile() throws IOException
    {
-      final var swiftFile = new File("../../../../../dp-test/dp-test/dawproject.swift");
+      final var swiftFile = new File("dawproject.swift");
 
       final StringBuilder sb = new StringBuilder();
       generateStructs(sb);
@@ -248,6 +251,20 @@ public class GenerateSwiftTest
             generateStructField(sb, field, fieldJavadoc, false);
          }
       }
+
+      /*sb.append("    enum CodingKeys : String, CodingKey {\n");
+      for (final var field : cls.getFields())
+      {
+         if (shouldIncludeField(field))
+         {
+            sb.append("        case ");
+            sb.append(getFieldName(field));
+            sb.append(" = \"");
+            sb.append(getFieldXMLName(field));
+            sb.append("\"\n");
+         }
+      }
+      sb.append("    }\n");*/
       sb.append("}\n\n");
    }
 
@@ -319,9 +336,9 @@ public class GenerateSwiftTest
       return type.getSimpleName();
    }
 
-   private static String getFieldName(final Field field)
+   private String getFieldXMLName(final Field field)
    {
-    /*  for (final var annotation : field.getAnnotations())
+      for (final var annotation : field.getAnnotations())
       {
          if (annotation instanceof XmlElementWrapper wrapper)
          {
@@ -343,8 +360,13 @@ public class GenerateSwiftTest
             if (!element.value().startsWith("#"))
                return element.value();
          }
-      }*/
+      }
 
+      return field.getName();
+   }
+
+   private static String getFieldName(final Field field)
+   {
       return field.getName();
    }
 
