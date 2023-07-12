@@ -13,6 +13,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Notes extends Timeline
 {
    /** Contained notes. */
-   @XmlElement(required = true, name = "Note")
+   @XmlElement(name = "Note")
    public List<Note> notes = new ArrayList<>();
 }
