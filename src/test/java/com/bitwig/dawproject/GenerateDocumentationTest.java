@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -180,7 +181,7 @@ public class GenerateDocumentationTest
       return "<" + s + ">";
    }
 
-   public DomContent createClassSummary(final Class cls) throws IOException
+   public DomContent createClassSummary(final Class<?> cls) throws IOException
    {
       final var content = span().withClass("element-block");
       final var elementName = getElementNameForClass(cls);
@@ -214,10 +215,9 @@ public class GenerateDocumentationTest
       {
          final var p = p("Implementations").withClass("bubble");
 
-         for (final var subType : subTypes)
-         {
-            p.with(createElementLink((Class)subType));
-         }
+         subTypes.stream()
+            .sorted(Comparator.comparing(Class::getName))
+            .forEach(c -> p.with(createElementLink(c)));
 
          content.with(p);
       }
