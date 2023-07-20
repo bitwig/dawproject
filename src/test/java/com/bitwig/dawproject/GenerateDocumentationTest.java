@@ -395,9 +395,11 @@ public class GenerateDocumentationTest
          isList && field.getGenericType() instanceof final ParameterizedType pt && pt.getActualTypeArguments().length == 1;
 
       final Class<?> type = isCollection ? getListGenericType(field) : field.getType();
-      mReflections.getSubTypesOf(type).forEach(t -> {
-         td.with(createElementLink(t));
-         td.with(br());
+      mReflections.getSubTypesOf(type).stream()
+         .sorted(Comparator.comparing(Class::getName))
+         .forEach(t -> {
+            td.with(createElementLink(t));
+            td.with(br());
       });
 
       return td;
