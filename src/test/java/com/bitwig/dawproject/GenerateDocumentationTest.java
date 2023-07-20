@@ -23,6 +23,7 @@ import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
+import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.HtmlTag;
@@ -54,12 +55,11 @@ public class GenerateDocumentationTest
    public void createClassSummary() throws IOException
    {
       final var htmlFile = new File("Reference.html");
-      final var markdownFile = new File("target/Reference.md");
 
       final var title = "DAWPROJECT XML Reference";
       final var html = createDocument(title);
 
-      Files.write(htmlFile.toPath(), Collections.singleton(html.render()), StandardCharsets.UTF_8);
+      Files.write(htmlFile.toPath(), Collections.singleton(html.render(IndentedHtml.inMemory())), StandardCharsets.UTF_8);
 
       Assert.assertTrue(htmlFile.exists());
    }
