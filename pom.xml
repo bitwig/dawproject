@@ -71,7 +71,6 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.8.1</version>
             <configuration>
-               <optimize>true</optimize>
                <fork>true</fork>
                <source>16</source>
                <target>16</target>
