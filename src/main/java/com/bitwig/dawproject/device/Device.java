@@ -36,9 +36,10 @@ public class Device extends Referenceable
    @XmlAttribute(required = true)
    public String deviceName;
 
-   /** Unique identifier of device/plug-in.
-    * For standards which use UUID as an identifier use the textual representation of the UUID (VST3).
-    * For standards which use an integer as an identifier use the value in decimal form. Base-10 unsigned. (VST2) */
+   /** Unique identifier of device/plug-in.<br/>
+    * Standards which use UUID as an identifier use the canonical textual representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+    * Standards which use an integer as an identifier use the value in decimal form. (base-10 unsigned) (VST2)<br/>
+    * Text-based identifiers are used as-is. (CLAP) */
    @XmlAttribute
    public String deviceID;
 
