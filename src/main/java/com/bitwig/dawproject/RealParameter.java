@@ -10,7 +10,8 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlSeeAlso({Unit.class})
 public class RealParameter extends Parameter
 {
-   /** Real (double) value for this parameter. */
+   /** Real (double) value for this parameter.
+    * <p>When serializing value to text for XML, infinite values are allowed and should be represented as inf and -inf. </p>*/
    @XmlAttribute
    @XmlJavaTypeAdapter(DoubleAdapter.class)
    public Double value;

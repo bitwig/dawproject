@@ -410,7 +410,7 @@
       <xs:element name="Q" type="realParameter" minOccurs="0"/>
       <xs:element name="Enabled" type="boolParameter" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="type" type="eqBandType"/>
+    <xs:attribute name="type" type="eqBandType" use="required"/>
     <xs:attribute name="order" type="xs:int"/>
   </xs:complexType>
 
@@ -419,6 +419,7 @@
       <xs:extension base="builtinDevice">
         <xs:sequence>
           <xs:element name="Attack" type="realParameter" minOccurs="0"/>
+          <xs:element name="AutoMakeup" type="boolParameter" minOccurs="0"/>
           <xs:element name="InputGain" type="realParameter" minOccurs="0"/>
           <xs:element name="OutputGain" type="realParameter" minOccurs="0"/>
           <xs:element name="Ratio" type="realParameter" minOccurs="0"/>

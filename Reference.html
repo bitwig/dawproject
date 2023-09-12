@@ -2444,13 +2444,16 @@
                             duration
                         </td>
                         <td>
-                            Duration on the parent timeline of this clip.
+                            Duration on the parent timeline of this clip.<br/>
+                             If duration is omitted, it should be inferred from the playStop - playStart instead. <br/>
+                             This is particularity useful when timeUnit and contentTimeUnit are different, like when placing an audio
+                             clip with content length defined in seconds onto an arrangement defined in beats.
                         </td>
                         <td style="text-align:center;">
                             double
                         </td>
                         <td style="text-align:center;">
-                            yes
+                            no
                         </td>
                     </tr>
                     <tr>
@@ -4607,6 +4610,7 @@
                         </td>
                         <td>
                             Real (double) value for this parameter.
+                             <p>When serializing value to text for XML, infinite values are allowed and should be represented as inf and -inf. </p>
                         </td>
                         <td style="text-align:center;">
                             Double
@@ -7819,7 +7823,7 @@
                             Enum
                         </td>
                         <td style="text-align:center;">
-                            no
+                            yes
                         </td>
                     </tr>
                     <tr>

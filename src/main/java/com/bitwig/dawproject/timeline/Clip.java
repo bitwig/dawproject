@@ -17,8 +17,11 @@ public class Clip extends Nameable
    @XmlAttribute(required = true)
    public double time;
 
-   /** Duration on the parent timeline of this clip. */
-   @XmlAttribute(required = true)
+   /** Duration on the parent timeline of this clip.<br/>
+    * If duration is omitted, it should be inferred from the playStop - playStart instead. <br/>
+    * This is particularity useful when timeUnit and contentTimeUnit are different, like when placing an audio
+    * clip with content length defined in seconds onto an arrangement defined in beats. */
+   @XmlAttribute(required = false)
    public double duration;
 
    /** The TimeUnit used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
