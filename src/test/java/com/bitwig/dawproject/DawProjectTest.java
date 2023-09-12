@@ -170,7 +170,7 @@ public class DawProjectTest
             final var clip = new Clip();
             clip.name = "Clip " + i;
             clip.time = 8 * i;
-            clip.duration = 4;
+            clip.duration = 4.0;
             clips.clips.add(clip);
 
             final var notes = new Notes();
@@ -192,7 +192,7 @@ public class DawProjectTest
                final var clip2 = new Clip();
                clip2.name = "Alias Clip " + i;
                clip2.time = 32 + 8 * i;
-               clip2.duration = 4;
+               clip2.duration = 4.0;
                clips.clips.add(clip2);
                clip2.reference = notes;
             }

@@ -22,7 +22,7 @@ public class Clip extends Nameable
     * This is particularity useful when timeUnit and contentTimeUnit are different, like when placing an audio
     * clip with content length defined in seconds onto an arrangement defined in beats. */
    @XmlAttribute(required = false)
-   public double duration;
+   public Double duration;
 
    /** The TimeUnit used by the scope inside this timeline. This affects the content/reference, playStart, playStop,
     *  loopStart, loopEnd but not time and duration which are using the TimeUnit of the parent scope. */
