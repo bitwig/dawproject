@@ -7,6 +7,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "NoiseGate")
 public class NoiseGate extends BuiltinDevice
 {
-   @XmlElement
+   @XmlElement(name = "Threshold")
    public RealParameter threshold;
 }

@@ -7,18 +7,18 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Limiter")
 public class Limiter extends BuiltinDevice
 {
-   @XmlElement
+   @XmlElement(name = "Threshold")
    public RealParameter threshold;
 
-   @XmlElement
+   @XmlElement(name = "InputGain")
    public RealParameter inputGain;
 
-   @XmlElement
+   @XmlElement(name = "OutputGain")
    public RealParameter outputGain;
 
-   @XmlElement
+   @XmlElement(name = "Attack")
    public RealParameter attack;
 
-   @XmlElement
+   @XmlElement(name = "Release")
    public RealParameter release;
 }

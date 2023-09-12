@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Equalizer")
 public class Equalizer extends BuiltinDevice
 {
-   @XmlElementWrapper(name="Bands")
    @XmlElement(name="Band")
    public List<EqBand> bands = new ArrayList<>();
 
