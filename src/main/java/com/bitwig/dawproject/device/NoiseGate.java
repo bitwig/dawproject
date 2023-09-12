@@ -19,7 +19,7 @@ public class NoiseGate extends BuiltinDevice
    @XmlElement(name = "Release")
    public RealParameter release;
 
-   /** Range or amount of maximum gain reduction. */
+   /** Range or amount of maximum gain reduction. Possible range [-inf to 0] */
    @XmlElement(name = "Range")
    public RealParameter range;
 }
