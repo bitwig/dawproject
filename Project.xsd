@@ -530,7 +530,7 @@
           </xs:choice>
         </xs:sequence>
         <xs:attribute name="time" type="xs:double" use="required"/>
-        <xs:attribute name="duration" type="xs:double" use="required"/>
+        <xs:attribute name="duration" type="xs:double"/>
         <xs:attribute name="contentTimeUnit" type="timeUnit"/>
         <xs:attribute name="playStart" type="xs:double"/>
         <xs:attribute name="playStop" type="xs:double"/>
