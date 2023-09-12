@@ -434,6 +434,10 @@
     <xs:complexContent>
       <xs:extension base="builtinDevice">
         <xs:sequence>
+          <xs:element name="Attack" type="realParameter" minOccurs="0"/>
+          <xs:element name="Range" type="realParameter" minOccurs="0"/>
+          <xs:element name="Ratio" type="realParameter" minOccurs="0"/>
+          <xs:element name="Release" type="realParameter" minOccurs="0"/>
           <xs:element name="Threshold" type="realParameter" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>

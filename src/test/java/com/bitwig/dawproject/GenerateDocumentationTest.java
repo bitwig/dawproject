@@ -126,10 +126,10 @@ public class GenerateDocumentationTest
                Device.class, AuPlugin.class, ClapPlugin.class, Plugin.class, Vst2Plugin.class, Vst3Plugin.class,
 
                BuiltinDevice.class,
-               //Compressor.class,
+               Compressor.class,
                Equalizer.class, EqBand.class,
-               //Limiter.class,
-               //NoiseGate.class,
+               Limiter.class,
+               NoiseGate.class,
             }),
 
             createClassesSummary(toc, "Abstract", new Class[] {

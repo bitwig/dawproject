@@ -184,11 +184,20 @@
                 <a href="#BuiltinDevice" class="element-link">
                     &lt;BuiltinDevice&gt;
                 </a>
+                <a href="#Compressor" class="element-link">
+                    &lt;Compressor&gt;
+                </a>
                 <a href="#Equalizer" class="element-link">
                     &lt;Equalizer&gt;
                 </a>
                 <a href="#EqBand" class="element-link">
                     &lt;EqBand&gt;
+                </a>
+                <a href="#Limiter" class="element-link">
+                    &lt;Limiter&gt;
+                </a>
+                <a href="#NoiseGate" class="element-link">
+                    &lt;NoiseGate&gt;
                 </a>
             </div>
             <p>
@@ -7487,6 +7496,373 @@
                 </table>
             </span>
             <span class="element-block">
+                <h3 id="Compressor" class="element-title">
+                    &lt;Compressor&gt;
+                </h3>
+                <p>
+                    
+                </p>
+                <p class="bubble">
+                    Inherits from
+                    <a href="#BuiltinDevice" class="element-link">
+                        &lt;BuiltinDevice&gt;
+                    </a>
+                    <a href="#Device" class="element-link">
+                        &lt;Device&gt;
+                    </a>
+                    <a href="#Referenceable" class="element-link">
+                        &lt;Referenceable&gt;
+                    </a>
+                    <a href="#Nameable" class="element-link">
+                        &lt;Nameable&gt;
+                    </a>
+                </p>
+                <table class="detail-table">
+                    <tr>
+                        <th style="text-align:center;">
+                            Attribute name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceRole
+                        </td>
+                        <td>
+                            <span>
+                                Role of this device/plug-in.
+                                <p>
+                                    Possible values: instrument, noteFX, audioFX, analyzer
+                                </p>
+                            </span>
+                        </td>
+                        <td style="text-align:center;">
+                            Enum
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            loaded
+                        </td>
+                        <td>
+                            If this device/plug-in is loaded/active of not.
+                        </td>
+                        <td style="text-align:center;">
+                            Boolean
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceName
+                        </td>
+                        <td>
+                            Name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceID
+                        </td>
+                        <td>
+                            Unique identifier of device/plug-in.<br/>
+                             Standards which use UUID as an identifier use the canonical textual representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             Standards which use an integer as an identifier use the value in decimal form. (base-10 unsigned) (VST2)<br/>
+                             Text-based identifiers are used as-is. (CLAP)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceVendor
+                        </td>
+                        <td>
+                            Vendor name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            id
+                        </td>
+                        <td>
+                            Unique string identifier of this element. This is used for referencing this instance from other elements.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            name
+                        </td>
+                        <td>
+                            Name/label of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            color
+                        </td>
+                        <td>
+                            Color of this object in HTML-style format. (#rrggbb)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            comment
+                        </td>
+                        <td>
+                            Comment/description of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:center;">
+                            Element name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Element Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Threshold&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Ratio&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Attack&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Release&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;InputGain&gt;
+                        </td>
+                        <td>
+                            Pre-compression gain stage. (input/gain/drive)
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;OutputGain&gt;
+                        </td>
+                        <td>
+                            Post-compression gain stage. (output/makeup gain)
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;AutoMakeup&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;Enabled&gt;
+                        </td>
+                        <td>
+                            This device is enabled (as in not bypassed).
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;State&gt;
+                        </td>
+                        <td>
+                            Path to a file representing the device / plug-in state in its native format.
+                             <p>This file must be embedded inside the container ZIP and have the FileReference configured with (external=false).</p>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#FileReference" class="element-link">
+                                &lt;FileReference&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            from Type
+                            <br>
+                            (multiple)
+                        </td>
+                        <td>
+                            Parameters for this device, which is required for automated parameters in order to provide an ID.
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#EnumParameter" class="element-link">
+                                &lt;EnumParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#IntegerParameter" class="element-link">
+                                &lt;IntegerParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#TimeSignatureParameter" class="element-link">
+                                &lt;TimeSignatureParameter&gt;
+                            </a>
+                            <br>
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                </table>
+            </span>
+            <span class="element-block">
                 <h3 id="Equalizer" class="element-title">
                     &lt;Equalizer&gt;
                 </h3>
@@ -7916,6 +8292,673 @@
                         </td>
                         <td style="text-align:center;">
                             no
+                        </td>
+                    </tr>
+                </table>
+            </span>
+            <span class="element-block">
+                <h3 id="Limiter" class="element-title">
+                    &lt;Limiter&gt;
+                </h3>
+                <p class="bubble">
+                    Inherits from
+                    <a href="#BuiltinDevice" class="element-link">
+                        &lt;BuiltinDevice&gt;
+                    </a>
+                    <a href="#Device" class="element-link">
+                        &lt;Device&gt;
+                    </a>
+                    <a href="#Referenceable" class="element-link">
+                        &lt;Referenceable&gt;
+                    </a>
+                    <a href="#Nameable" class="element-link">
+                        &lt;Nameable&gt;
+                    </a>
+                </p>
+                <table class="detail-table">
+                    <tr>
+                        <th style="text-align:center;">
+                            Attribute name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceRole
+                        </td>
+                        <td>
+                            <span>
+                                Role of this device/plug-in.
+                                <p>
+                                    Possible values: instrument, noteFX, audioFX, analyzer
+                                </p>
+                            </span>
+                        </td>
+                        <td style="text-align:center;">
+                            Enum
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            loaded
+                        </td>
+                        <td>
+                            If this device/plug-in is loaded/active of not.
+                        </td>
+                        <td style="text-align:center;">
+                            Boolean
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceName
+                        </td>
+                        <td>
+                            Name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceID
+                        </td>
+                        <td>
+                            Unique identifier of device/plug-in.<br/>
+                             Standards which use UUID as an identifier use the canonical textual representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             Standards which use an integer as an identifier use the value in decimal form. (base-10 unsigned) (VST2)<br/>
+                             Text-based identifiers are used as-is. (CLAP)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceVendor
+                        </td>
+                        <td>
+                            Vendor name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            id
+                        </td>
+                        <td>
+                            Unique string identifier of this element. This is used for referencing this instance from other elements.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            name
+                        </td>
+                        <td>
+                            Name/label of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            color
+                        </td>
+                        <td>
+                            Color of this object in HTML-style format. (#rrggbb)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            comment
+                        </td>
+                        <td>
+                            Comment/description of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:center;">
+                            Element name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Element Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Threshold&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;InputGain&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;OutputGain&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Attack&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Release&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;Enabled&gt;
+                        </td>
+                        <td>
+                            This device is enabled (as in not bypassed).
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;State&gt;
+                        </td>
+                        <td>
+                            Path to a file representing the device / plug-in state in its native format.
+                             <p>This file must be embedded inside the container ZIP and have the FileReference configured with (external=false).</p>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#FileReference" class="element-link">
+                                &lt;FileReference&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            from Type
+                            <br>
+                            (multiple)
+                        </td>
+                        <td>
+                            Parameters for this device, which is required for automated parameters in order to provide an ID.
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#EnumParameter" class="element-link">
+                                &lt;EnumParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#IntegerParameter" class="element-link">
+                                &lt;IntegerParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#TimeSignatureParameter" class="element-link">
+                                &lt;TimeSignatureParameter&gt;
+                            </a>
+                            <br>
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                </table>
+            </span>
+            <span class="element-block">
+                <h3 id="NoiseGate" class="element-title">
+                    &lt;NoiseGate&gt;
+                </h3>
+                <p>
+                    
+                </p>
+                <p class="bubble">
+                    Inherits from
+                    <a href="#BuiltinDevice" class="element-link">
+                        &lt;BuiltinDevice&gt;
+                    </a>
+                    <a href="#Device" class="element-link">
+                        &lt;Device&gt;
+                    </a>
+                    <a href="#Referenceable" class="element-link">
+                        &lt;Referenceable&gt;
+                    </a>
+                    <a href="#Nameable" class="element-link">
+                        &lt;Nameable&gt;
+                    </a>
+                </p>
+                <table class="detail-table">
+                    <tr>
+                        <th style="text-align:center;">
+                            Attribute name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceRole
+                        </td>
+                        <td>
+                            <span>
+                                Role of this device/plug-in.
+                                <p>
+                                    Possible values: instrument, noteFX, audioFX, analyzer
+                                </p>
+                            </span>
+                        </td>
+                        <td style="text-align:center;">
+                            Enum
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            loaded
+                        </td>
+                        <td>
+                            If this device/plug-in is loaded/active of not.
+                        </td>
+                        <td style="text-align:center;">
+                            Boolean
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceName
+                        </td>
+                        <td>
+                            Name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            yes
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceID
+                        </td>
+                        <td>
+                            Unique identifier of device/plug-in.<br/>
+                             Standards which use UUID as an identifier use the canonical textual representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             Standards which use an integer as an identifier use the value in decimal form. (base-10 unsigned) (VST2)<br/>
+                             Text-based identifiers are used as-is. (CLAP)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            deviceVendor
+                        </td>
+                        <td>
+                            Vendor name of the device/plugin
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            id
+                        </td>
+                        <td>
+                            Unique string identifier of this element. This is used for referencing this instance from other elements.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            name
+                        </td>
+                        <td>
+                            Name/label of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            color
+                        </td>
+                        <td>
+                            Color of this object in HTML-style format. (#rrggbb)
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            comment
+                        </td>
+                        <td>
+                            Comment/description of this object.
+                        </td>
+                        <td style="text-align:center;">
+                            String
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:center;">
+                            Element name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th style="text-align:center;">
+                            Element Type
+                        </th>
+                        <th style="text-align:center;">
+                            Required
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Threshold&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Ratio&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Attack&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Release&gt;
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            &lt;Range&gt;
+                        </td>
+                        <td>
+                            Range or amount of maximum gain reduction. Possible range [-inf to 0]
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;Enabled&gt;
+                        </td>
+                        <td>
+                            This device is enabled (as in not bypassed).
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            &lt;State&gt;
+                        </td>
+                        <td>
+                            Path to a file representing the device / plug-in state in its native format.
+                             <p>This file must be embedded inside the container ZIP and have the FileReference configured with (external=false).</p>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#FileReference" class="element-link">
+                                &lt;FileReference&gt;
+                            </a>
+                        </td>
+                        <td style="text-align:center;">
+                            no
+                        </td>
+                    </tr>
+                    <tr class="inherited">
+                        <td style="text-align:center;">
+                            from Type
+                            <br>
+                            (multiple)
+                        </td>
+                        <td>
+                            Parameters for this device, which is required for automated parameters in order to provide an ID.
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#BoolParameter" class="element-link">
+                                &lt;BoolParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#EnumParameter" class="element-link">
+                                &lt;EnumParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#IntegerParameter" class="element-link">
+                                &lt;IntegerParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#RealParameter" class="element-link">
+                                &lt;RealParameter&gt;
+                            </a>
+                            <br>
+                            <a href="#TimeSignatureParameter" class="element-link">
+                                &lt;TimeSignatureParameter&gt;
+                            </a>
+                            <br>
+                        </td>
+                        <td style="text-align:center;">
+                            yes
                         </td>
                     </tr>
                 </table>
