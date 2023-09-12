@@ -395,13 +395,7 @@
     <xs:complexContent>
       <xs:extension base="builtinDevice">
         <xs:sequence>
-          <xs:element name="Bands" minOccurs="0">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="Band" type="eqBand" minOccurs="0" maxOccurs="unbounded"/>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
+          <xs:element name="Band" type="eqBand" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="InputGain" type="realParameter" minOccurs="0"/>
           <xs:element name="OutputGain" type="realParameter" minOccurs="0"/>
         </xs:sequence>
@@ -416,7 +410,7 @@
       <xs:element name="Q" type="realParameter" minOccurs="0"/>
       <xs:element name="Enabled" type="boolParameter" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="type" type="eqBandType" use="required"/>
+    <xs:attribute name="type" type="eqBandType"/>
     <xs:attribute name="order" type="xs:int"/>
   </xs:complexType>
 
@@ -439,7 +433,7 @@
     <xs:complexContent>
       <xs:extension base="builtinDevice">
         <xs:sequence>
-          <xs:element name="threshold" type="realParameter" minOccurs="0"/>
+          <xs:element name="Threshold" type="realParameter" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -449,11 +443,11 @@
     <xs:complexContent>
       <xs:extension base="builtinDevice">
         <xs:sequence>
-          <xs:element name="attack" type="realParameter" minOccurs="0"/>
-          <xs:element name="inputGain" type="realParameter" minOccurs="0"/>
-          <xs:element name="outputGain" type="realParameter" minOccurs="0"/>
-          <xs:element name="release" type="realParameter" minOccurs="0"/>
-          <xs:element name="threshold" type="realParameter" minOccurs="0"/>
+          <xs:element name="Attack" type="realParameter" minOccurs="0"/>
+          <xs:element name="InputGain" type="realParameter" minOccurs="0"/>
+          <xs:element name="OutputGain" type="realParameter" minOccurs="0"/>
+          <xs:element name="Release" type="realParameter" minOccurs="0"/>
+          <xs:element name="Threshold" type="realParameter" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
