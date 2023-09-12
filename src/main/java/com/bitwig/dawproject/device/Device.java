@@ -52,7 +52,8 @@ public class Device extends Referenceable
    @XmlElement(name = "State", required = false)
    public FileReference state;
 
-   /** Parameters for this device, which is required for automated parameters in order to provide an ID. */
+   /** Parameters for this device, which is required for automated parameters in order to provide an ID. <br/>
+    * Note: If the automated parameter is already present like the BuiltinDevice parameters, it should not be included here as well. */
    @XmlElementWrapper(name="Parameters", required = false)
    @XmlElementRef
    public List<Parameter> automatedParameters = new ArrayList<>();
