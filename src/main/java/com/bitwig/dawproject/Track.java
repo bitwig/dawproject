@@ -20,7 +20,7 @@ public class Track extends Lane
    public ContentType[] contentType;
 
    /** If this track is loaded/active of not. */
-   @XmlAttribute
+   @XmlAttribute(required = false)
    public Boolean loaded;
 
    /** Mixer channel used for the output of this track. */
