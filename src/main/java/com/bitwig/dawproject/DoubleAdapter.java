@@ -11,7 +11,7 @@ public class DoubleAdapter extends XmlAdapter<String, Double>
       if (v == null || v.isEmpty() || v.equals("null")) {
          return null;
       }
-      return Double.parseDouble(v);
+      return Double.parseDouble(v.replace("inf", "Infinity"));
    }
 
    @Override
@@ -19,6 +19,6 @@ public class DoubleAdapter extends XmlAdapter<String, Double>
       if (v == null) {
          return null;
       }
-      return String.format(Locale.US, "%.6f", v);
+      return String.format(Locale.US, "%.6f", v).replace("Infinity", "inf");
    }
 }

@@ -522,6 +522,16 @@ public class DawProjectTest
       saveTestProject(project, name, null);
    }
 
+   @Test
+   public void testDoubleAdapter() throws Exception
+   {
+      final var adapter = new DoubleAdapter();
+      Assert.assertEquals(adapter.unmarshal("-inf").doubleValue(), Double.NEGATIVE_INFINITY, 0);
+      Assert.assertEquals(adapter.unmarshal("inf").doubleValue(), Double.POSITIVE_INFINITY, 0);
+      Assert.assertEquals("inf", adapter.marshal(Double.POSITIVE_INFINITY));
+      Assert.assertEquals("-inf", adapter.marshal(Double.NEGATIVE_INFINITY));
+   }
+
    private static void saveTestProject(final Project project, final String name, final BiConsumer<MetaData, Map<File, String>> configurer) throws IOException
    {
       final MetaData metadata = new MetaData();

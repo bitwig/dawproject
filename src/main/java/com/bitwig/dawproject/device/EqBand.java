@@ -19,7 +19,7 @@ public class EqBand
    @XmlElement(name = "Enabled")
    public BoolParameter enabled;
 
-   @XmlAttribute(required = false)
+   @XmlAttribute(required = true)
    public EqBandType type;
 
    @XmlAttribute
