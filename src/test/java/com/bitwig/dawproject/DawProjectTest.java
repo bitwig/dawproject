@@ -56,70 +56,11 @@ public class DawProjectTest
       return project;
    }
 
-   private Track createTrack(final String name, final EnumSet<ContentType> contentTypes, final MixerRole mixerRole, final double volume, final double pan)
-   {
-      final Track track = new Track();
-      track.channel = new Channel();
-      track.name = name;
-      final var volumeParameter = new RealParameter();
-      volumeParameter.value = volume;
-      volumeParameter.unit = Unit.linear;
-      track.channel.volume = volumeParameter;
-
-      final var panParameter = new RealParameter();
-      panParameter.value = pan;
-      panParameter.unit = Unit.normalized;
-      track.channel.pan = panParameter;
-
-      track.contentType = contentTypes.toArray(new ContentType[]{});
-      track.channel.role = mixerRole;
-
-      return track;
-   }
-
-   private Audio createAudio(final String relativePath, final int sampleRate, final int channels, final double duration)
-   {
-      final var audio = new Audio();
-      audio.timeUnit = TimeUnit.seconds;
-      audio.file = new FileReference();
-      audio.file.path = relativePath;
-      audio.file.external = false;
-      audio.sampleRate = sampleRate;
-      audio.channels = channels;
-      audio.duration = duration;
-      return audio;
-   }
-
-   private Warp createWarp(final double time, final double contentTime)
-   {
-      final var warp = new Warp();
-      warp.time = time;
-      warp.contentTime = contentTime;
-      return warp;
-   }
-
-   private Clip createClip(final Timeline content, final double time, final double duration)
-   {
-      final var clip = new Clip();
-      clip.content = content;
-      clip.time = time;
-      clip.duration = duration;
-      return clip;
-   }
-
-   private Clips createClips(final Clip... clips)
-   {
-      final var timeline = new Clips();
-      Collections.addAll(timeline.clips, clips);
-
-      return timeline;
-   }
-
    private Project createDummyProject(final int numTracks, final EnumSet<Features> features)
    {
       final Project project = createEmptyProject();
 
-      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      final Track masterTrack = Utility.createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
       project.structure.add(masterTrack);
 
       if (features.contains(Features.PLUGINS))
@@ -152,7 +93,7 @@ public class DawProjectTest
 
       for (int i = 0; i < numTracks; i++)
       {
-         final var track = createTrack("Track " + (i+1), EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
+         final var track = Utility.createTrack("Track " + (i+1), EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
          project.structure.add(track);
          track.color = "#" + i + i + i + i + i +i;
          track.channel.destination = masterTrack.channel;
@@ -380,8 +321,8 @@ public class DawProjectTest
          name += "Clipstart";
 
       final Project project = createEmptyProject();
-      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
-      final var audioTrack = createTrack("Audio", EnumSet.of(ContentType.audio), MixerRole.regular,1, 0.5);
+      final Track masterTrack = Utility.createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      final var audioTrack = Utility.createTrack("Audio", EnumSet.of(ContentType.audio), MixerRole.regular,1, 0.5);
       audioTrack.channel.destination = masterTrack.channel;
 
       project.structure.add(masterTrack);
@@ -400,7 +341,7 @@ public class DawProjectTest
       final var sample = "white-glasses.wav";
       Clip audioClip;
       final var sampleDuration = 3.097;
-      final var audio = createAudio(sample, 44100, 2, sampleDuration);
+      final var audio = Utility.createAudio(sample, 44100, 2, sampleDuration);
 
       if (scenario == AudioScenario.FileWithAbsolutePath)
       {
@@ -418,9 +359,9 @@ public class DawProjectTest
          final var warps = new Warps();
          warps.content = audio;
          warps.contentTimeUnit = TimeUnit.seconds;
-         warps.events.add(createWarp(0, 0));
-         warps.events.add(createWarp(8, sampleDuration));
-         audioClip = createClip(warps, clipTime, 8);
+         warps.events.add(Utility.createWarp(0, 0));
+         warps.events.add(Utility.createWarp(8, sampleDuration));
+         audioClip = Utility.createClip(warps, clipTime, 8);
          audioClip.contentTimeUnit = TimeUnit.beats;
          audioClip.playStart = playStartOffset;
          if (withFades)
@@ -432,7 +373,7 @@ public class DawProjectTest
       }
       else
       {
-         audioClip = createClip(audio, clipTime, arrangementIsInSeconds ? sampleDuration : 8);
+         audioClip = Utility.createClip(audio, clipTime, arrangementIsInSeconds ? sampleDuration : 8);
          audioClip.contentTimeUnit = TimeUnit.seconds;
          audioClip.playStart = playStartOffset;
          audioClip.playStop = sampleDuration;
@@ -444,14 +385,11 @@ public class DawProjectTest
          }
       }
 
-      final var clips = createClips(audioClip);
+      final var clips = Utility.createClips(audioClip);
       clips.track = audioTrack;
       arrangementLanes.lanes.add(clips);
 
-      saveTestProject(project, name, (meta, files) ->
-      {
-         files.put(new File("test-data/" + sample), sample);
-      });
+      saveTestProject(project, name, (meta, files) -> files.put(new File("test-data/" + sample), sample));
    }
 
    @Test
@@ -466,8 +404,8 @@ public class DawProjectTest
    public void createMIDIAutomationExample(final String name, final boolean inClips, final boolean isPitchBend) throws IOException
    {
       final Project project = createEmptyProject();
-      final Track masterTrack = createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
-      final var instrumentTrack = createTrack("Notes", EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
+      final Track masterTrack = Utility.createTrack("Master", EnumSet.noneOf(ContentType.class), MixerRole.master, 1, 0.5);
+      final var instrumentTrack = Utility.createTrack("Notes", EnumSet.of(ContentType.notes), MixerRole.regular,1, 0.5);
       instrumentTrack.channel.destination = masterTrack.channel;
 
       project.structure.add(masterTrack);
@@ -508,8 +446,8 @@ public class DawProjectTest
 
       if (inClips)
       {
-         final var noteClip = createClip(automation, 0, 8);
-         final var clips = createClips(noteClip);
+         final var noteClip = Utility.createClip(automation, 0, 8);
+         final var clips = Utility.createClips(noteClip);
          clips.track = instrumentTrack;
          arrangementLanes.lanes.add(clips);
       }
