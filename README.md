@@ -50,6 +50,13 @@ The format is being actively developed and will still undergo structural changes
 * [Project XML Schema](Project.xsd)
 * [MetaData XML Schema](MetaData.xsd)
 
+## Language Support
+
+DAWproject is based on plain XML/ZIP and can be used with any programming language that can parse those.
+
+The DOM of DAWproject is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
+Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
+
 ## Building
 
 Requires Java Runtime version 16 or later.
@@ -59,13 +66,6 @@ To build (using Gradle):
 ```
 ./gradlew build
 ```
-
-## Language Support
-
-DAWproject is based on plain XML/ZIP and can be used with any programming language that can parse those.
-
-The DOM of DAWproject is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
-Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
 
 ## Example project
 
