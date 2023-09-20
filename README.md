@@ -6,10 +6,23 @@ Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 The DAWproject format provides a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
-Currently, the choices available for this task are rather limited.
-Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time, which limits it to post-audio workflows. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
+Currently, there is no file-format which is purpose-built for this task.
+Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time, which limits it to post-audio workflows . Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
-The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWproject file.
+The aim of this project is to export all translatable project data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWproject file.
+
+The table below aims to explain the scope format from a music-production perspective and how it compares to other methods of data transfer.
+
+| Format                          | DAWproject                                                                                                                             | Standard MIDI Files                                           | Advanced Authoring Format (AAF)                                       |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|-----------------------------------------------------------------------|
+| Intended Use                    | Music Production                                                                                                                       | MIDI-only sequencing                                          | Video Post-Production                                                 |
+| Time Format<br/>(seconds/beats) | Beats and seconds can be combined                                                                                                      | Beats                                                         | Seconds                                                               |
+| Audio                           | Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan<br/>Time Warping<br/>Transpose                                   | Not Supported                                                 | Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan |
+| Notes                           | Notes<br/>Note Expressions                                                                                                             | Notes                                                         | Not Supported                                                         |
+| Automation                      | Tempo<br/>Time Signature<br/>MIDI Messages<br/>Volume<br/>Pan<br/>Mute<br/>Sends<br/>Plug-in Parameters<br/>Built-in Device Parameters | Tempo<br/>Time Signature<br/>MIDI Messages<br/>SySex Messages | Volume<br/>Pan<br/>Video Related Parameters                           |
+| Plug-ins                        | Stores full plug-in state<br/>and automation of parameters                                                                             | Not Supported                                                 | Not Supported                                                         |
+| Built-in Devices                | Generic EQ<br/>Generic Compressor<br/>Generic Gate<br/>Generic Limiter                                                                 | Not Supported                                                 | Not Supported                                                         |
+| Clip Launcher                   | Clips<br/>Scenes                                                                                                                       | Not Supported                                                 | Not Supported                                                         |
 
 ## Status
 
@@ -57,7 +70,7 @@ DAWproject is based on plain XML/ZIP and can be used with any programming langua
 The DOM of DAWproject is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
 Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
 
-## Building
+## Building the Library, Documentation and Tests
 
 Requires Java Runtime version 16 or later.
 
