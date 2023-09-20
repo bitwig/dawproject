@@ -13,7 +13,7 @@ The aim of this project is to export all translatable project data (audio/note/a
 
 The table below aims to explain the scope format from a music-production perspective and how it compares to other methods of data transfer.
 
-| Format                          |                                                               DAWproject                                                               |                      Standard MIDI Files                      |                    Advanced Authoring Format (AAF)                    |
+|                                 |                                                               DAWproject                                                               |                      Standard MIDI Files                      |                    Advanced Authoring Format (AAF)                    |
 |---------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------:|:---------------------------------------------------------------------:|
 | Intended Use                    |                                                            Music Production                                                            |                        MIDI Sequencing                        |                         Video Post-Production                         |
 | Time Format<br/>(seconds/beats) |                                                   Beats and seconds can be combined                                                    |                             Beats                             |                                Seconds                                |
