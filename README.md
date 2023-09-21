@@ -1,15 +1,28 @@
-# DAWPROJECT
+# DAWproject
 
 Open exchange format for user data between Digital Audio Workstations (DAWs)
 
 ## Motivation
 
-The DAWPROJECT format provides a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
+The DAWproject format provides a (vendor-agnostic) way of transferring user data between different music applications (DAWs).
 
-Currently, the choices available for this task are rather limited.
-Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time, which limits it to post-audio workflows. Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
+Currently, there is no file-format which is purpose-built for this task.
+Standard MIDI files can represent note data, but it is often a lower-level representation (no ramps) of data than what the DAW uses internally, which forces consolidation on export. AAF only covers audio and doesn't have any concept of musical-time, which limits it to post-audio workflows . Most plug-ins do allow you to save presets to a shared location, but this has to be done for each instance. What most users end up doing is just exporting audio as stems.
 
-The aim of this project is to export all that data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWPROJECT file.
+The aim of this project is to export all translatable project data (audio/note/automation/plug-in) along with the structure surrounding it into a single DAWproject file.
+
+The table below aims to explain the scope format from a music-production perspective and how it compares to other methods of data transfer.
+
+|                                 |                                                               DAWproject                                                               |                      Standard MIDI Files                      |                    Advanced Authoring Format (AAF)                    |
+|---------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------:|:---------------------------------------------------------------------:|
+| Intended Use                    |                                                            Music Production                                                            |                        MIDI Sequencing                        |                         Video Post-Production                         |
+| Time Format<br/>(seconds/beats) |                                                   Beats and seconds can be combined                                                    |                             Beats                             |                                Seconds                                |
+| Audio                           |                  Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan<br/>Time Warping<br/>Transpose                  |                               -                               | Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan |
+| Notes                           |                                                       Notes<br/>Note Expressions                                                       |                             Notes                             |                                   -                                   |
+| Automation                      | Tempo<br/>Time Signature<br/>MIDI Messages<br/>Volume<br/>Pan<br/>Mute<br/>Sends<br/>Plug-in Parameters<br/>Built-in Device Parameters | Tempo<br/>Time Signature<br/>MIDI Messages<br/>SySex Messages |              Volume<br/>Pan<br/>Video Related Parameters              |
+| Plug-ins                        |                                       Stores full plug-in state<br/>and automation of parameters                                       |                               -                               |                                   -                                   |
+| Built-in Devices                |                                 Generic EQ<br/>Generic Compressor<br/>Generic Gate<br/>Generic Limiter                                 |                               -                               |                                   -                                   |
+| Clip Launcher                   |                                                            Clips<br/>Scenes                                                            |                               -                               |                                   -                                   |
 
 ## Status
 
@@ -46,11 +59,18 @@ The format is being actively developed and will still undergo structural changes
 * Text encoding: UTF-8
 * The exporting DAW is free to choose the directory structure it wants for media and plug-in files.
 
-* [DAWPROJECT XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
+* [DAWproject XML Reference](https://htmlpreview.github.io/?https://github.com/bitwig/dawproject/blob/main/Reference.html)
 * [Project XML Schema](Project.xsd)
 * [MetaData XML Schema](MetaData.xsd)
 
-## Building
+## Language Support
+
+DAWproject is based on plain XML/ZIP and can be used with any programming language that can parse those.
+
+The DOM of DAWproject is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
+Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
+
+## Building the Library, Documentation and Tests
 
 Requires Java Runtime version 16 or later.
 
@@ -59,13 +79,6 @@ To build (using Gradle):
 ```
 ./gradlew build
 ```
-
-## Language Support
-
-DAWPROJECT is based on plain XML/ZIP and can be used with any programming language that can parse those.
-
-The DOM of DAWPROJECT is defined by a set of Java classes which have XML-related annotations and HTML-induced Javadoc comments.
-Those are used (via reflection) to generate XML Documentation and Schemas. Potentially, the same approach could be used to generate code for other languages (contributions welcome).
 
 ## Example project
 
@@ -173,4 +186,4 @@ The user settings directory is different on each platform
 * Mac: Library/Application Support/Bitwig/Bitwig Studio
 * Linux: ~/.BitwigStudio
 
-This will add an "Export Project..." entry in the FILE menu and allow DAWPROJECT files to be opened.  
+This will add an "Export Project..." entry in the FILE menu and allow DAWproject files to be opened.  
