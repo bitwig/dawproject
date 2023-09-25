@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({Device.class, Timeline.class})
 public class Project
 {
-   public static String CURRENT_VERSION = "0.1";
+   public static String CURRENT_VERSION = "1.0";
 
    /** Version of DAWPROJECT format this file was saved as. */
    @XmlAttribute(required = true)
