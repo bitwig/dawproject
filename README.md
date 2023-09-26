@@ -89,7 +89,7 @@ As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Project version="0.1">
+<Project version="1.0">
   <Application name="Bitwig Studio" version="5.0"/>
   <Transport>
     <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
