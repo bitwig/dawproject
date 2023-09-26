@@ -172,6 +172,8 @@ As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.
 
 ## DAW Support
 
-### Bitwig Studio 5.0.9
+DAWproject 1.0 is currently supported by the following DAWs
 
-DAWproject files can be exported using _Export DAWproject…_ in the FILE menu. Open using _FILE / Open_ or by drag & dropping files onto the Application Window.  
+* Bitwig Studio 5.0.9
+* PreSonus Studio One 6.5
+ 
