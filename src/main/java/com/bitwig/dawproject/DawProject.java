@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 
 public class DawProject
 {
-   public static final String FORMAT_NAME = "DAW-project exchange format";
+   public static final String FORMAT_NAME = "DAWproject exchange format";
    public static final String FILE_EXTENSION = "dawproject";
 
    private static final String PROJECT_FILE = "project.xml";

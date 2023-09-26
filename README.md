@@ -19,14 +19,14 @@ The table below aims to explain the scope format from a music-production perspec
 | Time Format<br/>(seconds/beats) |                                                   Beats and seconds can be combined                                                    |                             Beats                             |                                Seconds                                |
 | Audio                           |                  Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan<br/>Time Warping<br/>Transpose                  |                               -                               | Audio<br/>Events/Clips<br/>Fades<br/>Crossfades<br/>Amplitude<br/>Pan |
 | Notes                           |                                                       Notes<br/>Note Expressions                                                       |                             Notes                             |                                   -                                   |
-| Automation                      | Tempo<br/>Time Signature<br/>MIDI Messages<br/>Volume<br/>Pan<br/>Mute<br/>Sends<br/>Plug-in Parameters<br/>Built-in Device Parameters | Tempo<br/>Time Signature<br/>MIDI Messages<br/>SySex Messages |              Volume<br/>Pan<br/>Video Related Parameters              |
+| Automation                      | Tempo<br/>Time Signature<br/>MIDI Messages<br/>Volume<br/>Pan<br/>Mute<br/>Sends<br/>Plug-in Parameters<br/>Built-in Device Parameters | Tempo<br/>Time Signature<br/>MIDI Messages<br/>SysEx Messages |              Volume<br/>Pan<br/>Video Related Parameters              |
 | Plug-ins                        |                                       Stores full plug-in state<br/>and automation of parameters                                       |                               -                               |                                   -                                   |
 | Built-in Devices                |                                 Generic EQ<br/>Generic Compressor<br/>Generic Gate<br/>Generic Limiter                                 |                               -                               |                                   -                                   |
 | Clip Launcher                   |                                                            Clips<br/>Scenes                                                            |                               -                               |                                   -                                   |
 
 ## Status
 
-The format is being actively developed and will still undergo structural changes. The aim is to have a stable (1.0) specification of the format in 2023.
+The format is version 1.0 and is stable. 
 
 ## Goals
 
@@ -89,7 +89,7 @@ As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Project version="0.1">
+<Project version="1.0">
   <Application name="Bitwig Studio" version="5.0"/>
   <Transport>
     <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
@@ -172,18 +172,8 @@ As an example, here's the project.xml of a simple file saved in Bitwig Studio 5.
 
 ## DAW Support
 
-### Enable experimental support in Bitwig Studio (4.0 or later)
+DAWproject 1.0 is currently supported by the following DAWs
 
-Create a file named config.json with the following content inside you user settings directory.
-
-```
-dawproject : true
-```
-
-The user settings directory is different on each platform
-
-* Windows: %LOCALAPPDATA%/Bitwig Studio
-* Mac: Library/Application Support/Bitwig/Bitwig Studio
-* Linux: ~/.BitwigStudio
-
-This will add an "Export Project..." entry in the FILE menu and allow DAWproject files to be opened.  
+* Bitwig Studio 5.0.9
+* PreSonus Studio One 6.5
+ 
