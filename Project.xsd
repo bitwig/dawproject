@@ -470,6 +470,7 @@
     <xs:complexContent>
       <xs:extension base="referenceable">
         <xs:sequence>
+          <xs:element name="Enable" type="boolParameter" minOccurs="0"/>
           <xs:element name="Pan" type="realParameter" minOccurs="0"/>
           <xs:element name="Volume" type="realParameter"/>
         </xs:sequence>
@@ -539,6 +540,7 @@
         <xs:attribute name="fadeTimeUnit" type="timeUnit"/>
         <xs:attribute name="fadeInTime" type="xs:double"/>
         <xs:attribute name="fadeOutTime" type="xs:double"/>
+        <xs:attribute name="enable" type="xs:boolean"/>
         <xs:attribute name="reference" type="xs:IDREF"/>
       </xs:extension>
     </xs:complexContent>
