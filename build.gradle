@@ -1,8 +1,19 @@
 plugins {
+    id 'com.github.ben-manes.versions' version '0.51.0'
     id 'java'
     id 'eclipse'
     id 'idea'
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+version = '1-SNAPSHOT'
+group = 'com.bitwig.open'
+description = 'dawproject file format'
+buildDir = new File(project.projectDir, "target")
 
 repositories {
     mavenLocal()
@@ -12,20 +23,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
-    runtimeOnly 'com.sun.xml.bind:jaxb-impl:3.0.0'
-    implementation 'commons-io:commons-io:2.11.0'
-    testImplementation 'junit:junit:4.13.1'
+    implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2'
+    runtimeOnly group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.5'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.17.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 
-    annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.13.0'
-    implementation 'com.github.therapi:therapi-runtime-javadoc:0.13.0'
-    testImplementation 'com.j2html:j2html:1.6.0'
-    testImplementation 'org.reflections:reflections:0.10.2'
+    annotationProcessor group: 'com.github.therapi', name: 'therapi-runtime-javadoc-scribe', version: '0.15.0'
+    implementation group: 'com.github.therapi', name: 'therapi-runtime-javadoc', version: '0.15.0'
+    testImplementation group: 'com.j2html', name: 'j2html', version: '1.6.0'
+    testImplementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
 }
-
-group = 'com.bitwig.open'
-version = '1-SNAPSHOT'
-description = 'dawproject file format'
-java.sourceCompatibility = JavaVersion.VERSION_16
-buildDir = new File(project.projectDir, "target")
-
