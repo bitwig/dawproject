@@ -121,8 +121,12 @@ public class DawProject
 
     public static void validate (final Project project) throws IOException
     {
-        final String projectXML = toXML (project);
+        validate (toXML (project));
+    }
 
+
+    public static void validate (final String projectXML) throws IOException
+    {
         try
         {
             final var context = createContext (Project.class);
@@ -208,10 +212,10 @@ public class DawProject
 
     public static Project loadProject (final File file) throws IOException
     {
-        try (ZipFile zipFile = new ZipFile (file))
+        try (final ZipFile zipFile = new ZipFile (file))
         {
             final ZipEntry projectEntry = zipFile.getEntry (PROJECT_FILE);
-            try (InputStreamReader reader = stripBom (zipFile.getInputStream (projectEntry)))
+            try (final InputStreamReader reader = stripBom (zipFile.getInputStream (projectEntry)))
             {
                 return fromXML (reader, Project.class);
             }
