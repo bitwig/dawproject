@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bitwig.dawproject.RealParameter;
+
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+
+/**
+ * A generic 'built-in' equalizer.
+ */
 @XmlRootElement(name = "Equalizer")
 public class Equalizer extends BuiltinDevice
 {
-   @XmlElement(name="Band")
-   public List<EqBand> bands = new ArrayList<>();
+    /** The bands of the equalizer. */
+    @XmlElement(name = "Band")
+    public List<EqBand>  bands = new ArrayList<> ();
 
-   @XmlElement(name = "InputGain")
-   public RealParameter inputGain;
+    /** The input gain of the equalizer in dB. */
+    @XmlElement(name = "InputGain")
+    public RealParameter inputGain;
 
-   @XmlElement(name = "OutputGain")
-   public RealParameter outputGain;
+    /** The output gain of the equalizer in dB. */
+    @XmlElement(name = "OutputGain")
+    public RealParameter outputGain;
 }

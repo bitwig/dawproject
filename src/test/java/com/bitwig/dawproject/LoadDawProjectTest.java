@@ -16,75 +16,112 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+
+/**
+ * Parameterized class to test loading a metadata and project files.
+ */
 @RunWith(Parameterized.class)
 public class LoadDawProjectTest
 {
-   public LoadDawProjectTest(final File file, @SuppressWarnings("unused") final Object name)
-   {
-      mFile = file;
-   }
+    private final File mFile;
 
-   @Parameterized.Parameters(name = "{1}")
-   public static Collection<Object[]> getFiles() throws IOException
-   {
-      final List<Object[]> result = new ArrayList<>();
 
-      final File testDataDir = new File("src/test-data");
+    /**
+     * Constructor.
+     * 
+     * @param file The file to load
+     * @param name Unused
+     */
+    public LoadDawProjectTest (final File file, @SuppressWarnings("unused") final Object name)
+    {
+        this.mFile = file;
+    }
 
-      if (testDataDir.exists () && testDataDir.isDirectory())
-      {
-         final Path rootPath = testDataDir.toPath();
-         Files.walkFileTree(rootPath, new FileVisitor<>()
-         {
-            @Override
-            public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs)
+
+    /**
+     * Get all files.
+     * 
+     * @return The files
+     * @throws IOException Could not load the files
+     */
+    @Parameterized.Parameters(name = "{1}")
+    public static Collection<Object []> getFiles () throws IOException
+    {
+        final List<Object []> result = new ArrayList<> ();
+
+        final File testDataDir = new File ("src/test-data");
+
+        if (testDataDir.exists () && testDataDir.isDirectory ())
+        {
+            final Path rootPath = testDataDir.toPath ();
+            Files.walkFileTree (rootPath, new FileVisitor<> ()
             {
-               return FileVisitResult.CONTINUE;
-            }
+                @Override
+                public FileVisitResult preVisitDirectory (final Path dir, final BasicFileAttributes attrs)
+                {
+                    return FileVisitResult.CONTINUE;
+                }
 
-            @Override
-            public FileVisitResult visitFile(final Path path, final BasicFileAttributes attrs)
-            {
-               final File file = path.toFile();
 
-               if (file.getAbsolutePath().toLowerCase().endsWith("." + DawProject.FILE_EXTENSION))
-               {
-                  final Object[] args = {file, rootPath.relativize(path).toString()};
-                  result.add(args);
-               }
-               return FileVisitResult.CONTINUE;
-            }
+                @Override
+                public FileVisitResult visitFile (final Path path, final BasicFileAttributes attrs)
+                {
+                    final File file = path.toFile ();
 
-            @Override
-            public FileVisitResult visitFileFailed(final Path file, final IOException exc)
-            {
-               return FileVisitResult.CONTINUE;
-            }
+                    if (file.getAbsolutePath ().toLowerCase ().endsWith ("." + DawProject.FILE_EXTENSION))
+                    {
+                        final Object [] args =
+                        {
+                            file,
+                            rootPath.relativize (path).toString ()
+                        };
+                        result.add (args);
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
 
-            @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc)
-            {
-               return FileVisitResult.CONTINUE;
-            }
-         });
-      }
 
-      return result;
-   }
+                @Override
+                public FileVisitResult visitFileFailed (final Path file, final IOException exc)
+                {
+                    return FileVisitResult.CONTINUE;
+                }
 
-   @Test
-   public void loadProject() throws IOException
-   {
-      final Project project = DawProject.loadProject(mFile);
-      Assert.assertNotNull(project);
-   }
 
-   @Test
-   public void loadMetadata() throws IOException
-   {
-      final MetaData metadata = DawProject.loadMetadata(mFile);
-      Assert.assertNotNull(metadata);
-   }
+                @Override
+                public FileVisitResult postVisitDirectory (final Path dir, final IOException exc)
+                {
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
 
-   private final File mFile;
+        return result;
+    }
+
+
+    /**
+     * Load the project.
+     * 
+     * @throws IOException Could not load the project
+     */
+    @Test
+    public void loadProject () throws IOException
+    {
+        final Project project = DawProject.loadProject (this.mFile);
+        Assert.assertNotNull (project);
+    }
+
+
+    /**
+     * Load the metadata.
+     * 
+     * @throws IOException Could not load the metadata
+     */
+    @Test
+    public void loadMetadata () throws IOException
+    {
+        final MetaData metadata = DawProject.loadMetadata (this.mFile);
+        Assert.assertNotNull (metadata);
+    }
 }
