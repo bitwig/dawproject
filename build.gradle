@@ -1,7 +1,8 @@
 plugins {
-    id 'java'
-    id 'eclipse'
-    id 'idea'
+  id 'java'
+  id 'eclipse'
+  id 'idea'
+  id "com.diffplug.spotless" version "6.25.0"
 }
 
 repositories {
@@ -21,6 +22,14 @@ dependencies {
     implementation 'com.github.therapi:therapi-runtime-javadoc:0.13.0'
     testImplementation 'com.j2html:j2html:1.6.0'
     testImplementation 'org.reflections:reflections:0.10.2'
+}
+
+spotless {
+  java {
+    importOrder()
+    removeUnusedImports()
+    googleJavaFormat('1.24.0')
+  }
 }
 
 group = 'com.bitwig.open'
