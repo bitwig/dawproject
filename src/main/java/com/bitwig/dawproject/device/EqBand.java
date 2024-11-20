@@ -1,27 +1,36 @@
 package com.bitwig.dawproject.device;
 
-import com.bitwig.dawproject.BoolParameter;
-import com.bitwig.dawproject.RealParameter;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 
+import com.bitwig.dawproject.BoolParameter;
+import com.bitwig.dawproject.RealParameter;
+
+
+/** The parameters of a band of a generic 'built-in' equalizer. */
 public class EqBand
 {
-   @XmlElement(name = "Freq", required = true)
-   public RealParameter freq;
+    /** The frequency setting of the band. */
+    @XmlElement(name = "Freq", required = true)
+    public RealParameter freq;
 
-   @XmlElement(name = "Gain")
-   public RealParameter gain;
+    /** The gain setting of the band. */
+    @XmlElement(name = "Gain")
+    public RealParameter gain;
 
-   @XmlElement(name = "Q")
-   public RealParameter Q;
+    /** The Q setting of the band. */
+    @XmlElement(name = "Q")
+    public RealParameter Q;
 
-   @XmlElement(name = "Enabled")
-   public BoolParameter enabled;
+    /** The enabled state of the band. */
+    @XmlElement(name = "Enabled")
+    public BoolParameter enabled;
 
-   @XmlAttribute(required = true)
-   public EqBandType type;
+    /** The filter type of the band. */
+    @XmlAttribute(required = true)
+    public EqBandType    type;
 
-   @XmlAttribute
-   public Integer order;
+    /** The index of the band. */
+    @XmlAttribute
+    public Integer       order;
 }
