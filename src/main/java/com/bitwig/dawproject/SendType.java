@@ -1,7 +1,5 @@
 package com.bitwig.dawproject;
 
-public enum SendType
-{
-   pre,
-   post,
+public enum SendType {
+	pre, post,
 }
