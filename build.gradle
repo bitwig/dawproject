@@ -1,13 +1,36 @@
 plugins {
-    id 'com.github.ben-manes.versions' version '0.51.0'
     id 'java'
     id 'eclipse'
     id 'idea'
+    id 'com.github.ben-manes.versions' version '0.51.0'
+    id "com.diffplug.spotless" version "6.25.0"
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Ignore Alpha and Beta versions when checking for version updates
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+                boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
+spotless {
+    java {
+        importOrder('java', 'javax', 'jakarta', '')
+        removeUnusedImports()
+        eclipse().configFile('spotless.eclipseformat.xml')
+    }
 }
 
 version = '1-SNAPSHOT'
@@ -25,7 +48,7 @@ repositories {
 dependencies {
     implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2'
     runtimeOnly group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '4.0.5'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.17.0'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.18.0'
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 
     annotationProcessor group: 'com.github.therapi', name: 'therapi-runtime-javadoc-scribe', version: '0.15.0'

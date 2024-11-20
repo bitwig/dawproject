@@ -1,6 +1,4 @@
-/**
- * Module definition for dawproject.
- */
+/** Module definition for dawproject. */
 module com.bitwig.dawproject
 {
     requires jakarta.xml.bind;

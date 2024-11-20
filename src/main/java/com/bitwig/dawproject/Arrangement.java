@@ -1,21 +1,21 @@
 package com.bitwig.dawproject;
 
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 import com.bitwig.dawproject.timeline.Lanes;
 import com.bitwig.dawproject.timeline.Markers;
 import com.bitwig.dawproject.timeline.Points;
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
-
-/**
- * Represents the main Arrangement timeline of a DAW.
- */
+/** Represents the main Arrangement timeline of a DAW. */
 @XmlRootElement(name = "Arrangement")
 public class Arrangement extends Referenceable
 {
     /**
-     * Automation data for time-signature inside this Arrangement. <pre>{@code
+     * Automation data for time-signature inside this Arrangement.
+     *
+     * <pre>{@code
      * <Arrangement>
      *   <TimeSignatureAutomation target="id-of-TimeSignatureParameter" ... >
      *     <TimeSignaturePoint time="0" numerator="7", denominator="8"/>

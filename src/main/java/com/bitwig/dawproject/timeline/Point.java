@@ -1,11 +1,11 @@
 package com.bitwig.dawproject.timeline;
 
-import com.bitwig.dawproject.DoubleAdapter;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.bitwig.dawproject.DoubleAdapter;
 
 
 /** A single automation point (abstract class). */

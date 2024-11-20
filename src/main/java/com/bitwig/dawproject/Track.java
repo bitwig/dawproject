@@ -13,7 +13,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "Track")
 public class Track extends Lane
 {
-    /** Role of this track in timelines & arranger. Can be multiple (comma-separated). */
+    /**
+     * Role of this track in timelines & arranger. Can be multiple (comma-separated).
+     */
     @XmlAttribute(required = false)
     @XmlList()
     public ContentType [] contentType;
@@ -26,7 +28,9 @@ public class Track extends Lane
     @XmlElement(name = "Channel", required = false)
     public Channel        channel;
 
-    /** Child tracks, typically used to represent group/folder tracks with contentType="tracks". */
+    /**
+     * Child tracks, typically used to represent group/folder tracks with contentType="tracks".
+     */
     @XmlElement(name = "Track")
     public List<Track>    tracks = new ArrayList<> ();
 }

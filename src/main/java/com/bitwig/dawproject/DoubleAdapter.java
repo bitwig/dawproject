@@ -5,9 +5,7 @@ import java.util.Locale;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 
-/**
- * Adapter for a double value which can handle Infinity constants.
- */
+/** Adapter for a double value which can handle Infinity constants. */
 public class DoubleAdapter extends XmlAdapter<String, Double>
 {
     /** {@inheritDoc} */

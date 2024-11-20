@@ -12,7 +12,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ClipSlot")
 public class ClipSlot extends Timeline
 {
-    /** Whether launching this slot should stop the track playback when this slot is empty. */
+    /**
+     * Whether launching this slot should stop the track playback when this slot is empty.
+     */
     @XmlAttribute(required = false)
     public Boolean hasStop;
 

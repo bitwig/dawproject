@@ -4,9 +4,7 @@ import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 
-/**
- * A type of a band of a generic 'built-in' equalizer.
- */
+/** A type of a band of a generic 'built-in' equalizer. */
 @XmlEnum
 public enum EqBandType
 {

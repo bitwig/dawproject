@@ -17,9 +17,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 
-/**
- * Parameterized class to test loading a metadata and project files.
- */
+/** Parameterized class to test loading a metadata and project files. */
 @RunWith(Parameterized.class)
 public class LoadDawProjectTest
 {
@@ -28,7 +26,7 @@ public class LoadDawProjectTest
 
     /**
      * Constructor.
-     * 
+     *
      * @param file The file to load
      * @param name Unused
      */
@@ -40,7 +38,7 @@ public class LoadDawProjectTest
 
     /**
      * Get all files.
-     * 
+     *
      * @return The files
      * @throws IOException Could not load the files
      */
@@ -102,7 +100,7 @@ public class LoadDawProjectTest
 
     /**
      * Load the project.
-     * 
+     *
      * @throws IOException Could not load the project
      */
     @Test
@@ -115,7 +113,7 @@ public class LoadDawProjectTest
 
     /**
      * Load the metadata.
-     * 
+     *
      * @throws IOException Could not load the metadata
      */
     @Test

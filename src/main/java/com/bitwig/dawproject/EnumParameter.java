@@ -14,7 +14,9 @@ public class EnumParameter extends Parameter
     @XmlAttribute
     public Integer   value;
 
-    /** Number of entries in enumeration value. value will be in the range [0 .. count-1]. */
+    /**
+     * Number of entries in enumeration value. value will be in the range [0 .. count-1].
+     */
     @XmlAttribute(required = true)
     public Integer   count;
 

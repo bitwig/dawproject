@@ -3,7 +3,9 @@ package com.bitwig.dawproject;
 import jakarta.xml.bind.annotation.XmlElement;
 
 
-/** Transport element containing playback parameters such as Tempo and Time-signature. */
+/**
+ * Transport element containing playback parameters such as Tempo and Time-signature.
+ */
 public class Transport
 {
     /** Tempo parameter for setting and/or automating the tempo. */

@@ -1,14 +1,12 @@
 package com.bitwig.dawproject.device;
 
-import com.bitwig.dawproject.RealParameter;
-
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import com.bitwig.dawproject.RealParameter;
 
-/**
- * A generic 'built-in' limiter.
- */
+
+/** A generic 'built-in' limiter. */
 @XmlRootElement(name = "Limiter")
 public class Limiter extends BuiltinDevice
 {

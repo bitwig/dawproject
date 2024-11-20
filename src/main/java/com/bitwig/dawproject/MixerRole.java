@@ -4,9 +4,7 @@ import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 
-/**
- * The role of a track or channel in the mixer.
- */
+/** The role of a track or channel in the mixer. */
 @XmlEnum
 public enum MixerRole
 {

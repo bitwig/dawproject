@@ -1,15 +1,13 @@
 package com.bitwig.dawproject.device;
 
-import com.bitwig.dawproject.BoolParameter;
-import com.bitwig.dawproject.RealParameter;
-
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import com.bitwig.dawproject.BoolParameter;
+import com.bitwig.dawproject.RealParameter;
 
-/**
- * A generic 'built-in' compressor.
- */
+
+/** A generic 'built-in' compressor. */
 @XmlRootElement(name = "Compressor")
 public class Compressor extends BuiltinDevice
 {

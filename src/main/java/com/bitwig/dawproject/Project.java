@@ -3,15 +3,15 @@ package com.bitwig.dawproject;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bitwig.dawproject.device.Device;
-import com.bitwig.dawproject.timeline.Timeline;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
+
+import com.bitwig.dawproject.device.Device;
+import com.bitwig.dawproject.timeline.Timeline;
 
 
 /**
@@ -37,7 +37,9 @@ public class Project
     @XmlElement(name = "Application", required = true)
     public Application         application     = new Application ();
 
-    /** Transport element containing playback parameters such as Tempo and Time-signature. */
+    /**
+     * Transport element containing playback parameters such as Tempo and Time-signature.
+     */
     @XmlElement(name = "Transport")
     public Transport           transport;
 

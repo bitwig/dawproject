@@ -24,23 +24,22 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.input.BOMInputStream;
-import org.xml.sax.SAXException;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.SchemaOutputResolver;
 
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
+import org.xml.sax.SAXException;
 
-/**
- * Several helper functions to deal with DAWproject files.
- */
+
+/** Several helper functions to deal with DAWproject files. */
 public class DawProject
 {
     /** The (English) description text of the format. */
     public static final String  FORMAT_NAME    = "DAWproject exchange format";
+
     /** The file extension for DAWproject files. */
     public static final String  FILE_EXTENSION = "dawproject";
 

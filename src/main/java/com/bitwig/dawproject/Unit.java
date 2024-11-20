@@ -4,9 +4,7 @@ import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 
-/**
- * Units for parameter values.
- */
+/** Units for parameter values. */
 @XmlEnum
 public enum Unit
 {

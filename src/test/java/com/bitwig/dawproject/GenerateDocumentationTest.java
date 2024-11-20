@@ -37,9 +37,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.reflections.Reflections;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlEnumValue;
+import jakarta.xml.bind.annotation.XmlIDREF;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.bitwig.dawproject.device.AuPlugin;
 import com.bitwig.dawproject.device.BuiltinDevice;
@@ -80,7 +84,6 @@ import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
 import com.github.therapi.runtimejavadoc.FieldJavadoc;
 import com.github.therapi.runtimejavadoc.RuntimeJavadoc;
-
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.DivTag;
@@ -89,18 +92,12 @@ import j2html.tags.specialized.SpanTag;
 import j2html.tags.specialized.TableTag;
 import j2html.tags.specialized.TdTag;
 import j2html.tags.specialized.TrTag;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlEnumValue;
-import jakarta.xml.bind.annotation.XmlIDREF;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import org.junit.Assert;
+import org.junit.Test;
+import org.reflections.Reflections;
 
 
-/**
- * Not really a test but generates the HTML documentation.
- */
+/** Not really a test but generates the HTML documentation. */
 public class GenerateDocumentationTest
 {
     private static final CommentFormatter formatter    = new CommentFormatter ();
@@ -110,7 +107,7 @@ public class GenerateDocumentationTest
 
     /**
      * Create a HTML class summary.
-     * 
+     *
      * @throws IOException Could not write the HTML file
      */
     @Test
@@ -145,72 +142,61 @@ public class GenerateDocumentationTest
             Track.class,
             Channel.class,
             Send.class,
-        }),
-
-                createClassesSummary (toc, "Timeline", new Class []
-                {
-                    Arrangement.class,
-                    Scene.class,
-                    ClipSlot.class,
-                    Timeline.class,
-                    Lanes.class,
-                    Clips.class,
-                    Clip.class,
-                    Notes.class,
-                    Note.class,
-                    Audio.class,
-                    Video.class,
-                    Warps.class,
-                    Warp.class,
-                    Markers.class,
-                    Marker.class,
-                }),
-
-                createClassesSummary (toc, "Parameters", new Class []
-                {
-                    Parameter.class,
-                    BoolParameter.class,
-                    EnumParameter.class,
-                    IntegerParameter.class,
-                    RealParameter.class,
-                    TimeSignatureParameter.class,
-                }),
-
-                createClassesSummary (toc, "Automation", new Class []
-                {
-                    Points.class,
-                    AutomationTarget.class,
-                    Point.class,
-                    RealPoint.class,
-                    BoolPoint.class,
-                    EnumPoint.class,
-                    IntegerPoint.class,
-                    TimeSignaturePoint.class,
-                }),
-
-                createClassesSummary (toc, "Device", new Class []
-                {
-                    Device.class,
-                    AuPlugin.class,
-                    ClapPlugin.class,
-                    Plugin.class,
-                    Vst2Plugin.class,
-                    Vst3Plugin.class,
-
-                    BuiltinDevice.class,
-                    Compressor.class,
-                    Equalizer.class,
-                    EqBand.class,
-                    Limiter.class,
-                    NoiseGate.class,
-                }),
-
-                createClassesSummary (toc, "Abstract", new Class []
-                {
-                    Nameable.class,
-                    Referenceable.class,
-                    MediaFile.class,
-                })));
+        }), createClassesSummary (toc, "Timeline", new Class []
+        {
+            Arrangement.class,
+            Scene.class,
+            ClipSlot.class,
+            Timeline.class,
+            Lanes.class,
+            Clips.class,
+            Clip.class,
+            Notes.class,
+            Note.class,
+            Audio.class,
+            Video.class,
+            Warps.class,
+            Warp.class,
+            Markers.class,
+            Marker.class,
+        }), createClassesSummary (toc, "Parameters", new Class []
+        {
+            Parameter.class,
+            BoolParameter.class,
+            EnumParameter.class,
+            IntegerParameter.class,
+            RealParameter.class,
+            TimeSignatureParameter.class,
+        }), createClassesSummary (toc, "Automation", new Class []
+        {
+            Points.class,
+            AutomationTarget.class,
+            Point.class,
+            RealPoint.class,
+            BoolPoint.class,
+            EnumPoint.class,
+            IntegerPoint.class,
+            TimeSignaturePoint.class,
+        }), createClassesSummary (toc, "Device", new Class []
+        {
+            Device.class,
+            AuPlugin.class,
+            ClapPlugin.class,
+            Plugin.class,
+            Vst2Plugin.class,
+            Vst3Plugin.class,
+            BuiltinDevice.class,
+            Compressor.class,
+            Equalizer.class,
+            EqBand.class,
+            Limiter.class,
+            NoiseGate.class,
+        }), createClassesSummary (toc, "Abstract", new Class []
+        {
+            Nameable.class,
+            Referenceable.class,
+            MediaFile.class,
+        })));
     }
 
 

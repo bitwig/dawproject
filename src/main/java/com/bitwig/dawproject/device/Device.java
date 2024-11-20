@@ -3,17 +3,17 @@ package com.bitwig.dawproject.device;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bitwig.dawproject.BoolParameter;
-import com.bitwig.dawproject.FileReference;
-import com.bitwig.dawproject.Parameter;
-import com.bitwig.dawproject.Referenceable;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
+
+import com.bitwig.dawproject.BoolParameter;
+import com.bitwig.dawproject.FileReference;
+import com.bitwig.dawproject.Parameter;
+import com.bitwig.dawproject.Referenceable;
 
 
 /** Either a Plug-in or native Device with in a DAW. */
@@ -46,11 +46,11 @@ public class Device extends Referenceable
     public String          deviceName;
 
     /**
-     * Unique identifier of device/plug-in.<br/>
+     * Unique identifier of device/plug-in.<br>
      * Standards which use UUID as an identifier use the canonical textual representation of the
-     * UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+     * UUID (8-4-4-4-12 with no braces) (VST3)<br>
      * Standards which use an integer as an identifier use the value in decimal form. (base-10
-     * unsigned) (VST2)<br/>
+     * unsigned) (VST2)<br>
      * Text-based identifiers are used as-is. (CLAP)
      */
     @XmlAttribute
@@ -62,17 +62,17 @@ public class Device extends Referenceable
 
     /**
      * Path to a file representing the device / plug-in state in its native format.
+     *
      * <p>
      * This file must be embedded inside the container ZIP and have the FileReference configured
      * with (external=false).
-     * </p>
      */
     @XmlElement(name = "State", required = false)
     public FileReference   state;
 
     /**
      * Parameters for this device, which is required for automated parameters in order to provide an
-     * ID. <br/>
+     * ID. <br>
      * Note: If the automated parameter is already present like the BuiltinDevice parameters, it
      * should not be included here as well.
      */

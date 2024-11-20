@@ -1,9 +1,9 @@
 package com.bitwig.dawproject.timeline;
 
-import com.bitwig.dawproject.Nameable;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
+import com.bitwig.dawproject.Nameable;
 
 
 /** A single cue-marker. */

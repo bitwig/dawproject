@@ -1,21 +1,18 @@
 package com.bitwig.dawproject.timeline;
 
-import com.bitwig.dawproject.ExpressionType;
-import com.bitwig.dawproject.Parameter;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
 
+import com.bitwig.dawproject.ExpressionType;
+import com.bitwig.dawproject.Parameter;
+
 
 /**
- * <p>
  * Defines the target of automation or expression, usually used within a Points element.
- * </p>
  *
  * <p>
  * Either it points directly ot a parameter or an expression, and in the expression case it can
  * either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as poly pressure)
- * </p>
  */
 public class AutomationTarget
 {
@@ -34,18 +31,18 @@ public class AutomationTarget
 
     /**
      * MIDI key.
+     *
      * <p>
      * Used when expression="polyPressure".
-     * </p>
      */
     @XmlAttribute(required = false)
     public Integer        key;
 
     /**
      * MIDI Channel Controller Number (0 based index).
+     *
      * <p>
      * Used when expression="channelController".
-     * </p>
      */
     @XmlAttribute(required = false)
     public Integer        controller;

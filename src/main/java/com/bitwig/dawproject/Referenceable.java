@@ -6,9 +6,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlID;
 
 
-/**
- * Base class for everything which can be referenced.
- */
+/** Base class for everything which can be referenced. */
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
 public abstract class Referenceable extends Nameable
 {
@@ -24,9 +22,7 @@ public abstract class Referenceable extends Nameable
     public final String    id;
 
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     protected Referenceable ()
     {
         this.id = enableAutoID ? "id" + (idCounter++) : null;
@@ -35,7 +31,7 @@ public abstract class Referenceable extends Nameable
 
     /**
      * Enables automatic creation of XML IDs. Resets the IDs as well to 0.
-     * 
+     *
      * @param enable True to enable automatic ID creation for all instances of
      *            {@link #Referenceable()}
      */

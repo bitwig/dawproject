@@ -1,11 +1,11 @@
 package com.bitwig.dawproject.timeline;
 
-import com.bitwig.dawproject.Nameable;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
+import com.bitwig.dawproject.Nameable;
 
 
 /**
@@ -22,8 +22,8 @@ public class Clip extends Nameable
     public double   time;
 
     /**
-     * Duration on the parent timeline of this clip.<br/>
-     * If duration is omitted, it should be inferred from the playStop - playStart instead. <br/>
+     * Duration on the parent timeline of this clip.<br>
+     * If duration is omitted, it should be inferred from the playStop - playStart instead. <br>
      * This is particularity useful when timeUnit and contentTimeUnit are different, like when
      * placing an audio clip with content length defined in seconds onto an arrangement defined in
      * beats.
@@ -39,15 +39,21 @@ public class Clip extends Nameable
     @XmlAttribute(required = false)
     public TimeUnit contentTimeUnit;
 
-    /** Time inside the content timeline (or reference) where the clip starts playing. */
+    /**
+     * Time inside the content timeline (or reference) where the clip starts playing.
+     */
     @XmlAttribute(required = false)
     public Double   playStart;
 
-    /** Time inside the content timeline (or reference) where the clip stops playing. */
+    /**
+     * Time inside the content timeline (or reference) where the clip stops playing.
+     */
     @XmlAttribute(required = false)
     public Double   playStop;
 
-    /** Time inside the content timeline (or reference) where the clip loop starts. */
+    /**
+     * Time inside the content timeline (or reference) where the clip loop starts.
+     */
     @XmlAttribute(required = false)
     public Double   loopStart;
 
@@ -61,10 +67,10 @@ public class Clip extends Nameable
 
     /**
      * Duration of fade-in.
+     *
      * <p>
      * To create cross-fade, use a negative value which will make this Clip start at <i>t = time -
      * abs(fadeInTime)</i>
-     * </p>
      */
     @XmlAttribute(required = false)
     public Double   fadeInTime;
@@ -75,7 +81,7 @@ public class Clip extends Nameable
 
     /** Whether this clip should be played back. Default value is true. */
     @XmlAttribute(required = false)
-    public Boolean enable;
+    public Boolean  enable;
 
     /** Content Timeline this clip is playing. */
     @XmlElementRef(required = false)

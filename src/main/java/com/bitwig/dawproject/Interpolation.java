@@ -3,9 +3,7 @@ package com.bitwig.dawproject;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 
-/**
- * Interpolation variations.
- */
+/** Interpolation variations. */
 public enum Interpolation
 {
     /** Hold interpolation. */

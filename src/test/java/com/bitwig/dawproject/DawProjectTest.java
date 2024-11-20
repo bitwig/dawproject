@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.bitwig.dawproject.device.Device;
 import com.bitwig.dawproject.device.DeviceRole;
 import com.bitwig.dawproject.device.Vst3Plugin;
@@ -24,11 +21,11 @@ import com.bitwig.dawproject.timeline.Notes;
 import com.bitwig.dawproject.timeline.Points;
 import com.bitwig.dawproject.timeline.TimeUnit;
 import com.bitwig.dawproject.timeline.Warps;
+import org.junit.Assert;
+import org.junit.Test;
 
 
-/**
- * Several tests for the reading/writing DAWproject files.
- */
+/** Several tests for the reading/writing DAWproject files. */
 public class DawProjectTest
 {
     private enum Features
@@ -58,7 +55,7 @@ public class DawProjectTest
 
     /**
      * Validate a project.
-     * 
+     *
      * @throws IOException Could not validate the project
      */
     @Test
@@ -71,7 +68,7 @@ public class DawProjectTest
 
     /**
      * Validate a complex project.
-     * 
+     *
      * @throws IOException Could not validate the project
      */
     @Test
@@ -84,7 +81,7 @@ public class DawProjectTest
 
     /**
      * Test storing a project.
-     * 
+     *
      * @throws IOException Could not store the project
      */
     @Test
@@ -103,7 +100,7 @@ public class DawProjectTest
 
     /**
      * Test storing and loading a project.
-     * 
+     *
      * @throws IOException Could not load the project
      */
     @Test
@@ -125,7 +122,7 @@ public class DawProjectTest
 
     /**
      * Test storing a complex project.
-     * 
+     *
      * @throws IOException Could not store the project
      */
     @Test
@@ -144,7 +141,7 @@ public class DawProjectTest
 
     /**
      * Test storing and loading a complex project.
-     * 
+     *
      * @throws IOException Could not store or load the project
      */
     @Test
@@ -168,7 +165,7 @@ public class DawProjectTest
 
     /**
      * Test creating the metadata XML schema.
-     * 
+     *
      * @throws IOException Could not create the XML schema
      */
     @Test
@@ -182,7 +179,7 @@ public class DawProjectTest
 
     /**
      * Test creating the project XML schema.
-     * 
+     *
      * @throws IOException Could not create the XML schema
      */
     @Test
@@ -196,7 +193,7 @@ public class DawProjectTest
 
     /**
      * Test audio clips with offsets and fades.
-     * 
+     *
      * @throws IOException Could not create
      */
     @Test
@@ -217,7 +214,7 @@ public class DawProjectTest
 
     /**
      * Test MIDI automation envelopes.
-     * 
+     *
      * @throws IOException Could not create
      */
     @Test
@@ -232,7 +229,7 @@ public class DawProjectTest
 
     /**
      * Test the double adapter for infinity constants.
-     * 
+     *
      * @throws Exception Could not parse the infinity constants
      */
     @Test

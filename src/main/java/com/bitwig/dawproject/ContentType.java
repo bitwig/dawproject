@@ -4,9 +4,7 @@ import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 
 
-/**
- * The type of the content.
- */
+/** The type of the content. */
 @XmlEnum
 public enum ContentType
 {

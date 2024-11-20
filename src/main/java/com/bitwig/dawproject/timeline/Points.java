@@ -3,20 +3,20 @@ package com.bitwig.dawproject.timeline;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bitwig.dawproject.Unit;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
+import com.bitwig.dawproject.Unit;
+
 
 /**
  * A timeline of points for automation or expression.
+ *
  * <p>
  * All the points should be of the same element-type and match the target.
- * </p>
  */
 @XmlRootElement(name = "Points")
 @XmlType(propOrder =
@@ -31,7 +31,9 @@ public class Points extends Timeline
     @XmlElement(name = "Target", required = true)
     public AutomationTarget target = new AutomationTarget ();
 
-    /** The contained points. They should all be of the same type and match the target parameter. */
+    /**
+     * The contained points. They should all be of the same type and match the target parameter.
+     */
     @XmlElementRef(required = true)
     public List<Point>      points = new ArrayList<> ();
 

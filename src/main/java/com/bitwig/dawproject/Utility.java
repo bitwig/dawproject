@@ -13,14 +13,10 @@ import com.bitwig.dawproject.timeline.Timeline;
 import com.bitwig.dawproject.timeline.Warp;
 
 
-/**
- * Helper class to create different DAWproject objects.
- */
+/** Helper class to create different DAWproject objects. */
 public class Utility
 {
-    /**
-     * Private constructor due to utility class.
-     */
+    /** Private constructor due to utility class. */
     private Utility ()
     {
         // Intentionally empty
@@ -29,7 +25,7 @@ public class Utility
 
     /**
      * Creates a track.
-     * 
+     *
      * @param name The name of the track
      * @param contentTypes The content types that can be placed on the track
      * @param mixerRole The mixer role of the track
@@ -52,7 +48,7 @@ public class Utility
 
     /**
      * Creates an audio media file.
-     * 
+     *
      * @param relativePath The relative path to the audio file
      * @param sampleRate The sample rate
      * @param channels The number of channels
@@ -75,7 +71,7 @@ public class Utility
 
     /**
      * Creates a warp.
-     * 
+     *
      * @param time The warped time
      * @param contentTime The time of the content
      * @return The warp instance
@@ -91,7 +87,7 @@ public class Utility
 
     /**
      * Creates a clip.
-     * 
+     *
      * @param content The content of the clip
      * @param time The time position of the clip
      * @param duration The duration of the clip
@@ -109,7 +105,7 @@ public class Utility
 
     /**
      * Creates a Clips object from several clips.
-     * 
+     *
      * @param clips The clips to wrap
      * @return The Clips instance
      */
@@ -123,7 +119,7 @@ public class Utility
 
     /**
      * Creates a marker.
-     * 
+     *
      * @param time The time position of the marker
      * @param name The name of the marker
      * @return The marker instance
@@ -139,7 +135,7 @@ public class Utility
 
     /**
      * Creates a point for an automation envelope.
-     * 
+     *
      * @param time The time position of the point
      * @param value The value of the point
      * @param interpolation The interpolation to use

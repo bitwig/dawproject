@@ -1,12 +1,12 @@
 package com.bitwig.dawproject.timeline;
 
-import com.bitwig.dawproject.Referenceable;
-import com.bitwig.dawproject.Track;
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
+
+import com.bitwig.dawproject.Referenceable;
+import com.bitwig.dawproject.Track;
 
 
 /** Abstract base class for all timeline structures. */
