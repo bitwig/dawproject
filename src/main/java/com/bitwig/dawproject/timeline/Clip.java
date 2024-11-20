@@ -73,6 +73,10 @@ public class Clip extends Nameable
     @XmlAttribute(required = false)
     public Double   fadeOutTime;
 
+    /** Whether this clip should be played back. Default value is true. */
+    @XmlAttribute(required = false)
+    public Boolean enable;
+
     /** Content Timeline this clip is playing. */
     @XmlElementRef(required = false)
     public Timeline content;

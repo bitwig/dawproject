@@ -16,6 +16,10 @@ public class Send extends Referenceable
     @XmlElement(required = false, name = "Pan")
     public RealParameter pan;
 
+    /** Send enable. */
+    @XmlElement(required = false, name = "Enable")
+    public BoolParameter enable;
+
     /** Send type. */
     @XmlAttribute
     public SendType      type = SendType.POST;
