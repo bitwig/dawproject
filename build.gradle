@@ -27,6 +27,8 @@ dependencyUpdates.resolutionStrategy = {
 
 spotless {
     java {
+        target 'src/**/*.java'
+        targetExclude 'src/**/module-info.java'
         importOrder('java', 'javax', 'jakarta', '')
         removeUnusedImports()
         eclipse().configFile('spotless.eclipseformat.xml')
