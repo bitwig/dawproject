@@ -2,7 +2,6 @@ package com.bitwig.dawproject.device;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-
 /**
  * A VST3 Plug-in instance.
  *
@@ -10,7 +9,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  * The VST3 plug-in state should be stored in .vstpreset format.
  */
 @XmlRootElement(name = "Vst3Plugin")
-public class Vst3Plugin extends Plugin
-{
-    // Intentionally empty
+public class Vst3Plugin extends Plugin {
+	// Intentionally empty
 }

@@ -31,7 +31,7 @@ spotless {
         targetExclude 'src/**/module-info.java'
         importOrder('java', 'javax', 'jakarta', '')
         removeUnusedImports()
-        eclipse().configFile('spotless.eclipseformat.xml')
+        eclipse()
     }
 }
 

@@ -2,7 +2,6 @@ package com.bitwig.dawproject.device;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-
 /**
  * A CLAP Plug-in instance.
  *
@@ -10,7 +9,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  * The CLAP plug-in state should be stored in .clap-preset format.
  */
 @XmlRootElement(name = "ClapPlugin")
-public class ClapPlugin extends Plugin
-{
-    // Intentionally empty
+public class ClapPlugin extends Plugin {
+	// Intentionally empty
 }
