@@ -1,5 +1,4 @@
 package com.bitwig.dawproject;
 
-public abstract class Lane extends Referenceable
-{
+public abstract class Lane extends Referenceable {
 }
