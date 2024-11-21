@@ -30,18 +30,18 @@ public class Device extends Referenceable {
 
 	/** If this device/plug-in is loaded/active of not. */
 	@XmlAttribute
-	public Boolean loaded = true;
+	public Boolean loaded = Boolean.TRUE;
 
 	/** Name of the device/plugin */
 	@XmlAttribute(required = true)
 	public String deviceName;
 
 	/**
-	 * Unique identifier of device/plug-in.<br/>
+	 * Unique identifier of device/plug-in.<br>
 	 * Standards which use UUID as an identifier use the canonical textual
-	 * representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+	 * representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
 	 * Standards which use an integer as an identifier use the value in decimal
-	 * form. (base-10 unsigned) (VST2)<br/>
+	 * form. (base-10 unsigned) (VST2)<br>
 	 * Text-based identifiers are used as-is. (CLAP)
 	 */
 	@XmlAttribute
@@ -53,17 +53,17 @@ public class Device extends Referenceable {
 
 	/**
 	 * Path to a file representing the device / plug-in state in its native format.
+	 *
 	 * <p>
 	 * This file must be embedded inside the container ZIP and have the
 	 * FileReference configured with (external=false).
-	 * </p>
 	 */
 	@XmlElement(name = "State", required = false)
 	public FileReference state;
 
 	/**
 	 * Parameters for this device, which is required for automated parameters in
-	 * order to provide an ID. <br/>
+	 * order to provide an ID. <br>
 	 * Note: If the automated parameter is already present like the BuiltinDevice
 	 * parameters, it should not be included here as well.
 	 */

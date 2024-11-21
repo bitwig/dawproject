@@ -2,6 +2,7 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
 /**
  * Represents a parameter which can provide a boolean (true/false) value and be
  * used as an automation target.

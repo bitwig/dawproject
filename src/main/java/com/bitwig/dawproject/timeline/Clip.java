@@ -14,7 +14,6 @@ import com.bitwig.dawproject.Nameable;
  * from Timeline or provide a ID reference to a timeline somewhere else (for
  * linked/alias clips).
  */
-
 @XmlRootElement(name = "Clip")
 public class Clip extends Nameable {
 	/** Time on the parent timeline where this clips starts playing. */
@@ -22,9 +21,9 @@ public class Clip extends Nameable {
 	public double time;
 
 	/**
-	 * Duration on the parent timeline of this clip.<br/>
+	 * Duration on the parent timeline of this clip.<br>
 	 * If duration is omitted, it should be inferred from the playStop - playStart
-	 * instead. <br/>
+	 * instead. <br>
 	 * This is particularity useful when timeUnit and contentTimeUnit are different,
 	 * like when placing an audio clip with content length defined in seconds onto
 	 * an arrangement defined in beats.
@@ -69,10 +68,10 @@ public class Clip extends Nameable {
 
 	/**
 	 * Duration of fade-in.
+	 *
 	 * <p>
 	 * To create cross-fade, use a negative value which will make this Clip start at
 	 * <i>t = time - abs(fadeInTime)</i>
-	 * </p>
 	 */
 	@XmlAttribute(required = false)
 	public Double fadeInTime;

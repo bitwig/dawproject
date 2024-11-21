@@ -14,21 +14,21 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RealParameter extends Parameter {
 	/**
 	 * Real (double) value for this parameter.
+	 *
 	 * <p>
 	 * When serializing value to text for XML, infinite values are allowed and
 	 * should be represented as inf and -inf.
-	 * </p>
 	 */
 	@XmlAttribute
 	@XmlJavaTypeAdapter(DoubleAdapter.class)
 	public Double value;
 
 	/**
-	 * Unit in which value, min and max are defined.
+	 * Unit in which value, minimum and maximum are defined.
+	 *
 	 * <p>
 	 * Using this rather than normalized value ranges allows transfer of parameter
 	 * values and automation data.
-	 * </p>
 	 */
 	@XmlAttribute(required = true)
 	public Unit unit;

@@ -7,8 +7,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.bitwig.dawproject.DoubleAdapter;
 import com.bitwig.dawproject.Interpolation;
 
+/**
+ * A point with a double resolution and additional interpolation information.
+ */
 @XmlRootElement(name = "RealPoint")
 public class RealPoint extends Point {
+	/** The value of the point. */
 	@XmlJavaTypeAdapter(DoubleAdapter.class)
 	@XmlAttribute(required = true)
 	public Double value;

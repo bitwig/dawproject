@@ -9,7 +9,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  * within a Clip element. The timeUnit attribute should always be set to
  * seconds.
  */
-
 @XmlRootElement(name = "Audio")
 public class Audio extends MediaFile {
 	/** Sample-rate of audio-file. */

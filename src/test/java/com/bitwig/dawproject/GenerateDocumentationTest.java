@@ -1,7 +1,25 @@
 package com.bitwig.dawproject;
 
-import static j2html.TagCreator.*;
+import static j2html.TagCreator.a;
+import static j2html.TagCreator.b;
+import static j2html.TagCreator.body;
+import static j2html.TagCreator.br;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.h1;
+import static j2html.TagCreator.h2;
+import static j2html.TagCreator.h3;
+import static j2html.TagCreator.head;
+import static j2html.TagCreator.html;
+import static j2html.TagCreator.link;
+import static j2html.TagCreator.p;
+import static j2html.TagCreator.rawHtml;
+import static j2html.TagCreator.span;
+import static j2html.TagCreator.table;
+import static j2html.TagCreator.td;
+import static j2html.TagCreator.text;
 import static j2html.TagCreator.th;
+import static j2html.TagCreator.title;
+import static j2html.TagCreator.tr;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +45,40 @@ import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlIDREF;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import com.bitwig.dawproject.device.*;
-import com.bitwig.dawproject.timeline.*;
+import com.bitwig.dawproject.device.AuPlugin;
+import com.bitwig.dawproject.device.BuiltinDevice;
+import com.bitwig.dawproject.device.ClapPlugin;
+import com.bitwig.dawproject.device.Compressor;
+import com.bitwig.dawproject.device.Device;
+import com.bitwig.dawproject.device.EqBand;
+import com.bitwig.dawproject.device.Equalizer;
+import com.bitwig.dawproject.device.Limiter;
+import com.bitwig.dawproject.device.NoiseGate;
+import com.bitwig.dawproject.device.Plugin;
+import com.bitwig.dawproject.device.Vst2Plugin;
+import com.bitwig.dawproject.device.Vst3Plugin;
+import com.bitwig.dawproject.timeline.Audio;
+import com.bitwig.dawproject.timeline.AutomationTarget;
+import com.bitwig.dawproject.timeline.BoolPoint;
+import com.bitwig.dawproject.timeline.Clip;
+import com.bitwig.dawproject.timeline.ClipSlot;
+import com.bitwig.dawproject.timeline.Clips;
+import com.bitwig.dawproject.timeline.EnumPoint;
+import com.bitwig.dawproject.timeline.IntegerPoint;
+import com.bitwig.dawproject.timeline.Lanes;
+import com.bitwig.dawproject.timeline.Marker;
+import com.bitwig.dawproject.timeline.Markers;
+import com.bitwig.dawproject.timeline.MediaFile;
+import com.bitwig.dawproject.timeline.Note;
+import com.bitwig.dawproject.timeline.Notes;
+import com.bitwig.dawproject.timeline.Point;
+import com.bitwig.dawproject.timeline.Points;
+import com.bitwig.dawproject.timeline.RealPoint;
+import com.bitwig.dawproject.timeline.TimeSignaturePoint;
+import com.bitwig.dawproject.timeline.Timeline;
+import com.bitwig.dawproject.timeline.Video;
+import com.bitwig.dawproject.timeline.Warp;
+import com.bitwig.dawproject.timeline.Warps;
 import com.github.therapi.runtimejavadoc.ClassJavadoc;
 import com.github.therapi.runtimejavadoc.Comment;
 import com.github.therapi.runtimejavadoc.CommentFormatter;
@@ -46,11 +96,18 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.reflections.Reflections;
 
+/** Not really a test but generates the HTML documentation. */
 public class GenerateDocumentationTest {
-	private static DomContent formatJavadocComment(Comment comment) {
-		return rawHtml(formatter.format(comment));
-	}
+	private static final CommentFormatter formatter = new CommentFormatter();
 
+	private Reflections mReflections = new Reflections("com.bitwig.dawproject");
+
+	/**
+	 * Create a HTML class summary.
+	 *
+	 * @throws IOException
+	 *             Could not write the HTML file
+	 */
 	@Test
 	public void createClassSummary() throws IOException {
 		final var htmlFile = new File("Reference.html");
@@ -64,7 +121,7 @@ public class GenerateDocumentationTest {
 		Assert.assertTrue(htmlFile.exists());
 	}
 
-	private HtmlTag createDocument(final String title) throws IOException {
+	private HtmlTag createDocument(final String title) {
 		final var toc = div().withClass("toc");
 		toc.with(b("Table of Contents"));
 		return html(head(title(title), link().withRel("stylesheet").withHref("style.css")), body(h1(title),
@@ -73,33 +130,25 @@ public class GenerateDocumentationTest {
 				createClassesSummary(toc, "Other",
 						new Class[]{Application.class, FileReference.class, Transport.class,}),
 				createClassesSummary(toc, "Mixer", new Class[]{Track.class, Channel.class, Send.class,}),
-
 				createClassesSummary(toc, "Timeline",
 						new Class[]{Arrangement.class, Scene.class, ClipSlot.class, Timeline.class, Lanes.class,
 								Clips.class, Clip.class, Notes.class, Note.class, Audio.class, Video.class, Warps.class,
 								Warp.class, Markers.class, Marker.class,}),
-
 				createClassesSummary(toc, "Parameters",
 						new Class[]{Parameter.class, BoolParameter.class, EnumParameter.class, IntegerParameter.class,
 								RealParameter.class, TimeSignatureParameter.class,}),
-
 				createClassesSummary(toc, "Automation",
 						new Class[]{Points.class, AutomationTarget.class, Point.class, RealPoint.class, BoolPoint.class,
 								EnumPoint.class, IntegerPoint.class, TimeSignaturePoint.class,}),
-
 				createClassesSummary(toc, "Device",
 						new Class[]{Device.class, AuPlugin.class, ClapPlugin.class, Plugin.class, Vst2Plugin.class,
-								Vst3Plugin.class,
-
-								BuiltinDevice.class, Compressor.class, Equalizer.class, EqBand.class, Limiter.class,
-								NoiseGate.class,}),
-
+								Vst3Plugin.class, BuiltinDevice.class, Compressor.class, Equalizer.class, EqBand.class,
+								Limiter.class, NoiseGate.class,}),
 				createClassesSummary(toc, "Abstract",
 						new Class[]{Nameable.class, Referenceable.class, MediaFile.class,})));
 	}
 
-	public DomContent createClassesSummary(final DivTag toc, final String label, final Class[] classes)
-			throws IOException {
+	private DomContent createClassesSummary(final DivTag toc, final String label, final Class<?>[] classes) {
 		final var content = new ArrayList<DomContent>();
 
 		content.add(h2(label + " Elements"));
@@ -116,29 +165,7 @@ public class GenerateDocumentationTest {
 		return new SpanTag().with(content).withClass("elements-block");
 	}
 
-	private String getElementNameForClass(Class cls) {
-		final var rootElement = cls.getDeclaredAnnotation(XmlRootElement.class);
-		if (rootElement instanceof XmlRootElement re && !re.name().startsWith("#"))
-			return re.name();
-		return cls.getSimpleName();
-	}
-
-	private DomContent createElementLink(Class cls) {
-		if (cls == String.class)
-			return text("text");
-
-		if (cls.isPrimitive())
-			return text(cls.getSimpleName());
-
-		final var name = getElementNameForClass(cls);
-		return a("<" + name + ">").withHref("#" + name).withClass("element-link");
-	}
-
-	private String bracketize(final String s) {
-		return "<" + s + ">";
-	}
-
-	public DomContent createClassSummary(final Class<?> cls) throws IOException {
+	private DomContent createClassSummary(final Class<?> cls) {
 		final var content = span().withClass("element-block");
 		final var elementName = getElementNameForClass(cls);
 		content.with(h3(bracketize(elementName)).withId(elementName).withClass("element-title"));
@@ -161,7 +188,7 @@ public class GenerateDocumentationTest {
 			content.with(p);
 		}
 
-		final var subTypes = mReflections.getSubTypesOf(cls);
+		final var subTypes = this.mReflections.getSubTypesOf(cls);
 
 		if (!subTypes.isEmpty()) {
 			final var p = p("Implementations").withClass("bubble");
@@ -184,9 +211,7 @@ public class GenerateDocumentationTest {
 		return content;
 	}
 
-	private Reflections mReflections = new Reflections("com.bitwig.dawproject");
-
-	private void createAttributeTable(final TableTag table, final Class cls) {
+	private static void createAttributeTable(final TableTag table, final Class<?> cls) {
 		final var content = new ArrayList<DomContent>();
 
 		content.add(tr(th("Attribute name").withStyle("text-align:center;"), th("Description"),
@@ -201,7 +226,7 @@ public class GenerateDocumentationTest {
 			table.with(content);
 	}
 
-	private Optional<TrTag> createAttributeTableRow(final Field field, final FieldJavadoc javadoc,
+	private static Optional<TrTag> createAttributeTableRow(final Field field, final FieldJavadoc javadoc,
 			final boolean isDeclaredInThisClass) {
 		for (Annotation annotation : field.getAnnotations()) {
 			if (annotation instanceof XmlAttribute attribute) {
@@ -211,7 +236,7 @@ public class GenerateDocumentationTest {
 					name = field.getName();
 
 				var tr = tr(td(name).withStyle("text-align:center;"), td(comment),
-						td(getType(field, javadoc)).withStyle("text-align:center;"),
+						td(getType(field)).withStyle("text-align:center;"),
 						td(attribute.required() ? "yes" : "no").withStyle("text-align:center;"));
 
 				if (!isDeclaredInThisClass)
@@ -223,7 +248,7 @@ public class GenerateDocumentationTest {
 		return Optional.empty();
 	}
 
-	private void createElementsTable(final TableTag table, final Class cls) throws IOException {
+	private void createElementsTable(final TableTag table, final Class<?> cls) {
 		final var content = new ArrayList<DomContent>();
 
 		content.add(tr(th("Element name").withStyle("text-align:center;"), th("Description"),
@@ -238,29 +263,29 @@ public class GenerateDocumentationTest {
 			table.with(content);
 	}
 
-	private boolean isDynamicType(final Field field) {
+	private static boolean isDynamicType(final Field field) {
 		return field.getAnnotation(XmlElementRef.class) != null;
 	}
 
-	private boolean isRequired(final Field field) {
+	private static boolean isRequired(final Field field) {
 		for (Annotation annotation : field.getAnnotations()) {
 			if (annotation instanceof XmlElementWrapper e && e.required())
 				return true;
-			else if (annotation instanceof XmlElement e && e.required())
+			if (annotation instanceof XmlElement e && e.required())
 				return true;
-			else if (annotation instanceof XmlElementRef e && e.required())
+			if (annotation instanceof XmlElementRef e && e.required())
 				return true;
 		}
 		return false;
 	}
 
-	private boolean isElement(final Field field) {
+	private static boolean isElement(final Field field) {
 		for (Annotation annotation : field.getAnnotations()) {
 			if (annotation instanceof XmlElementWrapper)
 				return true;
-			else if (annotation instanceof XmlElement)
+			if (annotation instanceof XmlElement)
 				return true;
-			else if (annotation instanceof XmlElementRef)
+			if (annotation instanceof XmlElementRef)
 				return true;
 		}
 		return false;
@@ -271,7 +296,7 @@ public class GenerateDocumentationTest {
 		return type == List.class;
 	}
 
-	Class getListGenericType(final Field field) {
+	Class<?> getListGenericType(final Field field) {
 		if (field.getGenericType() instanceof ParameterizedType pt && pt.getActualTypeArguments().length == 1) {
 			final var listType = pt.getActualTypeArguments()[0];
 			if (listType instanceof Class cls)
@@ -280,8 +305,12 @@ public class GenerateDocumentationTest {
 		return null;
 	}
 
+	private static DomContent formatJavadocComment(Comment comment) {
+		return rawHtml(formatter.format(comment));
+	}
+
 	private Optional<TrTag> createElementTableRow(final Field field, final FieldJavadoc javadoc,
-			final boolean isDeclaredInThisClass) throws IOException {
+			final boolean isDeclaredInThisClass) {
 		if (!isElement(field))
 			return Optional.empty();
 
@@ -304,20 +333,19 @@ public class GenerateDocumentationTest {
 				tr = tr.withClass("inherited");
 
 			return Optional.of(tr);
-		} else {
-			var typeCell = td(createElementLink(isList ? getListGenericType(field) : field.getType()));
-			final var elementName = td("<" + name + ">");
-			if (isList)
-				elementName.with(br(), text("(multiple)"));
-
-			var tr = tr(elementName.withStyle("text-align:center;"), td(comment),
-					typeCell.withStyle("text-align:center;"),
-					td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
-			if (!isDeclaredInThisClass)
-				tr = tr.withClass("inherited");
-
-			return Optional.of(tr);
 		}
+
+		var typeCell = td(createElementLink(isList ? getListGenericType(field) : field.getType()));
+		final var elementName = td("<" + name + ">");
+		if (isList)
+			elementName.with(br(), text("(multiple)"));
+
+		var tr = tr(elementName.withStyle("text-align:center;"), td(comment), typeCell.withStyle("text-align:center;"),
+				td(isRequired ? "yes" : "no").withStyle("text-align:center;"));
+		if (!isDeclaredInThisClass)
+			tr = tr.withClass("inherited");
+
+		return Optional.of(tr);
 	}
 
 	private TdTag createElementLinksToSubclasses(final Field field) {
@@ -328,7 +356,7 @@ public class GenerateDocumentationTest {
 				&& pt.getActualTypeArguments().length == 1;
 
 		final Class<?> type = isCollection ? getListGenericType(field) : field.getType();
-		mReflections.getSubTypesOf(type).stream().sorted(Comparator.comparing(Class::getName)).forEach(t -> {
+		this.mReflections.getSubTypesOf(type).stream().sorted(Comparator.comparing(Class::getName)).forEach(t -> {
 			td.with(createElementLink(t));
 			td.with(br());
 		});
@@ -336,7 +364,7 @@ public class GenerateDocumentationTest {
 		return td;
 	}
 
-	private DomContent getComment(final Field field, final FieldJavadoc javadoc) {
+	private static DomContent getComment(final Field field, final FieldJavadoc javadoc) {
 		final var comment = javadoc != null ? formatJavadocComment(javadoc.getComment()) : text("");
 
 		final Class<?> type = field.getType();
@@ -348,7 +376,6 @@ public class GenerateDocumentationTest {
 		if (enumClass != null) {
 			final var choices = "Possible values: "
 					+ Arrays.stream(enumClass.getFields()).map(f -> getFieldName(f)).collect(Collectors.joining(", "));
-
 			return span(comment, p(choices));
 		}
 
@@ -375,12 +402,11 @@ public class GenerateDocumentationTest {
 		return field.getName();
 	}
 
-	private static String getType(final Field field, final FieldJavadoc javadoc) {
+	private static String getType(final Field field) {
 		final var xmlIDREF = field.getAnnotation(XmlIDREF.class);
 
-		if (xmlIDREF != null) {
+		if (xmlIDREF != null)
 			return "ID";
-		}
 
 		final Class<?> type = field.getType();
 
@@ -393,5 +419,25 @@ public class GenerateDocumentationTest {
 		return type.getSimpleName();
 	}
 
-	private static final CommentFormatter formatter = new CommentFormatter();
+	private static String getElementNameForClass(Class<?> cls) {
+		final var rootElement = cls.getDeclaredAnnotation(XmlRootElement.class);
+		if (rootElement instanceof XmlRootElement re && !re.name().startsWith("#"))
+			return re.name();
+		return cls.getSimpleName();
+	}
+
+	private static DomContent createElementLink(Class<?> cls) {
+		if (cls == String.class)
+			return text("text");
+
+		if (cls.isPrimitive())
+			return text(cls.getSimpleName());
+
+		final var name = getElementNameForClass(cls);
+		return a("<" + name + ">").withHref("#" + name).withClass("element-link");
+	}
+
+	private static String bracketize(final String s) {
+		return "<" + s + ">";
+	}
 }
