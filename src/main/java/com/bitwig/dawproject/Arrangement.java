@@ -8,12 +8,11 @@ import com.bitwig.dawproject.timeline.Markers;
 import com.bitwig.dawproject.timeline.Points;
 
 /** Represents the main Arrangement timeline of a DAW. */
-
 @XmlRootElement(name = "Arrangement")
 public class Arrangement extends Referenceable {
 	/**
 	 * Automation data for time-signature inside this Arrangement.
-	 * 
+	 *
 	 * <pre>{@code
 	 * <Arrangement>
 	 *   <TimeSignatureAutomation target="id-of-TimeSignatureParameter" ... >

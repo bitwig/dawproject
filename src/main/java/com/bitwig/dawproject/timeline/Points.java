@@ -13,9 +13,9 @@ import com.bitwig.dawproject.Unit;
 
 /**
  * A timeline of points for automation or expression.
+ *
  * <p>
  * All the points should be of the same element-type and match the target.
- * </p>
  */
 @XmlRootElement(name = "Points")
 @XmlType(propOrder = {"target", "points", "unit"})

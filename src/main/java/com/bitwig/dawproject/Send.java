@@ -20,7 +20,7 @@ public class Send extends Referenceable {
 
 	/** Send type. */
 	@XmlAttribute
-	public SendType type = SendType.post;
+	public SendType type = SendType.POST;
 
 	/** Send destination. */
 	@XmlAttribute

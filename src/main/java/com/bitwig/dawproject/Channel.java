@@ -23,7 +23,7 @@ public class Channel extends Lane {
 
 	/** Number of audio-channels of this mixer channel. (1=mono, 2=stereo…) */
 	@XmlAttribute(required = false)
-	public Integer audioChannels = 2;
+	public Integer audioChannels = Integer.valueOf(2);
 
 	/** Channel volume */
 	@XmlElement(name = "Volume", required = false)

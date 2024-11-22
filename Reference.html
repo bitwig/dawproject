@@ -631,7 +631,7 @@
                     &lt;FileReference&gt;
                 </h3>
                 <p>
-                    References a file either within a DAWPROJECT container or on disk.
+                    References a file either within a DAWproject container or on disk.
                 </p>
                 <table class="detail-table">
                     <tr>
@@ -654,10 +654,10 @@
                         </td>
                         <td>
                             File path. either
-                             <li>path within the container</li>
-                             <li>relative to .dawproject file (when external = "true")</li>
+                             <li>path within the container
+                             <li>relative to .dawproject file (when external = "true")
                              <li>absolute path (when external = "true" and path starts with a slash or
-                             windows drive letter)</li>
+                             windows drive letter)
                         </td>
                         <td style="text-align:center;">
                             String
@@ -1509,7 +1509,7 @@
                         </td>
                         <td>
                             Automation data for time-signature inside this Arrangement.
-                             
+                            
                              <pre><code>
                              &lt;Arrangement&gt;
                                &lt;TimeSignatureAutomation target=&quot;id-of-TimeSignatureParameter&quot; ... &gt;
@@ -1690,7 +1690,7 @@
                         </td>
                         <td>
                             Content timeline of this scene, will typically be structured like this:
-                             
+                            
                              <pre><code>
                              &lt;Scene&gt;
                                &lt;Lanes&gt;
@@ -2497,9 +2497,9 @@
                             duration
                         </td>
                         <td>
-                            Duration on the parent timeline of this clip.<br/>
+                            Duration on the parent timeline of this clip.<br>
                              If duration is omitted, it should be inferred from the playStop - playStart
-                             instead. <br/>
+                             instead. <br>
                              This is particularity useful when timeUnit and contentTimeUnit are different,
                              like when placing an audio clip with content length defined in seconds onto
                              an arrangement defined in beats.
@@ -2614,10 +2614,10 @@
                         </td>
                         <td>
                             Duration of fade-in.
+                            
                              <p>
                              To create cross-fade, use a negative value which will make this Clip start at
                              <i>t = time - abs(fadeInTime)</i>
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             Double
@@ -3379,7 +3379,7 @@
                             sampleRate
                         </td>
                         <td>
-                            sample-rate of audio (if present)
+                            Sample-rate of audio (if present).
                         </td>
                         <td style="text-align:center;">
                             int
@@ -3393,7 +3393,7 @@
                             channels
                         </td>
                         <td>
-                            number of channels of audio (1=mono..., if present)
+                            Number of channels of audio (1=mono..., if present).
                         </td>
                         <td style="text-align:center;">
                             int
@@ -3407,7 +3407,7 @@
                             algorithm
                         </td>
                         <td>
-                            Playback algorithm used to warp audio (vendor-specific, if present)
+                            Playback algorithm used to warp audio (vendor-specific, if present).
                         </td>
                         <td style="text-align:center;">
                             String
@@ -3558,34 +3558,30 @@
                     &lt;Warps&gt;
                 </h3>
                 <p>
-                    <p>
-                     Warps the time of nested content as defined by a list of <i>Warp</i> points.
-                     </p>
+                    Warps the time of nested content as defined by a list of <i>Warp</i> points.
                     
                      <p>
                      A typical use case would be to warp an audio-file (contentTimeUnit = seconds)
                      onto a timeline defined in beats (timeUnit = beats) as defined by a set of
                      Warp events.
-                     </p>
                     
                      <p>
                      At least two Warp events need to present in order to define a usable
                      beats/seconds conversion. For a plain fixed-speed mapping, provide two event:
                      One at (0,0) and a second event with the desired beat-time length along with
                      the length of the contained Audio file in seconds.
-                     </p>
                     
                      <pre><code>
-                       &lt;!-- example of a simple audio clip with beats-to-seconds warping --&gt;
-                       &lt;Clip time=&quot;0&quot; duration=&quot;8&quot;&gt;
-                         &lt;Warps contentTimeUnit=&quot;seconds&quot; timeUnit=&quot;beats&quot;&gt;
-                           &lt;Audio channels=&quot;1&quot; duration=&quot;4.657&quot; sampleRate=&quot;44100&quot;&gt;
-                              &lt;File path=&quot;samples/dummy.wav&quot;/&gt;
-                           &lt;/Audio&gt;
-                           &lt;Warp time=&quot;0&quot; contentTime=&quot;0&quot;/&gt;
-                           &lt;Warp time=&quot;8&quot; contentTime=&quot;4.657&quot;/&gt;
-                         &lt;/Warps&gt;
-                       &lt;/Clip&gt;
+                     &lt;!-- example of a simple audio clip with beats-to-seconds warping --&gt;
+                     &lt;Clip time=&quot;0&quot; duration=&quot;8&quot;&gt;
+                       &lt;Warps contentTimeUnit=&quot;seconds&quot; timeUnit=&quot;beats&quot;&gt;
+                         &lt;Audio channels=&quot;1&quot; duration=&quot;4.657&quot; sampleRate=&quot;44100&quot;&gt;
+                            &lt;File path=&quot;samples/dummy.wav&quot;/&gt;
+                         &lt;/Audio&gt;
+                         &lt;Warp time=&quot;0&quot; contentTime=&quot;0&quot;/&gt;
+                         &lt;Warp time=&quot;8&quot; contentTime=&quot;4.657&quot;/&gt;
+                       &lt;/Warps&gt;
+                     &lt;/Clip&gt;
                      </code></pre>
                 </p>
                 <p class="bubble">
@@ -3622,7 +3618,7 @@
                         <td>
                             <span>
                                 The TimeUnit used by the content (nested) timeline and the contentTime
-                                 attribute of the Warp events
+                                 attribute of the Warp events.
                                 <p>
                                     Possible values: beats, seconds
                                 </p>
@@ -3747,7 +3743,7 @@
                             (multiple)
                         </td>
                         <td>
-                            Warp events defining the transformation. (minimum 2)
+                            Warp events defining the transformation (minimum 2).
                         </td>
                         <td style="text-align:center;">
                             <a href="#Warp" class="element-link">
@@ -4179,7 +4175,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4301,7 +4297,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4409,7 +4405,7 @@
                             value
                         </td>
                         <td>
-                            Index of the enum value.
+                            Index of the enumeration value.
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4423,7 +4419,8 @@
                             count
                         </td>
                         <td>
-                            Number of entries in enum value. value will be in the range [0 .. count-1].
+                            Number of entries in enumeration value. value will be in the range [0 ..
+                             count-1].
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4437,7 +4434,7 @@
                             labels
                         </td>
                         <td>
-                            Labels of the individual enum values.
+                            Labels of the individual enumeration values.
                         </td>
                         <td style="text-align:center;">
                             String[]
@@ -4451,7 +4448,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4601,7 +4598,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4710,10 +4707,10 @@
                         </td>
                         <td>
                             Real (double) value for this parameter.
+                            
                              <p>
                              When serializing value to text for XML, infinite values are allowed and
                              should be represented as inf and -inf.
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             Double
@@ -4728,11 +4725,11 @@
                         </td>
                         <td>
                             <span>
-                                Unit in which value, min and max are defined.
+                                Unit in which value, minimum and maximum are defined.
+                                
                                  <p>
                                  Using this rather than normalized value ranges allows transfer of parameter
                                  values and automation data.
-                                 </p>
                                 <p>
                                     Possible values: linear, normalized, percent, decibel, hertz, semitones, seconds, beats, bpm
                                 </p>
@@ -4778,7 +4775,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4886,7 +4883,7 @@
                             numerator
                         </td>
                         <td>
-                            Numerator of the time-signature. (3/4 &rarr; 3, 4/4 &rarr; 4)
+                            Numerator of the time-signature (3/4 &rarr; 3, 4/4 &rarr; 4).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4900,7 +4897,7 @@
                             denominator
                         </td>
                         <td>
-                            Denominator of the time-signature. (3/4 &rarr; 4, 7/8 &rarr; 8)
+                            Denominator of the time-signature (3/4 &rarr; 4, 7/8 &rarr; 8).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4914,7 +4911,7 @@
                             parameterID
                         </td>
                         <td>
-                            Parameter ID as used by VST2 (index), VST3(ParamID)
+                            Parameter ID as used by VST2 (index), VST3(ParamID).
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -4993,9 +4990,9 @@
                 </h3>
                 <p>
                     A timeline of points for automation or expression.
+                    
                      <p>
                      All the points should be of the same element-type and match the target.
-                     </p>
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -5207,16 +5204,13 @@
                     &lt;AutomationTarget&gt;
                 </h3>
                 <p>
-                    <p>
-                     Defines the target of automation or expression, usually used within a Points
+                    Defines the target of automation or expression, usually used within a Points
                      element.
-                     </p>
                     
                      <p>
                      Either it points directly ot a parameter or an expression, and in the
                      expression case it can either be monophonic (such as MIDI CCs) or
                      per-note/polyphonic (such as poly pressure)
-                     </p>
                 </p>
                 <table class="detail-table">
                     <tr>
@@ -5286,9 +5280,9 @@
                         </td>
                         <td>
                             MIDI key.
+                            
                              <p>
                              Used when expression="polyPressure".
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -5303,9 +5297,9 @@
                         </td>
                         <td>
                             MIDI Channel Controller Number (0 based index).
+                            
                              <p>
                              Used when expression="channelController".
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -5381,7 +5375,7 @@
                     &lt;RealPoint&gt;
                 </h3>
                 <p>
-                    
+                    A point with a double resolution and additional interpolation information.
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -5409,7 +5403,7 @@
                             value
                         </td>
                         <td>
-                            
+                            The value of the point.
                         </td>
                         <td style="text-align:center;">
                             Double
@@ -5821,11 +5815,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -5942,10 +5936,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -5964,7 +5958,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -6000,6 +5994,9 @@
                 <h3 id="AuPlugin" class="element-title">
                     &lt;AuPlugin&gt;
                 </h3>
+                <p>
+                    The Apple AU plug-in format.
+                </p>
                 <p class="bubble">
                     Inherits from
                     <a href="#Plugin" class="element-link">
@@ -6096,11 +6093,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -6217,10 +6214,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -6239,7 +6236,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -6277,9 +6274,9 @@
                 </h3>
                 <p>
                     A CLAP Plug-in instance.
+                    
                      <p>
                      The CLAP plug-in state should be stored in .clap-preset format.
-                     </p>
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -6377,11 +6374,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -6498,10 +6495,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -6520,7 +6517,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -6671,11 +6668,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -6792,10 +6789,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -6814,7 +6811,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -6852,9 +6849,9 @@
                 </h3>
                 <p>
                     A VST2 Plug-in instance.
+                    
                      <p>
                      The VST2 plug-in state should be stored in FXB or FXP format.
-                     </p>
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -6952,11 +6949,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -7073,10 +7070,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -7095,7 +7092,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -7133,9 +7130,9 @@
                 </h3>
                 <p>
                     A VST3 Plug-in instance.
+                    
                      <p>
                      The VST3 plug-in state should be stored in .vstpreset format.
-                     </p>
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -7233,11 +7230,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -7354,10 +7351,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -7376,7 +7373,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -7412,6 +7409,9 @@
                 <h3 id="BuiltinDevice" class="element-title">
                     &lt;BuiltinDevice&gt;
                 </h3>
+                <p>
+                    The built-in plug-in format.
+                </p>
                 <p class="bubble">
                     Inherits from
                     <a href="#Device" class="element-link">
@@ -7506,11 +7506,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -7627,10 +7627,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -7649,7 +7649,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -7686,7 +7686,7 @@
                     &lt;Compressor&gt;
                 </h3>
                 <p>
-                    
+                    A generic 'built-in' compressor.
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -7770,11 +7770,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -7874,7 +7874,7 @@
                             &lt;Threshold&gt;
                         </td>
                         <td>
-                            
+                            The threshold setting of the compressor in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7890,7 +7890,7 @@
                             &lt;Ratio&gt;
                         </td>
                         <td>
-                            
+                            The ratio setting of the compressor in percent (0-100).
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7906,7 +7906,7 @@
                             &lt;Attack&gt;
                         </td>
                         <td>
-                            
+                            The attack setting of the compressor in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7922,7 +7922,7 @@
                             &lt;Release&gt;
                         </td>
                         <td>
-                            
+                            The release setting of the compressor in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7938,7 +7938,7 @@
                             &lt;InputGain&gt;
                         </td>
                         <td>
-                            Pre-compression gain stage. (input/gain/drive)
+                            Pre-compression gain stage. (input/gain/drive) in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7954,7 +7954,7 @@
                             &lt;OutputGain&gt;
                         </td>
                         <td>
-                            Post-compression gain stage. (output/makeup gain)
+                            Post-compression gain stage. (output/makeup gain) in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -7970,7 +7970,7 @@
                             &lt;AutoMakeup&gt;
                         </td>
                         <td>
-                            
+                            Should auto makeup be applied?
                         </td>
                         <td style="text-align:center;">
                             <a href="#BoolParameter" class="element-link">
@@ -8003,10 +8003,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -8025,7 +8025,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -8061,6 +8061,9 @@
                 <h3 id="Equalizer" class="element-title">
                     &lt;Equalizer&gt;
                 </h3>
+                <p>
+                    A generic 'built-in' equalizer.
+                </p>
                 <p class="bubble">
                     Inherits from
                     <a href="#BuiltinDevice" class="element-link">
@@ -8143,11 +8146,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -8249,7 +8252,7 @@
                             (multiple)
                         </td>
                         <td>
-                            
+                            The bands of the equalizer.
                         </td>
                         <td style="text-align:center;">
                             <a href="#EqBand" class="element-link">
@@ -8265,7 +8268,7 @@
                             &lt;InputGain&gt;
                         </td>
                         <td>
-                            
+                            The input gain of the equalizer in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8281,7 +8284,7 @@
                             &lt;OutputGain&gt;
                         </td>
                         <td>
-                            
+                            The output gain of the equalizer in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8314,10 +8317,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -8336,7 +8339,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -8372,6 +8375,9 @@
                 <h3 id="EqBand" class="element-title">
                     &lt;EqBand&gt;
                 </h3>
+                <p>
+                    The parameters of a band of a generic 'built-in' equalizer.
+                </p>
                 <table class="detail-table">
                     <tr>
                         <th style="text-align:center;">
@@ -8393,7 +8399,7 @@
                         </td>
                         <td>
                             <span>
-                                
+                                The filter type of the band.
                                 <p>
                                     Possible values: highPass, lowPass, bandPass, highShelf, lowShelf, bell, notch
                                 </p>
@@ -8411,7 +8417,7 @@
                             order
                         </td>
                         <td>
-                            
+                            The index of the band.
                         </td>
                         <td style="text-align:center;">
                             Integer
@@ -8439,7 +8445,7 @@
                             &lt;Freq&gt;
                         </td>
                         <td>
-                            
+                            The frequency setting of the band.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8455,7 +8461,7 @@
                             &lt;Gain&gt;
                         </td>
                         <td>
-                            
+                            The gain setting of the band.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8471,7 +8477,7 @@
                             &lt;Q&gt;
                         </td>
                         <td>
-                            
+                            The Q setting of the band.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8487,7 +8493,7 @@
                             &lt;Enabled&gt;
                         </td>
                         <td>
-                            
+                            The enabled state of the band.
                         </td>
                         <td style="text-align:center;">
                             <a href="#BoolParameter" class="element-link">
@@ -8504,6 +8510,9 @@
                 <h3 id="Limiter" class="element-title">
                     &lt;Limiter&gt;
                 </h3>
+                <p>
+                    A generic 'built-in' limiter.
+                </p>
                 <p class="bubble">
                     Inherits from
                     <a href="#BuiltinDevice" class="element-link">
@@ -8586,11 +8595,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -8690,7 +8699,7 @@
                             &lt;Threshold&gt;
                         </td>
                         <td>
-                            
+                            The threshold setting of the limiter in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8706,7 +8715,7 @@
                             &lt;InputGain&gt;
                         </td>
                         <td>
-                            
+                            The input gain of the limiter in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8722,7 +8731,7 @@
                             &lt;OutputGain&gt;
                         </td>
                         <td>
-                            
+                            The output gain of the limiter in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8738,7 +8747,7 @@
                             &lt;Attack&gt;
                         </td>
                         <td>
-                            
+                            The attack setting of the limiter in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8754,7 +8763,7 @@
                             &lt;Release&gt;
                         </td>
                         <td>
-                            
+                            The release setting of the limiter in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -8787,10 +8796,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -8809,7 +8818,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -8846,7 +8855,7 @@
                     &lt;NoiseGate&gt;
                 </h3>
                 <p>
-                    
+                    A generic 'built-in' noise gate.
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -8930,11 +8939,11 @@
                             deviceID
                         </td>
                         <td>
-                            Unique identifier of device/plug-in.<br/>
+                            Unique identifier of device/plug-in.<br>
                              Standards which use UUID as an identifier use the canonical textual
-                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br/>
+                             representation of the UUID (8-4-4-4-12 with no braces) (VST3)<br>
                              Standards which use an integer as an identifier use the value in decimal
-                             form. (base-10 unsigned) (VST2)<br/>
+                             form. (base-10 unsigned) (VST2)<br>
                              Text-based identifiers are used as-is. (CLAP)
                         </td>
                         <td style="text-align:center;">
@@ -9034,7 +9043,7 @@
                             &lt;Threshold&gt;
                         </td>
                         <td>
-                            
+                            The threshold of the noise gate in dB.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -9050,7 +9059,7 @@
                             &lt;Ratio&gt;
                         </td>
                         <td>
-                            
+                            The ratio of the noise gate in percent (0-100).
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -9066,7 +9075,7 @@
                             &lt;Attack&gt;
                         </td>
                         <td>
-                            
+                            The attack of the noise gate in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -9082,7 +9091,7 @@
                             &lt;Release&gt;
                         </td>
                         <td>
-                            
+                            The release of the noise gate in seconds.
                         </td>
                         <td style="text-align:center;">
                             <a href="#RealParameter" class="element-link">
@@ -9131,10 +9140,10 @@
                         </td>
                         <td>
                             Path to a file representing the device / plug-in state in its native format.
+                            
                              <p>
                              This file must be embedded inside the container ZIP and have the
                              FileReference configured with (external=false).
-                             </p>
                         </td>
                         <td style="text-align:center;">
                             <a href="#FileReference" class="element-link">
@@ -9153,7 +9162,7 @@
                         </td>
                         <td>
                             Parameters for this device, which is required for automated parameters in
-                             order to provide an ID. <br/>
+                             order to provide an ID. <br>
                              Note: If the automated parameter is already present like the BuiltinDevice
                              parameters, it should not be included here as well.
                         </td>
@@ -9195,7 +9204,7 @@
                     &lt;Nameable&gt;
                 </h3>
                 <p>
-                    
+                    Base class for everything with a name.
                 </p>
                 <p class="bubble">
                     Implementations
@@ -9379,7 +9388,7 @@
                     &lt;Referenceable&gt;
                 </h3>
                 <p>
-                    
+                    Base class for everything which can be referenced.
                 </p>
                 <p class="bubble">
                     Inherits from
@@ -9576,10 +9585,10 @@
                 </h3>
                 <p>
                     A media file. (audio or video).
+                    
                      <p>
                      The duration attribute is intended to be provide the file length (and not be
                      interpreted as a playback parameter, use a Clip or Warps element for that).
-                     </p>
                 </p>
                 <p class="bubble">
                     Inherits from

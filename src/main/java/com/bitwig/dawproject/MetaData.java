@@ -7,7 +7,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  * Metadata root element of the DAWPROJECT format. This is stored in the file
  * metadata.xml file inside the container.
  */
-
 @XmlRootElement(name = "MetaData")
 public class MetaData {
 	/** Title of the song/project. */

@@ -10,7 +10,7 @@ import com.bitwig.dawproject.timeline.Timeline;
 public class Scene extends Referenceable {
 	/**
 	 * Content timeline of this scene, will typically be structured like this:
-	 * 
+	 *
 	 * <pre>{@code
 	 * <Scene>
 	 *   <Lanes>

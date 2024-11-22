@@ -17,11 +17,11 @@ import com.bitwig.dawproject.timeline.Timeline;
  * The main root element of the DAWPROJECT format. This is stored in the file
  * project.xml file inside the container.
  */
-
 @XmlRootElement(name = "Project")
 @XmlSeeAlso({Device.class, Timeline.class})
 public class Project {
-	public static String CURRENT_VERSION = "1.0";
+	/** The version of the format. */
+	public static final String CURRENT_VERSION = "1.0";
 
 	/** Version of DAWPROJECT format this file was saved as. */
 	@XmlAttribute(required = true)

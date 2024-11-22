@@ -11,15 +11,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "Video")
 public class Video extends MediaFile {
-	/** sample-rate of audio (if present) */
+	/** Sample-rate of audio (if present). */
 	@XmlAttribute(required = false)
 	public int sampleRate;
 
-	/** number of channels of audio (1=mono..., if present) */
+	/** Number of channels of audio (1=mono..., if present). */
 	@XmlAttribute(required = false)
 	public int channels;
 
-	/** Playback algorithm used to warp audio (vendor-specific, if present) */
+	/** Playback algorithm used to warp audio (vendor-specific, if present). */
 	@XmlAttribute(required = false)
 	public String algorithm;
 }

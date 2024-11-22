@@ -16,12 +16,30 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+/** Parameterized class to test loading a metadata and project files. */
 @RunWith(Parameterized.class)
 public class LoadDawProjectTest {
+	private final File mFile;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param file
+	 *            The file to load
+	 * @param name
+	 *            Unused
+	 */
 	public LoadDawProjectTest(final File file, @SuppressWarnings("unused") final Object name) {
-		mFile = file;
+		this.mFile = file;
 	}
 
+	/**
+	 * Get all files.
+	 *
+	 * @return The files
+	 * @throws IOException
+	 *             Could not load the files
+	 */
 	@Parameterized.Parameters(name = "{1}")
 	public static Collection<Object[]> getFiles() throws IOException {
 		final List<Object[]> result = new ArrayList<>();
@@ -62,17 +80,27 @@ public class LoadDawProjectTest {
 		return result;
 	}
 
+	/**
+	 * Load the project.
+	 *
+	 * @throws IOException
+	 *             Could not load the project
+	 */
 	@Test
 	public void loadProject() throws IOException {
-		final Project project = DawProject.loadProject(mFile);
+		final Project project = DawProject.loadProject(this.mFile);
 		Assert.assertNotNull(project);
 	}
 
+	/**
+	 * Load the metadata.
+	 *
+	 * @throws IOException
+	 *             Could not load the metadata
+	 */
 	@Test
 	public void loadMetadata() throws IOException {
-		final MetaData metadata = DawProject.loadMetadata(mFile);
+		final MetaData metadata = DawProject.loadMetadata(this.mFile);
 		Assert.assertNotNull(metadata);
 	}
-
-	private final File mFile;
 }

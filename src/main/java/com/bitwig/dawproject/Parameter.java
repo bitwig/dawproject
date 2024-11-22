@@ -12,8 +12,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({RealParameter.class, BoolParameter.class, IntegerParameter.class, EnumParameter.class,
 		TimeSignatureParameter.class})
 public abstract class Parameter extends Referenceable {
-
-	/** Parameter ID as used by VST2 (index), VST3(ParamID) */
+	/** Parameter ID as used by VST2 (index), VST3(ParamID). */
 	@XmlAttribute(required = false)
 	public Integer parameterID;
 }

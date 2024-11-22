@@ -2,15 +2,14 @@ package com.bitwig.dawproject;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 
-/** References a file either within a DAWPROJECT container or on disk. */
-
+/** References a file either within a DAWproject container or on disk. */
 public class FileReference {
 	/**
 	 * File path. either
-	 * <li>path within the container</li>
-	 * <li>relative to .dawproject file (when external = "true")</li>
+	 * <li>path within the container
+	 * <li>relative to .dawproject file (when external = "true")
 	 * <li>absolute path (when external = "true" and path starts with a slash or
-	 * windows drive letter)</li>
+	 * windows drive letter)
 	 */
 	@XmlAttribute(required = true)
 	public String path;
