@@ -177,6 +177,8 @@ DAWproject 1.0 is currently supported by the following DAWs
 * Bitwig Studio 5.0.9
 * PreSonus Studio One 6.5
 * Steinberg Cubase 14
+* Steinberg Cubasis 3.7.1
+* Steinberg VST Live 2.2
 
 ## Converters
 
