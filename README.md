@@ -179,6 +179,7 @@ DAWproject 1.0 is currently supported by the following DAWs
 * Steinberg Cubase 14
 * Steinberg Cubasis 3.7.1
 * Steinberg VST Live 2.2
+* n-Track Studio v10.2.2
 
 ## Converters
 
